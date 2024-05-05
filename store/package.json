@@ -7,6 +7,7 @@
     "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod",
     "lint": "eslint . --ext .ts",
+    "fix": "eslint . --fix --ext .ts",
     "format": "npx prettier . --write",
     "ci:format": "npx prettier . --check",
     "deploy": "npm run build && npx gh-pages -d dist -e store"
