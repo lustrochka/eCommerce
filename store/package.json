@@ -10,11 +10,13 @@
     "fix": "eslint . --fix --ext .ts",
     "format": "npx prettier . --write",
     "ci:format": "npx prettier . --check",
-    "deploy": "npm run build && npx gh-pages -d dist -e store"
+    "deploy": "npm run build && npx gh-pages -d dist -e store",
+    "test": "jest"
   },
   "author": "WebPunk",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "clean-webpack-plugin": "^4.0.0",
@@ -28,8 +30,11 @@
     "eslint-webpack-plugin": "^4.1.0",
     "html-loader": "^5.0.0",
     "html-webpack-plugin": "^5.6.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "prettier": "3.2.5",
     "style-loader": "^3.3.4",
+    "ts-jest": "^29.1.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
     "webpack": "^5.90.1",
