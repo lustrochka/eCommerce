@@ -30,4 +30,4 @@ It will be an online shopping portal that will provide users with a user-friendl
 1. Clone the repository ([detailed instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository))
 2. In the terminal, run the command `npm install`
 3. After installing all modules and dependencies, run the command `npm run build`
-4. Open the html file in the created folder using LiveServer.
+4. Open the html file in the created folder `dist` using LiveServer.
