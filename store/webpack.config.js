@@ -12,7 +12,7 @@ const baseConfig = {
         rules: [
             {
                 test: /\.html$/,
-                use: 'html-loader'
+                use: 'html-loader',
             },
             {
                 test: /\.css$/i,
