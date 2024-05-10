@@ -2,13 +2,13 @@ import Component from '../../components/component/component';
 import { div } from '../../components/tags/tags';
 // import Button from '../../components/button/button';
 
-class DetailedProduct extends Component {
+class NotFound extends Component {
     constructor() {
-        super('div', 'product');
-        const title = div('product__title');
-        title.changeText('Detailed Product');
+        super('div', 'not-found');
+        const title = div('not-found__title');
+        title.changeText('404 (Not Found) Page');
         this.appendChildren(title);
     }
 }
 
-export default DetailedProduct;
+export default NotFound;
