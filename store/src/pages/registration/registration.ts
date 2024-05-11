@@ -4,6 +4,7 @@ import Label from '../../components/label/label';
 import { div } from '../../components/tags/tags';
 import Address from './adress';
 import Button from '../../components/button/button';
+import './style.css';
 
 class Registration extends Component {
     constructor() {
