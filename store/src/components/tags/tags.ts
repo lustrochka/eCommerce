@@ -21,7 +21,6 @@ export const option = (className: string, text: string) => {
     return element;
 };
 
-//
 export const main = (className: string, ...children: Component[]) => new Component('main', className, ...children);
 export const img = (className: string, src: string, alt: string, ...children: Component[]) => {
     const element = new Component('img', className, ...children);

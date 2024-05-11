@@ -1,6 +1,7 @@
 import Component from '../../components/component/component';
 import { div } from '../../components/tags/tags';
 import Button from '../../components/button/button';
+import { goPage } from '../../components/event/goPage';
 
 class Header extends Component {
     constructor() {
@@ -42,28 +43,6 @@ import UserProfile from '../../pages/userProfile/userProfile';
 import AboutUs from '../../pages/aboutUs/aboutUs';
 import CatalogProduct from '../../pages/catalogProduct/catalogProduct';
 import Main from '../../pages/main/main';
-
-interface Page {
-    getNode: () => HTMLElement;
-}
-
-function goPage(Page: new () => Page, selector = 'main') {
-    const element = document.querySelector(selector);
-    const container = element?.querySelector('.container');
-    if (selector == 'main') {
-        if (container) {
-            container.innerHTML = '';
-        }
-        container?.appendChild(new Page().getNode());
-    }
-    if (selector == 'body') {
-        const body = document.querySelector('body');
-        if (body) {
-            body.innerHTML = '';
-        }
-        body?.appendChild(new Main().getNode());
-    }
-}
 
 function goLogin() {
     // В разработке!

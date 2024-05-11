@@ -1,6 +1,5 @@
 import Component from '../../components/component/component';
 import { div, span } from '../../components/tags/tags';
-import Button from '../../components/button/button';
 
 class Footer extends Component {
     constructor() {
@@ -10,8 +9,8 @@ class Footer extends Component {
                 'container',
                 div(
                     'footer__author',
-                    span('footer__author--copy', 'WebPunk © 2024 Все права защищены'),
-                    span('footer__author--name', 'Разработка: WebPunk team')
+                    span('footer__author--copy', 'WebPunk © 2024 All rights reserved'),
+                    span('footer__author--name', 'Development: WebPunk team')
                 )
             )
         );
