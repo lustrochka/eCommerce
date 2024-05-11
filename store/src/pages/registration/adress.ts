@@ -7,7 +7,7 @@ import { div } from '../../components/tags/tags';
 class Address extends Component {
     constructor(type: string) {
         super('div', 'address');
-        const title = div('address-title');
+        const title = div('logo');
         title.changeText(`${type}-address`);
         this.appendChildren(
             title,
