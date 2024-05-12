@@ -10,8 +10,15 @@ import './style.css';
 class Registration extends Component<HTMLFormElement> {
     #submitBtn;
 
+    #shippingAddress;
+
+    #billingAddress;
+
+    #isChecked;
+
     constructor() {
         super('form', 'registration');
+        this.#isChecked = false;
         const title = div('registration__title');
         title.changeText('Registration');
         this.appendChildren(title);
@@ -22,20 +29,33 @@ class Registration extends Component<HTMLFormElement> {
                 span('registration__error-msg', input.msg)
             )
         );
+        this.#shippingAddress = new Address('Shipping');
+        this.#billingAddress = new Address('Billing');
         this.#submitBtn = new Button('registration__button button', 'Register', {
             type: 'button',
             disabled: 'true',
         });
         this.appendChildren(
-            div('registration__addresses', new Address('Shipping'), new Address('Billing')),
+            div('registration__addresses', this.#shippingAddress, this.#billingAddress),
             this.#submitBtn
         );
         this.setListener('input', (event) => {
-            if (event.target && event.target instanceof HTMLInputElement) this.checkFormValidity(event.target);
+            if (event.target && event.target instanceof HTMLInputElement) this.onChange(event.target);
         });
         this.setListener('change', (event) => {
             if (event.target && event.target instanceof HTMLSelectElement) this.checkFormValidity(event.target);
         });
+    }
+
+    onChange(target: HTMLInputElement) {
+        const ADDRESS_LENGTH = 4;
+        if (target.id === 'common') {
+            this.#isChecked = !!target.checked;
+            for (let i = 0; i < ADDRESS_LENGTH; i++) {
+                this.#billingAddress.setElementValue(i, this.#shippingAddress.getElementValue(i));
+            }
+        }
+        this.checkFormValidity(target);
     }
 
     checkFormValidity(target: HTMLInputElement | HTMLSelectElement) {
