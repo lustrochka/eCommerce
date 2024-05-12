@@ -42,11 +42,15 @@
 
 .registration__button {
     display: block;
-    background-color: #2A5275;
+    background-color: #2a5275;
     border-radius: 4px;
     color: white;
     padding: 16px;
     text-align: center;
     width: 200px;
     margin: 0 auto;
+}
+
+.registration__button:disabled {
+    background-color: #555d64;
 }
