@@ -2,11 +2,12 @@ import Component from '../../components/component/component';
 import { div } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import { goPage } from '../../components/event/goPage';
+import { locationResolver } from '../../components/event/locationResolver';
 
 class Header extends Component {
     constructor() {
         super('header', 'header');
-        const title = new Button('header__logo button', 'Logo', { type: 'button' }, goMain);
+        const title = new Button('header__logo button', 'Logo', { type: 'button' }, () => locationResolver('#/main/'));
         title.changeText('Webpunk Store');
         this.appendChildren(
             div(
@@ -14,22 +15,35 @@ class Header extends Component {
                 div(
                     'container',
                     title,
-                    new Button('header__button--cart', 'Cart', { type: 'button' }, goBasket),
-                    new Button('header__button button', 'Login', { type: 'button' }, goLogin),
-                    new Button('header__button button', 'Registration', { type: 'button' }, goRegistration),
-                    new Button('header__button button', 'Profile', { type: 'button' }, goProfile)
+                    new Button('header__button--cart', 'Cart', { type: 'button' }, () => locationResolver('#/cart/')),
+                    new Button('header__button button', 'Login', { type: 'button' }, () =>
+                        locationResolver('#/login/')
+                    ),
+                    new Button('header__button button', 'Registration', { type: 'button' }, () =>
+                        locationResolver('#/registration/')
+                    ),
+                    new Button('header__button button', 'Profile', { type: 'button' }, () =>
+                        locationResolver('#/profile/')
+                    )
                 )
             ),
             div(
                 'header__nav-bar',
                 div(
                     'container',
-                    new Button('nav__button button', 'Main page', { type: 'button' }, goMain),
-                    new Button('nav__button button', 'Catalog Product', { type: 'button' }, goCatalog),
-                    new Button('nav__button button', 'About Us', { type: 'button' }, goAboutUs)
+                    new Button('nav__button button', 'Main page', { type: 'button' }, () =>
+                        locationResolver('#/main/')
+                    ),
+                    new Button('nav__button button', 'Catalog Product', { type: 'button' }, () =>
+                        locationResolver('#/catalog/')
+                    ),
+                    new Button('nav__button button', 'About Us', { type: 'button' }, () => locationResolver('#/about/'))
                 )
             )
+            // new Button('nav__button button', 'Catalog Product', { type: 'button' }, goCatalog),
+            // new Button('nav__button button', 'About Us', { type: 'button' }, goAboutUs)
         );
+        // );
     }
 }
 
@@ -49,26 +63,26 @@ function goLogin() {
     // goPage(Login);
 }
 
-function goRegistration() {
-    goPage(Registration);
-}
+// function goRegistration() {
+//     goPage(Registration);
+// }
 
-function goBasket() {
-    goPage(Basket);
-}
+// function goBasket() {
+//     goPage(Basket);
+// }
 
-function goProfile() {
-    goPage(UserProfile);
-}
+// function goProfile() {
+//     goPage(UserProfile);
+// }
 
-function goAboutUs() {
-    goPage(AboutUs);
-}
+// function goAboutUs() {
+//     goPage(AboutUs);
+// }
 
-function goCatalog() {
-    goPage(CatalogProduct);
-}
+// function goCatalog() {
+//     goPage(CatalogProduct);
+// }
 
-function goMain() {
-    goPage(Main, 'body');
-}
+// function goMain() {
+//     goPage(Main, 'body');
+// }
