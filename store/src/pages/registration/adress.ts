@@ -10,42 +10,68 @@ const COUNTRIES: CodesType = {
     Poland: { pattern: '\\d{2}-\\d{3}', placeholder: '00-000' },
 };
 
-class Address extends Component<HTMLFormElement> {
+class Address extends Component {
+    #streetInput;
+
+    #cityInput;
+
+    #codeInput;
+
+    #countryInput;
+
+    #inputs: { [key: string]: Input | Select };
+
     constructor(type: string) {
-        super('form', 'address');
+        super('div', 'address');
         this.addAttributes({ id: `${type.toLowerCase()}-address` });
         const title = div('logo');
         title.changeText(`${type}-address`);
 
-        const codeInput = new Input(
+        this.#streetInput = new Input(
+            'registration__input',
+            { name: 'street', placeholder: 'Skaryny', pattern: '\\S+' },
+            true
+        );
+
+        this.#cityInput = new Input(
+            'registration__input',
+            { name: 'city', placeholder: 'Minsk', pattern: '[A-Za-z]+' },
+            true
+        );
+
+        this.#codeInput = new Input(
             'registration__input',
             { name: 'code', placeholder: COUNTRIES.Belarus.placeholder, pattern: COUNTRIES.Belarus.pattern },
             true
         );
 
-        const selectCountry = new Select('registration__input', 'country', ['Belarus', 'Poland'], () => {
-            codeInput.addAttributes({
-                pattern: COUNTRIES[selectCountry.getValue()].pattern,
-                placeholder: COUNTRIES[selectCountry.getValue()].placeholder,
-            });
-        });
+        this.#countryInput = new Select('registration__input', 'country', ['Belarus', 'Poland'], () =>
+            this.changeCodePattern()
+        );
+
+        this.#inputs = {
+            street: this.#streetInput,
+            city: this.#cityInput,
+            code: this.#codeInput,
+            country: this.#countryInput,
+        };
 
         this.appendChildren(
             title,
             new Label('registration__label', 'Street', { for: 'street' }),
-            new Input('registration__input', { name: 'street', placeholder: 'Skaryny', pattern: '\\S+' }, true),
+            this.#streetInput,
             span('registration__error-msg', 'Street must contain at least one character'),
             new Label('registration__label', 'City', { for: 'city' }),
-            new Input('registration__input', { name: 'city', placeholder: 'Minsk', pattern: '[A-Za-z]+' }, true),
+            this.#cityInput,
             span(
                 'registration__error-msg',
                 'City must contain at least one character and no special characters or numbers'
             ),
             new Label('registration__label', 'Postal code', { for: 'code' }),
-            codeInput,
+            this.#codeInput,
             span('registration__error-msg', 'Postal code must follow the format for the country'),
             new Label('registration__label', 'Country', { for: 'country' }),
-            selectCountry,
+            this.#countryInput,
             div(
                 '',
                 new Input('registration__checkbox', { id: `${type}-default`, type: 'checkbox' }, false),
@@ -59,15 +85,44 @@ class Address extends Component<HTMLFormElement> {
             );
     }
 
-    getElementValue(index: number) {
-        const element = this.getNode().elements[index];
-        if (element instanceof HTMLInputElement || element instanceof HTMLSelectElement) return element.value;
-        return '';
+    changeCodePattern() {
+        this.#codeInput.addAttributes({
+            pattern: COUNTRIES[this.#countryInput.getValue()].pattern,
+            placeholder: COUNTRIES[this.#countryInput.getValue()].placeholder,
+        });
     }
 
-    setElementValue(index: number, value: string) {
-        const element = this.getNode().elements[index];
-        if (element instanceof HTMLInputElement || element instanceof HTMLSelectElement) element.value = value;
+    setValues(values: string[]) {
+        Object.values(this.#inputs).forEach((input, index) => {
+            input.getNode().value = values[index];
+            input instanceof Input ? input.setReadonly() : input.setImmutable();
+        });
+        this.changeCodePattern();
+    }
+
+    setInputsWritable() {
+        Object.values(this.#inputs).forEach((input) => {
+            input instanceof Input ? input.deleteReadonly() : input.setMutable();
+        });
+    }
+
+    setValue(name: string, value: string) {
+        if (this.#inputs[name]) this.#inputs[name].getNode().value = value;
+        this.changeCodePattern();
+    }
+
+    getValues() {
+        return Object.values(this.#inputs).map((input) => input.getValue());
+    }
+
+    getAddress() {
+        const COUNTRY_CODES: { [key: string]: string } = { Belarus: 'BY', Poland: 'PL' };
+        return {
+            streetName: this.#streetInput.getValue(),
+            city: this.#cityInput.getValue(),
+            postalCode: this.#codeInput.getValue(),
+            country: COUNTRY_CODES[this.#countryInput.getValue()],
+        };
     }
 }
 

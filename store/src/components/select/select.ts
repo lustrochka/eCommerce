@@ -14,6 +14,14 @@ class Select extends Component<HTMLSelectElement> {
     getValue() {
         return this.getNode().value;
     }
+
+    setImmutable() {
+        this.getNode().disabled = true;
+    }
+
+    setMutable() {
+        this.getNode().disabled = false;
+    }
 }
 
 export default Select;
