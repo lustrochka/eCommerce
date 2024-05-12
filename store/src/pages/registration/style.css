@@ -13,8 +13,7 @@
 }
 
 .registration__label {
-    display: block;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .registration__input {
@@ -24,8 +23,17 @@
     padding: 10px;
 }
 
+.registration__error-msg {
+    visibility: hidden;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #f15152;
+}
+
 .registration__label,
-.registration__input {
+.registration__input,
+.registration__error-msg {
+    display: block;
     margin-left: 30px;
 }
 
@@ -53,4 +61,8 @@
 
 .registration__button:disabled {
     background-color: #555d64;
+}
+
+.visible {
+    visibility: visible;
 }
