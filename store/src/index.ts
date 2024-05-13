@@ -6,5 +6,5 @@ import { locationResolver } from './components/event/locationResolver';
 window.onload = checkAndRedirect;
 function checkAndRedirect() {
     document.body.appendChild(new Main().getNode());
-    locationResolver(window.location.pathname);
+    locationResolver(window.location.pathname, false);
 }

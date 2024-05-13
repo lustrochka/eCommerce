@@ -9,8 +9,7 @@ import UserProfile from '../../pages/userProfile/userProfile';
 import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
 // import Login from '../../pages/login/login';
 
-export function locationResolver(location: string) {
-    console.log('$', location);
+export function locationResolver(location: string, isBtn: boolean = true) {
     switch (location) {
         case '/':
             goPage(Main, 'body');
@@ -48,14 +47,17 @@ export function locationResolver(location: string) {
             break;
     }
 
-    new Router().changeUrl(location);
+    if (isBtn) new Router().changeUrl(location);
 }
 
 class Router {
     changeUrl(url: string) {
         window.history.pushState({}, '', url);
     }
-    return() {
-        window.history.back();
-    }
 }
+
+function handleRouting() {
+    locationResolver(window.location.pathname, false);
+}
+
+window.onpopstate = handleRouting;

@@ -1,6 +1,7 @@
 import Component from '../../components/component/component';
 import { div } from '../../components/tags/tags';
 import Button from '../../components/button/button';
+import Modal from '../../components/modal/modal';
 import { locationResolver } from '../../components/event/locationResolver';
 
 class Header extends Component {
@@ -15,10 +16,11 @@ class Header extends Component {
                     'container',
                     title,
                     new Button('header__button--cart', 'Cart', { type: 'button' }, () => locationResolver('/cart')),
-                    new Button('header__button button', 'Login', { type: 'button' }, () => locationResolver('/login')),
                     new Button('header__button button', 'Registration', { type: 'button' }, () =>
                         locationResolver('/registration')
                     ),
+                    new Button('header__button button', 'Login', { type: 'button' }, () => locationResolver('/login')),
+                    new Button('header__button button', 'Logout', { type: 'button' }, openModal),
                     new Button('header__button button', 'Profile', { type: 'button' }, () =>
                         locationResolver('/profile')
                     )
@@ -40,3 +42,14 @@ class Header extends Component {
 }
 
 export default Header;
+
+function openModal() {
+    // const modal = new Modal();
+    // const openButton = document.createElement('button');
+    // openButton.textContent = 'Open Modal';
+    // openButton.onclick = () => modal.open();
+    // document.body.appendChild(openButton);
+
+    const modal = new Modal();
+    modal.open();
+}
