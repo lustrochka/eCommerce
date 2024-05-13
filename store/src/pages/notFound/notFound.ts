@@ -16,15 +16,10 @@ class NotFound extends Component {
             ),
             p('not-found__text', '— Site team'),
             new Button('not-found__button button', 'Go back to main page', { type: 'button' }, () =>
-                locationResolver('#/main/')
+                locationResolver('/')
             )
         );
     }
 }
 
 export default NotFound;
-
-// import Main from '../../pages/main/main';
-// function goMain() {
-//     goPage(Main, 'body');
-// }

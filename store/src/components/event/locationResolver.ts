@@ -6,39 +6,56 @@ import NotFound from '../../pages/notFound/notFound';
 import Basket from '../../pages/basket/basket';
 import Registration from '../../pages/registration/registration';
 import UserProfile from '../../pages/userProfile/userProfile';
+import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
+// import Login from '../../pages/login/login';
 
 export function locationResolver(location: string) {
-    // const location = window.location.hash;
-    // console.log(location, location === '#/catalog/');
-    window.location.hash = location;
-
+    console.log('$', location);
     switch (location) {
-        case '#/main/':
+        case '/':
             goPage(Main, 'body');
             break;
 
-        case '#/catalog/':
+        case '/catalog':
             goPage(CatalogProduct);
             break;
 
-        case '#/about/':
+        case '/about':
             goPage(AboutUs);
             break;
 
-        case '#/cart/':
+        case '/cart':
             goPage(Basket);
             break;
 
-        case '#/registration/':
+        // case '/login':
+        //     goPage(Login);
+        //     break;
+
+        case '/registration':
             goPage(Registration);
             break;
 
-        case '#/profile/':
+        case '/profile':
             goPage(UserProfile);
             break;
 
+        case '/product':
+            goPage(DetailedProduct);
+            break;
         default:
             goPage(NotFound);
             break;
+    }
+
+    new Router().changeUrl(location);
+}
+
+class Router {
+    changeUrl(url: string) {
+        window.history.pushState({}, '', url);
+    }
+    return() {
+        window.history.back();
     }
 }
