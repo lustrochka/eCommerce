@@ -12,6 +12,14 @@ class Input extends Component<HTMLInputElement> {
     getValue() {
         return this.getNode().value;
     }
+
+    setReadonly() {
+        this.getNode().readOnly = true;
+    }
+
+    deleteReadonly() {
+        this.getNode().readOnly = false;
+    }
 }
 
 export default Input;

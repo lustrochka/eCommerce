@@ -48,6 +48,10 @@
     padding: 15px;
 }
 
+.registration__checkbox {
+    margin: 15px 10px 0 30px;
+}
+
 .registration__button {
     display: block;
     background-color: #2a5275;

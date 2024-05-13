@@ -11,41 +11,118 @@ const COUNTRIES: CodesType = {
 };
 
 class Address extends Component {
+    #streetInput;
+
+    #cityInput;
+
+    #codeInput;
+
+    #countryInput;
+
+    #inputs: { [key: string]: Input | Select };
+
     constructor(type: string) {
         super('div', 'address');
+        this.addAttributes({ id: `${type.toLowerCase()}-address` });
         const title = div('logo');
         title.changeText(`${type}-address`);
 
-        const codeInput = new Input(
+        this.#streetInput = new Input(
             'registration__input',
-            { id: `${type}-code`, placeholder: COUNTRIES.Belarus.placeholder, pattern: COUNTRIES.Belarus.pattern },
+            { name: 'street', placeholder: 'Skaryny', pattern: '\\S+' },
             true
         );
 
-        const selectCountry = new Select('registration__input', `${type}-country`, ['Belarus', 'Poland'], () => {
-            codeInput.addAttributes({
-                pattern: COUNTRIES[selectCountry.getValue()].pattern,
-                placeholder: COUNTRIES[selectCountry.getValue()].placeholder,
-            });
-        });
+        this.#cityInput = new Input(
+            'registration__input',
+            { name: 'city', placeholder: 'Minsk', pattern: '[A-Za-z]+' },
+            true
+        );
+
+        this.#codeInput = new Input(
+            'registration__input',
+            { name: 'code', placeholder: COUNTRIES.Belarus.placeholder, pattern: COUNTRIES.Belarus.pattern },
+            true
+        );
+
+        this.#countryInput = new Select('registration__input', 'country', ['Belarus', 'Poland'], () =>
+            this.changeCodePattern()
+        );
+
+        this.#inputs = {
+            street: this.#streetInput,
+            city: this.#cityInput,
+            code: this.#codeInput,
+            country: this.#countryInput,
+        };
 
         this.appendChildren(
             title,
-            new Label('registration__label', 'Street', { for: `${type}-street` }),
-            new Input('registration__input', { id: `${type}-street`, placeholder: 'Skaryny', pattern: '\\S+' }, true),
+            new Label('registration__label', 'Street', { for: 'street' }),
+            this.#streetInput,
             span('registration__error-msg', 'Street must contain at least one character'),
-            new Label('registration__label', 'City', { for: `${type}-city` }),
-            new Input('registration__input', { id: `${type}-city`, placeholder: 'Minsk', pattern: '[A-Za-z]+' }, true),
+            new Label('registration__label', 'City', { for: 'city' }),
+            this.#cityInput,
             span(
                 'registration__error-msg',
                 'City must contain at least one character and no special characters or numbers'
             ),
-            new Label('registration__label', 'Postal code', { for: `${type}-code` }),
-            codeInput,
+            new Label('registration__label', 'Postal code', { for: 'code' }),
+            this.#codeInput,
             span('registration__error-msg', 'Postal code must follow the format for the country'),
-            new Label('registration__label', 'Country', { for: `${type}-country` }),
-            selectCountry
+            new Label('registration__label', 'Country', { for: 'country' }),
+            this.#countryInput,
+            div(
+                '',
+                new Input('registration__checkbox', { id: `${type}-default`, type: 'checkbox' }, false),
+                new Label('registration__label-checkbox', 'Set as default', { for: `${type}-default` })
+            )
         );
+        if (type === 'Shipping')
+            this.appendChildren(
+                new Input('registration__checkbox', { id: 'common', type: 'checkbox' }, false),
+                new Label('registration__label-checkbox', 'Set as billing', { for: 'common' })
+            );
+    }
+
+    changeCodePattern() {
+        this.#codeInput.addAttributes({
+            pattern: COUNTRIES[this.#countryInput.getValue()].pattern,
+            placeholder: COUNTRIES[this.#countryInput.getValue()].placeholder,
+        });
+    }
+
+    setValues(values: string[]) {
+        Object.values(this.#inputs).forEach((input, index) => {
+            input.getNode().value = values[index];
+            input instanceof Input ? input.setReadonly() : input.setImmutable();
+        });
+        this.changeCodePattern();
+    }
+
+    setInputsWritable() {
+        Object.values(this.#inputs).forEach((input) => {
+            input instanceof Input ? input.deleteReadonly() : input.setMutable();
+        });
+    }
+
+    setValue(name: string, value: string) {
+        if (this.#inputs[name]) this.#inputs[name].getNode().value = value;
+        this.changeCodePattern();
+    }
+
+    getValues() {
+        return Object.values(this.#inputs).map((input) => input.getValue());
+    }
+
+    getAddress() {
+        const COUNTRY_CODES: { [key: string]: string } = { Belarus: 'BY', Poland: 'PL' };
+        return {
+            streetName: this.#streetInput.getValue(),
+            city: this.#cityInput.getValue(),
+            postalCode: this.#codeInput.getValue(),
+            country: COUNTRY_CODES[this.#countryInput.getValue()],
+        };
     }
 }
 
