@@ -1,4 +1,3 @@
-import Component from '../../components/component/component';
 import Input from '../../components/input/input';
 import Label from '../../components/label/label';
 import { div, span } from '../../components/tags/tags';
@@ -7,6 +6,7 @@ import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import { createCustomer } from '../../services/api/api';
 import INPUTS from './inputs';
+import { CustomerDraft } from '@commercetools/platform-sdk';
 import './style.css';
 
 class Registration extends Form {
@@ -106,7 +106,7 @@ class Registration extends Form {
             billingIndex = [1];
         }
 
-        const body = {
+        const body: CustomerDraft = {
             email: this.getElementValue(0),
             password: this.getElementValue(1),
             firstName: this.getElementValue(2),
@@ -116,6 +116,9 @@ class Registration extends Form {
             shippingAddresses: [0],
             billingAddresses: billingIndex,
         };
+
+        if (this.#billingAddress.getIsDefaultSet()) Object.assign(body, { defaultBillingAddress: billingIndex[0] });
+        if (this.#shippingAddress.getIsDefaultSet()) Object.assign(body, { defaultShippingAddress: 0 });
 
         createCustomer(body);
     }
