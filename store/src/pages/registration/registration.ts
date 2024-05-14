@@ -4,6 +4,7 @@ import { div, span } from '../../components/tags/tags';
 import Address from './adress';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
+import Modal from './modal';
 import { createCustomer } from '../../services/api/api';
 import INPUTS from './inputs';
 import { CustomerDraft } from '@commercetools/platform-sdk';
@@ -120,7 +121,7 @@ class Registration extends Form {
         if (this.#billingAddress.getIsDefaultSet()) Object.assign(body, { defaultBillingAddress: billingIndex[0] });
         if (this.#shippingAddress.getIsDefaultSet()) Object.assign(body, { defaultShippingAddress: 0 });
 
-        createCustomer(body);
+        createCustomer(body).catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
     }
 }
 
