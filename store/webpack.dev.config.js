@@ -5,5 +5,8 @@ module.exports = {
     devtool: 'inline-source-map',
     devServer: {
         static: path.resolve(__dirname, './dist'),
+        historyApiFallback: {
+            index: '/',
+        },
     },
 };

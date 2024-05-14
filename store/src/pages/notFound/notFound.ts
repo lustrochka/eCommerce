@@ -1,7 +1,7 @@
 import Button from '../../components/button/button';
 import Component from '../../components/component/component';
 import { div, p } from '../../components/tags/tags';
-import { goPage } from '../../components/event/goPage';
+import { locationResolver } from '../../components/event/locationResolver';
 
 class NotFound extends Component {
     constructor() {
@@ -15,14 +15,11 @@ class NotFound extends Component {
                 'Sorry, the page you are looking for could not be found. It may have been deleted or you may have entered an incorrect address.'
             ),
             p('not-found__text', '— Site team'),
-            new Button('not-found__button button', 'Go back to main page', { type: 'button' }, goMain)
+            new Button('not-found__button button', 'Go back to main page', { type: 'button' }, () =>
+                locationResolver('/')
+            )
         );
     }
 }
 
 export default NotFound;
-
-import Main from '../../pages/main/main';
-function goMain() {
-    goPage(Main, 'body');
-}

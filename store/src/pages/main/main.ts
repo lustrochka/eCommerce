@@ -3,7 +3,8 @@ import { div, main } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { goPage } from '../../components/event/goPage';
+// import { goPage } from '../../components/event/goPage';
+import { locationResolver } from '../../components/event/locationResolver';
 
 class Main extends Component {
     constructor() {
@@ -17,8 +18,9 @@ class Main extends Component {
                 div(
                     'container',
                     title,
-                    new Button('header__button button', 'Product', { type: 'button' }, goProduct),
-                    new Button('header__button button', 'Not Found', { type: 'button' }, goNotFound)
+                    new Button('header__button button', 'Product', { type: 'button' }, () =>
+                        locationResolver('/product')
+                    )
                 )
             ),
             new Footer()
@@ -27,13 +29,3 @@ class Main extends Component {
 }
 
 export default Main;
-
-import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
-function goProduct() {
-    goPage(DetailedProduct);
-}
-
-import NotFound from '../../pages/notFound/notFound';
-function goNotFound() {
-    goPage(NotFound);
-}

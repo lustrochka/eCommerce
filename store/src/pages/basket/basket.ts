@@ -4,9 +4,9 @@ import { div } from '../../components/tags/tags';
 
 class Basket extends Component {
     constructor() {
-        super('div', 'basket');
-        const title = div('basket__title');
-        title.changeText('Basket Page');
+        super('div', 'cart');
+        const title = div('cart__title');
+        title.changeText('Cart Page');
         this.appendChildren(title);
     }
 }

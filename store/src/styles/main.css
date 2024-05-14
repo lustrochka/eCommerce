@@ -44,6 +44,11 @@ body {
     width: 100px;
     border: none;
     cursor: pointer;
+    transition: all 0.2s;
+}
+.header__button:hover,
+.not-found__button:hover {
+    background-color: #183853;
 }
 .header__button--cart {
     height: 48px;
@@ -109,9 +114,31 @@ body {
     text-align: center;
     border: none;
     cursor: pointer;
+    transition: all 0.2s;
 }
 .not-found__title {
     font-size: 50px;
     color: #633;
     font-weight: bold;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal__content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
 }
