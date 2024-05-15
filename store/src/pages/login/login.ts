@@ -39,6 +39,18 @@ class Login extends Form {
                 span('login__error-msg', input.msg)
             )
         );
+
+        this.appendChildren(
+            new Button(
+                'login__pass-button',
+                '',
+                {
+                    type: 'button',
+                },
+                () => this.passClick()
+            )
+        );
+
         this.#submitBtn = new Button(
             'login__button button',
             'Sign in',
@@ -50,15 +62,19 @@ class Login extends Form {
         );
         this.appendChildren(this.#submitBtn);
         this.setListener('input', (event) => {
-            if (event.target && event.target instanceof HTMLInputElement) this.onChange(event.target);
+            if (event.target && event.target instanceof HTMLInputElement) this.checkFormValidity(event.target);
         });
     }
 
-    onChange(target: HTMLInputElement) {
-        this.checkFormValidity(target);
+    passClick() {
+        const input = document.querySelector('#password') as HTMLElement;
+        (document.querySelector(`.login__pass-button`) as HTMLElement).classList.toggle('active');
+        input.getAttribute('type') === 'password'
+            ? input.setAttribute('type', 'text')
+            : input.setAttribute('type', 'password');
     }
 
-    checkFormValidity(target: HTMLInputElement | HTMLSelectElement) {
+    checkFormValidity(target: HTMLInputElement) {
         if (target.nextElementSibling instanceof HTMLSpanElement) {
             target.checkValidity()
                 ? target.nextElementSibling.classList.remove('visible')

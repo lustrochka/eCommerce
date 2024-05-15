@@ -1,4 +1,5 @@
 .login {
+    position: relative;
     width: 450px;
     margin: 0 auto;
     color: #070c11;
@@ -54,4 +55,19 @@
 
 .visible {
     visibility: visible;
+}
+
+.login__pass-button {
+    position: absolute;
+    bottom: 100px;
+    left: 42%;
+    width: 24px;
+    height: 24px;
+    background: center/100% no-repeat url(../../assets/images/eye-off.svg);
+    cursor: pointer;
+    border: none;
+}
+
+.login__pass-button.active {
+    background: center/100% no-repeat url(../../assets/images/eye.svg);
 }
