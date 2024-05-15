@@ -1,0 +1,73 @@
+.login {
+    position: relative;
+    width: 450px;
+    margin: 0 auto;
+    color: #070c11;
+}
+
+.login__title {
+    background-color: #edf2f6;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28.8px;
+    padding: 20px;
+}
+
+.login__label {
+    margin-top: 10px;
+}
+
+.login__input {
+    margin-top: 8px;
+    border: 1px solid #eaeaf0;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.login__error-msg {
+    visibility: hidden;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #f15152;
+}
+
+.login__label,
+.login__input,
+.login__error-msg {
+    display: block;
+    margin-left: 30px;
+}
+
+.login__button {
+    display: block;
+    background-color: #2a5275;
+    border-radius: 4px;
+    color: white;
+    padding: 16px;
+    text-align: center;
+    width: 200px;
+    margin: 0 auto;
+}
+
+.login__button:disabled {
+    background-color: #555d64;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.login__pass-button {
+    position: absolute;
+    bottom: 100px;
+    left: 42%;
+    width: 24px;
+    height: 24px;
+    background: center/100% no-repeat url(../../assets/images/eye-off.svg);
+    cursor: pointer;
+    border: none;
+}
+
+.login__pass-button.active {
+    background: center/100% no-repeat url(../../assets/images/eye.svg);
+}
