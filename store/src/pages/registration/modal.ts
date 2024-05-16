@@ -4,7 +4,8 @@ import { div, p } from '../../components/tags/tags';
 
 class Modal extends Component {
     constructor(message: string) {
-        super('div', 'modal');
+        super('div', 'registration-modal');
+        console.log('a');
         this.appendChildren(
             div(
                 'error-message',

@@ -6,6 +6,7 @@ import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import Modal from './modal';
 import { createCustomer } from '../../services/api/api';
+import { locationResolver } from '../../components/event/locationResolver';
 import INPUTS from './inputs';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import './style.css';
@@ -45,7 +46,15 @@ class Registration extends Form {
         );
         this.appendChildren(
             div('registration__addresses', this.#shippingAddress, this.#billingAddress),
-            this.#submitBtn
+            this.#submitBtn,
+            new Button(
+                'registration__button button',
+                'Login',
+                {
+                    type: 'button',
+                },
+                () => locationResolver('/login')
+            )
         );
         this.setListener('input', (event) => {
             if (event.target && event.target instanceof HTMLInputElement) this.onChange(event.target);
