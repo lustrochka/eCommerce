@@ -130,7 +130,9 @@ class Registration extends Form {
         if (this.#billingAddress.getIsDefaultSet()) Object.assign(body, { defaultBillingAddress: billingIndex[0] });
         if (this.#shippingAddress.getIsDefaultSet()) Object.assign(body, { defaultShippingAddress: 0 });
 
-        createCustomer(body).catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
+        createCustomer(body)
+          .then(() => locationResolver('/'))
+          .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
     }
 }
 
