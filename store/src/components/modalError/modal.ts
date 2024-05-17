@@ -1,6 +1,6 @@
-import Component from '../../components/component/component';
-import Button from '../../components/button/button';
-import { div, p } from '../../components/tags/tags';
+import Component from '../component/component';
+import Button from '../button/button';
+import { div, p } from '../tags/tags';
 import './style.css';
 
 class Modal extends Component {

@@ -5,7 +5,7 @@ import { div, span } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import { getUser, getUserEmail } from '../../services/api/api';
-import Modal from '../modalError/modal';
+import Modal from '../../components/modalError/modal';
 import './style.css';
 
 const INPUTS: InputsType[] = [
@@ -93,7 +93,6 @@ class Login extends Form {
                 if (body.results.length == 0) {
                     document.body.appendChild(new Modal('This email address has not been registered.').getNode());
                 } else {
-                    console.log(body.results[0].id);
                     getUser(this.getElementValue(0), this.getElementValue(1))
                         .then(({ body }) => {
                             console.log(body.customer.id);

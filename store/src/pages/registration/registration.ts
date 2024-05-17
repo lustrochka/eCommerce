@@ -4,7 +4,7 @@ import { div, span } from '../../components/tags/tags';
 import Address from './adress';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
-import Modal from '../modalError/modal';
+import Modal from '../../components/modalError/modal';
 import { createCustomer } from '../../services/api/api';
 import { locationResolver } from '../../components/event/locationResolver';
 import INPUTS from './inputs';
