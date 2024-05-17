@@ -4,7 +4,7 @@ import { div, span } from '../../components/tags/tags';
 import Address from './adress';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
-import Modal from './modal';
+import Modal from '../modalError/modal';
 import { createCustomer } from '../../services/api/api';
 import { locationResolver } from '../../components/event/locationResolver';
 import INPUTS from './inputs';
@@ -131,8 +131,8 @@ class Registration extends Form {
         if (this.#shippingAddress.getIsDefaultSet()) Object.assign(body, { defaultShippingAddress: 0 });
 
         createCustomer(body)
-          .then(() => locationResolver('/'))
-          .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
+            .then(() => locationResolver('/'))
+            .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
     }
 }
 

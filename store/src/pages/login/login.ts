@@ -5,7 +5,7 @@ import { div, span } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import { getUser, getUserEmail } from '../../services/api/api';
-// import Modal from './modal';
+import Modal from '../modalError/modal';
 import './style.css';
 
 const INPUTS: InputsType[] = [
@@ -91,19 +91,17 @@ class Login extends Form {
         getUserEmail(this.getElementValue(0))
             .then(({ body }) => {
                 if (body.results.length == 0) {
-                    console.log('This email address has not been registered.');
+                    document.body.appendChild(new Modal('This email address has not been registered.').getNode());
                 } else {
                     console.log(body.results[0].id);
                     getUser(this.getElementValue(0), this.getElementValue(1))
                         .then(({ body }) => {
                             console.log(body.customer.id);
                         })
-                        .catch(() => console.log('This password is incorrect.'));
+                        .catch(() => document.body.appendChild(new Modal('This password is incorrect.').getNode()));
                 }
             })
-            .catch((e) => console.log(e.message));
-
-        // .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
+            .catch((e) => document.body.appendChild(new Modal(e.message).getNode()));
     }
 }
 

@@ -1,10 +1,11 @@
 import Component from '../../components/component/component';
 import Button from '../../components/button/button';
 import { div, p } from '../../components/tags/tags';
+import './style.css';
 
 class Modal extends Component {
     constructor(message: string) {
-        super('div', 'registration-modal');
+        super('div', 'error-modal');
         console.log('a');
         this.appendChildren(
             div(
