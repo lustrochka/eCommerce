@@ -4,6 +4,8 @@ import Label from '../../components/label/label';
 import { div, span } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
+import { getUser, getUserEmail } from '../../services/api/api';
+import Modal from '../../components/modalError/modal';
 import './style.css';
 
 const INPUTS: InputsType[] = [
@@ -58,7 +60,7 @@ class Login extends Form {
                 type: 'button',
                 disabled: 'true',
             },
-            () => console.log('ok')
+            () => this.getFetch()
         );
         this.appendChildren(this.#submitBtn);
         this.setListener('input', (event) => {
@@ -83,6 +85,22 @@ class Login extends Form {
         this.getNode().checkValidity()
             ? this.#submitBtn.deleteAttribute('disabled')
             : this.#submitBtn.addAttributes({ disabled: 'true' });
+    }
+
+    getFetch() {
+        getUserEmail(this.getElementValue(0))
+            .then(({ body }) => {
+                if (body.results.length == 0) {
+                    document.body.appendChild(new Modal('This email address has not been registered.').getNode());
+                } else {
+                    getUser(this.getElementValue(0), this.getElementValue(1))
+                        .then(({ body }) => {
+                            console.log(body.customer.id);
+                        })
+                        .catch(() => document.body.appendChild(new Modal('This password is incorrect.').getNode()));
+                }
+            })
+            .catch((e) => document.body.appendChild(new Modal(e.message).getNode()));
     }
 }
 
