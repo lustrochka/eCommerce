@@ -6,7 +6,6 @@ import './style.css';
 class Modal extends Component {
     constructor(message: string) {
         super('div', 'error-modal');
-        console.log('a');
         this.appendChildren(
             div(
                 'error-message',

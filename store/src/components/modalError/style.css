@@ -7,9 +7,9 @@
     display: flex;
     align-items: center;
     background-color: rgba(42, 82, 117, 0.4);
-  }
+}
 
-  .error-message {
+.error-message {
     width: 250px;
     background-color: white;
     border-radius: 8px;
@@ -19,12 +19,12 @@
     justify-content: center;
     align-items: center;
     padding: 15px;
-  }
+}
 
-  .error-message__text {
+.error-message__text {
     text-align: center;
-  }
+}
 
-  .modal__button {
+.modal__button {
     padding: 8px 16px;
-  }
+}

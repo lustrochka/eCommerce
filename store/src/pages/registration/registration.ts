@@ -7,6 +7,7 @@ import Form from '../../components/form/form';
 import Modal from '../../components/modalError/modal';
 import { createCustomer } from '../../services/api/api';
 import { locationResolver } from '../../components/event/locationResolver';
+import Client from '../../services/api/client';
 import INPUTS from './inputs';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import './style.css';
@@ -131,7 +132,10 @@ class Registration extends Form {
         if (this.#shippingAddress.getIsDefaultSet()) Object.assign(body, { defaultShippingAddress: 0 });
 
         createCustomer(body)
-            .then(() => locationResolver('/'))
+            .then(() => {
+                locationResolver('/');
+                new Client().buildWithPasswordFlow(this.getElementValue(0), this.getElementValue(1));
+            })
             .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
     }
 }
