@@ -16,12 +16,17 @@ class Header extends Component {
                     'container',
                     title,
                     new Button('header__button--cart', 'Cart', { type: 'button' }, () => locationResolver('/cart')),
-                    new Button('header__button button', 'Registration', { type: 'button' }, () =>
-                        locationResolver('/registration')
+                    new Button(
+                        'header__button button',
+                        'Registration',
+                        { type: 'button', id: 'button-registration' },
+                        () => locationResolver('/registration')
                     ),
-                    new Button('header__button button', 'Login', { type: 'button' }, () => locationResolver('/login')),
-                    new Button('header__button button', 'Logout', { type: 'button' }, openModal),
-                    new Button('header__button button', 'Profile', { type: 'button' }, () =>
+                    new Button('header__button button', 'Login', { type: 'button', id: 'button-login' }, () =>
+                        locationResolver('/login')
+                    ),
+                    new Button('header__button button', 'Logout', { type: 'button', id: 'button-logout' }, openModal),
+                    new Button('header__button button', 'Profile', { type: 'button', id: 'button-profile' }, () =>
                         locationResolver('/profile')
                     )
                 )
@@ -38,18 +43,13 @@ class Header extends Component {
                 )
             )
         );
+        // registrationStatus();
     }
 }
 
 export default Header;
 
 function openModal() {
-    // const modal = new Modal();
-    // const openButton = document.createElement('button');
-    // openButton.textContent = 'Open Modal';
-    // openButton.onclick = () => modal.open();
-    // document.body.appendChild(openButton);
-
     const modal = new Modal();
     modal.open();
 }

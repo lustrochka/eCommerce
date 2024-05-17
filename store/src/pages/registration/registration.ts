@@ -8,6 +8,7 @@ import Form from '../../components/form/form';
 import { createCustomer } from '../../services/api/api';
 import INPUTS from './inputs';
 import './style.css';
+import { saveToStorage } from '../../services/storage/storage';
 
 class Registration extends Form {
     #submitBtn;
@@ -118,6 +119,7 @@ class Registration extends Form {
         };
 
         createCustomer(body);
+        saveToStorage('eComData', body);
     }
 }
 
