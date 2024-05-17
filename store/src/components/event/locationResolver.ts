@@ -7,7 +7,7 @@ import Basket from '../../pages/basket/basket';
 import Registration from '../../pages/registration/registration';
 import UserProfile from '../../pages/userProfile/userProfile';
 import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
-// import Login from '../../pages/login/login';
+import Login from '../../pages/login/login';
 import { updatePage } from './updatePage';
 
 export function locationResolver(location: string, isBtn: boolean = true) {
@@ -28,9 +28,9 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             goPage(Basket);
             break;
 
-        // case '/login':
-        //     goPage(Login);
-        //     break;
+        case '/login':
+            goPage(Login);
+            break;
 
         case '/registration':
             goPage(Registration);

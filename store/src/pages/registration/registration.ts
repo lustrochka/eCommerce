@@ -1,12 +1,15 @@
-import Component from '../../components/component/component';
 import Input from '../../components/input/input';
 import Label from '../../components/label/label';
 import { div, span } from '../../components/tags/tags';
 import Address from './adress';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
+import Modal from '../../components/modalError/modal';
 import { createCustomer } from '../../services/api/api';
+import { locationResolver } from '../../components/event/locationResolver';
+import Client from '../../services/api/client';
 import INPUTS from './inputs';
+import { CustomerDraft } from '@commercetools/platform-sdk';
 import './style.css';
 import { saveToStorage } from '../../services/storage/storage';
 
@@ -45,7 +48,15 @@ class Registration extends Form {
         );
         this.appendChildren(
             div('registration__addresses', this.#shippingAddress, this.#billingAddress),
-            this.#submitBtn
+            this.#submitBtn,
+            new Button(
+                'registration__button button',
+                'Login',
+                {
+                    type: 'button',
+                },
+                () => locationResolver('/login')
+            )
         );
         this.setListener('input', (event) => {
             if (event.target && event.target instanceof HTMLInputElement) this.onChange(event.target);
@@ -107,7 +118,7 @@ class Registration extends Form {
             billingIndex = [1];
         }
 
-        const body = {
+        const body: CustomerDraft = {
             email: this.getElementValue(0),
             password: this.getElementValue(1),
             firstName: this.getElementValue(2),
@@ -118,7 +129,15 @@ class Registration extends Form {
             billingAddresses: billingIndex,
         };
 
-        createCustomer(body);
+        if (this.#billingAddress.getIsDefaultSet()) Object.assign(body, { defaultBillingAddress: billingIndex[0] });
+        if (this.#shippingAddress.getIsDefaultSet()) Object.assign(body, { defaultShippingAddress: 0 });
+
+        createCustomer(body)
+            .then(() => {
+                locationResolver('/');
+                new Client().buildWithPasswordFlow(this.getElementValue(0), this.getElementValue(1));
+            })
+            .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
         saveToStorage('eComData', body);
     }
 }

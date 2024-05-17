@@ -21,6 +21,8 @@ class Address extends Component {
 
     #inputs: { [key: string]: Input | Select };
 
+    #isDefaultSet;
+
     constructor(type: string) {
         super('div', 'address');
         this.addAttributes({ id: `${type.toLowerCase()}-address` });
@@ -56,6 +58,15 @@ class Address extends Component {
             country: this.#countryInput,
         };
 
+        this.#isDefaultSet = false;
+
+        const defaultCheckbox: Input = new Input(
+            'registration__checkbox',
+            { id: `${type}-default`, type: 'checkbox' },
+            false,
+            () => (this.#isDefaultSet = defaultCheckbox.getNode().checked)
+        );
+
         this.appendChildren(
             title,
             new Label('registration__label', 'Street', { for: 'street' }),
@@ -74,7 +85,7 @@ class Address extends Component {
             this.#countryInput,
             div(
                 '',
-                new Input('registration__checkbox', { id: `${type}-default`, type: 'checkbox' }, false),
+                defaultCheckbox,
                 new Label('registration__label-checkbox', 'Set as default', { for: `${type}-default` })
             )
         );
@@ -123,6 +134,10 @@ class Address extends Component {
             postalCode: this.#codeInput.getValue(),
             country: COUNTRY_CODES[this.#countryInput.getValue()],
         };
+    }
+
+    getIsDefaultSet() {
+        return this.#isDefaultSet;
     }
 }
 
