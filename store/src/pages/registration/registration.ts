@@ -11,6 +11,7 @@ import Client from '../../services/api/client';
 import INPUTS from './inputs';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import './style.css';
+import { saveToStorage } from '../../services/storage/storage';
 
 class Registration extends Form {
     #submitBtn;
@@ -137,6 +138,7 @@ class Registration extends Form {
                 new Client().buildWithPasswordFlow(this.getElementValue(0), this.getElementValue(1));
             })
             .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
+        saveToStorage('eComData', body);
     }
 }
 
