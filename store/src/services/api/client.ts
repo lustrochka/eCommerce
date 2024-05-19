@@ -4,7 +4,7 @@ import {
     type HttpMiddlewareOptions,
     type PasswordAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { ByProjectKeyRequestBuilder, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import MyTokenCache from './tokenCache';
 
 const projectKey = 'aaa42';
@@ -42,13 +42,7 @@ const options: PasswordAuthMiddlewareOptions = {
     tokenCache: new MyTokenCache(),
 };
 
-const ctpClient = new ClientBuilder()
-    .withClientCredentialsFlow(authMiddlewareOptions)
-    .withHttpMiddleware(httpMiddlewareOptions)
-    .withLoggerMiddleware()
-    .build();
-
-let apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
+let apiRoot: ByProjectKeyRequestBuilder;
 
 class Client {
     buildWithPasswordFlow(email: string, password: string) {
@@ -59,6 +53,15 @@ class Client {
             .withHttpMiddleware(httpMiddlewareOptions)
             .withLoggerMiddleware()
             .build();
+        apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
+    }
+    buildWithCredentialsFlow() {
+        const ctpClient = new ClientBuilder()
+            .withClientCredentialsFlow(authMiddlewareOptions)
+            .withHttpMiddleware(httpMiddlewareOptions)
+            .withLoggerMiddleware()
+            .build();
+
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
     }
     getApiRoot() {

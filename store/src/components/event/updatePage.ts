@@ -1,7 +1,7 @@
 import { loadFromStorage } from '../../services/storage/storage';
 export function updatePage() {
     const data = loadFromStorage('eComData');
-    if (data.status) {
+    if (data && data.status) {
         (document.querySelector('#button-login') as HTMLElement).style.display = 'none';
         (document.querySelector('#button-registration') as HTMLElement).style.display = 'none';
         (document.querySelector('#button-logout') as HTMLElement).style.display = 'block';

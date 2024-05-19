@@ -4,6 +4,7 @@ import { CustomerDraft } from '@commercetools/platform-sdk';
 const client = new Client();
 
 export async function createCustomer(data: CustomerDraft) {
+    client.buildWithCredentialsFlow();
     const apiRoot = client.getApiRoot();
     const result = await apiRoot
         .customers()
@@ -15,6 +16,7 @@ export async function createCustomer(data: CustomerDraft) {
 }
 
 export async function getUserEmail(mail: string) {
+    client.buildWithCredentialsFlow();
     const apiRoot = client.getApiRoot();
     const result = await apiRoot
         .customers()
