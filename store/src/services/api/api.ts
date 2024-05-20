@@ -1,7 +1,11 @@
-import { apiRoot } from './client';
+import Client from './client';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 
+const client = new Client();
+
 export async function createCustomer(data: CustomerDraft) {
+    client.buildWithCredentialsFlow();
+    const apiRoot = client.getApiRoot();
     const result = await apiRoot
         .customers()
         .post({
@@ -12,6 +16,8 @@ export async function createCustomer(data: CustomerDraft) {
 }
 
 export async function getUserEmail(mail: string) {
+    client.buildWithCredentialsFlow();
+    const apiRoot = client.getApiRoot();
     const result = await apiRoot
         .customers()
         .get({
@@ -24,6 +30,8 @@ export async function getUserEmail(mail: string) {
 }
 
 export async function getUser(mail: string, password: string) {
+    client.buildWithPasswordFlow(mail, password);
+    const apiRoot = client.getApiRoot();
     const result = await apiRoot
         .me()
         .login()

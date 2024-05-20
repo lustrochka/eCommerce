@@ -8,6 +8,7 @@ import Registration from '../../pages/registration/registration';
 import UserProfile from '../../pages/userProfile/userProfile';
 import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
 import Login from '../../pages/login/login';
+import { updatePage } from './updatePage';
 
 export function locationResolver(location: string, isBtn: boolean = true) {
     switch (location) {
@@ -48,6 +49,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
     }
 
     if (isBtn) new Router().changeUrl(location);
+    updatePage();
 }
 
 class Router {
