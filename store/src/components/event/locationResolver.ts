@@ -30,15 +30,19 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/login':
-            if (loadFromStorage('eComData').status) {
-                goPage(Main, 'body');
+            if (loadFromStorage('eComData') && loadFromStorage('eComData').status) {
+                new Router().changeUrl('/');
             } else {
                 goPage(Login);
             }
             break;
 
         case '/registration':
-            goPage(Registration);
+            if (loadFromStorage('eComData') && loadFromStorage('eComData').status) {
+                new Router().changeUrl('/');
+            } else {
+                goPage(Login);
+            }
             break;
 
         case '/profile':
