@@ -7,6 +7,7 @@ import Basket from '../../pages/basket/basket';
 import Registration from '../../pages/registration/registration';
 import UserProfile from '../../pages/userProfile/userProfile';
 import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
+import { loadFromStorage } from '../../services/storage/storage';
 import Login from '../../pages/login/login';
 import { updatePage } from './updatePage';
 
@@ -29,8 +30,11 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/login':
-            goPage(Login);
-            break;
+            if (loadFromStorage('eComData').status) {
+                goPage(Main, 'body');
+            } else {
+                goPage(Login);
+            }
 
         case '/registration':
             goPage(Registration);
