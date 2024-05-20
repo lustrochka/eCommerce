@@ -37,8 +37,8 @@ export async function getUser(mail: string, password: string) {
         .login()
         .post({
             body: {
-                email: `${mail}`,
-                password: `${password}`,
+                email: mail,
+                password: password,
             },
         })
         .execute();

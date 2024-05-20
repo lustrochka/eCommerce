@@ -46,7 +46,7 @@
     padding: 16px;
     text-align: center;
     width: 200px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .login__button:disabled {
@@ -59,7 +59,7 @@
 
 .login__pass-button {
     position: absolute;
-    bottom: 100px;
+    bottom: 190px;
     left: 42%;
     width: 24px;
     height: 24px;

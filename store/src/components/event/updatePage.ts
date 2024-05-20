@@ -12,5 +12,4 @@ export function updatePage() {
         (document.querySelector('#button-logout') as HTMLElement).style.display = 'none';
         (document.querySelector('#button-profile') as HTMLElement).style.display = 'none';
     }
-    console.log('123');
 }

@@ -6,6 +6,9 @@ import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import { getUser, getUserEmail } from '../../services/api/api';
 import Modal from '../../components/modalError/modal';
+import { updatePage } from '../../components/event/updatePage';
+import { saveToStorage } from '../../services/storage/storage';
+import { locationResolver } from '../../components/event/locationResolver';
 import './style.css';
 
 const INPUTS: InputsType[] = [
@@ -63,6 +66,16 @@ class Login extends Form {
             () => this.getFetch()
         );
         this.appendChildren(this.#submitBtn);
+        this.appendChildren(
+            new Button(
+                'login__button button',
+                'Registration',
+                {
+                    type: 'button',
+                },
+                () => locationResolver('/registration')
+            )
+        );
         this.setListener('input', (event) => {
             if (event.target && event.target instanceof HTMLInputElement) this.checkFormValidity(event.target);
         });
@@ -95,7 +108,9 @@ class Login extends Form {
                 } else {
                     getUser(this.getElementValue(0), this.getElementValue(1))
                         .then(({ body }) => {
-                            console.log(body.customer.id);
+                            saveToStorage('eComData', body.customer);
+                            locationResolver('/');
+                            updatePage();
                         })
                         .catch(() => document.body.appendChild(new Modal('This password is incorrect.').getNode()));
                 }
