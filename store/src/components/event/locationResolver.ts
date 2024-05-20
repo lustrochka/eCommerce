@@ -35,6 +35,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             } else {
                 goPage(Login);
             }
+            break;
 
         case '/registration':
             goPage(Registration);
