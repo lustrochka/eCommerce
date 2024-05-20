@@ -41,7 +41,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             if (loadFromStorage('eComData') && loadFromStorage('eComData').status) {
                 new Router().changeUrl('/');
             } else {
-                goPage(Login);
+                goPage(Registration);
             }
             break;
 
