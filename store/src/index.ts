@@ -11,7 +11,7 @@ window.onload = () => {
     updatePage();
     if (localStorage.getItem('token')) {
         const token = JSON.parse(localStorage.getItem('token') || '{}');
-        token.expirationTime > Date.now()
+        token.expirationTime < Date.now()
             ? new Client().buildWithRefreshToken()
             : new Client().buildWithExistingToken();
     }
