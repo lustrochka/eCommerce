@@ -3,6 +3,8 @@ import { div } from '../../components/tags/tags';
 import { getUserData } from '../../services/api/api';
 import { Customer } from '@commercetools/platform-sdk';
 import AddressBlock from './addressBlock';
+import EditModal from './editModal';
+import Button from '../../components/button/button';
 import { AddressDataType } from '../../types';
 import './style.css';
 
@@ -17,7 +19,20 @@ class UserProfile extends Component {
         name.changeText(`${data.firstName} ${data.lastName}`);
         const birthDate = div('profile__birth');
         birthDate.changeText(`${data.dateOfBirth?.split('-').reverse().join('.')}`);
-        this.appendChildren(name, birthDate);
+        this.appendChildren(
+            name,
+            birthDate,
+            new Button('edit-icon', '', {}, () =>
+                document.body.appendChild(
+                    new EditModal({
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        dateOfBirth: data.dateOfBirth,
+                        email: data.email,
+                    }).getNode()
+                )
+            )
+        );
 
         const addresses = div('profile__addresses');
         this.appendChildren(addresses);
