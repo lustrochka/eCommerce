@@ -204,7 +204,7 @@ body {
     background-color: #183853;
 }
 @media (max-width: 1370px) {
-    .container{
+    .container {
         width: 90%;
     }
 }

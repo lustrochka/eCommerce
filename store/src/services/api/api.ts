@@ -44,3 +44,9 @@ export async function getUser(mail: string, password: string) {
         .execute();
     return result;
 }
+
+export async function getUserData() {
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot.me().get().execute();
+    return result;
+}
