@@ -15,6 +15,7 @@ class UserProfile extends Component {
     }
 
     showData(data: Customer) {
+        localStorage.setItem('version', `${data.version}`);
         const name = div('profile__name');
         name.changeText(`${data.firstName} ${data.lastName}`);
         const birthDate = div('profile__birth');

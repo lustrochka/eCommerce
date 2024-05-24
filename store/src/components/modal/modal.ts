@@ -57,6 +57,7 @@ class Modal {
         const loadedDate = loadFromStorage('eComData');
         saveToStorage('eComData', loadedDate.formData, false);
         localStorage.removeItem('token');
+        localStorage.removeItem('version');
         new Client().buildWithCredentialsFlow();
         updatePage();
     }

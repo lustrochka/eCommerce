@@ -9,10 +9,12 @@ window.onload = () => {
     document.body.appendChild(new Main().getNode());
     locationResolver(window.location.pathname, false);
     updatePage();
+};
+window.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('token')) {
         const token = JSON.parse(localStorage.getItem('token') || '{}');
         token.expirationTime < Date.now()
             ? new Client().buildWithRefreshToken()
             : new Client().buildWithExistingToken();
     }
-};
+});
