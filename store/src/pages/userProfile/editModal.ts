@@ -7,6 +7,7 @@ import Button from '../../components/button/button';
 import { Customer } from '@commercetools/platform-sdk';
 import INPUTS from '../registration/inputs';
 import { updateUser } from '../../services/api/api';
+import { checkAge } from '../../services/checkAge';
 
 const EDIT_FIELDS = [INPUTS[0], ...INPUTS.slice(2)];
 
@@ -46,37 +47,9 @@ class EditModal extends Component {
         );
 
         this.setListener('input', (event) => {
-            if (event.target && event.target instanceof HTMLInputElement) this.checkFormValidity(event.target);
+            if (event.target && event.target instanceof HTMLInputElement)
+                this.#form.checkFormValidity(event.target, this.#submitBtn.getNode());
         });
-    }
-
-    checkFormValidity(target: HTMLInputElement) {
-        if (target.id === 'birth') {
-            this.checkAge(target.value) ? target.setCustomValidity('') : target.setCustomValidity('irrelevant age');
-        }
-        if (target.nextElementSibling instanceof HTMLSpanElement) {
-            target.checkValidity()
-                ? target.nextElementSibling.classList.remove('visible')
-                : target.nextElementSibling.classList.add('visible');
-        }
-        this.#form.getNode().checkValidity()
-            ? this.#submitBtn.deleteAttribute('disabled')
-            : this.#submitBtn.addAttributes({ disabled: 'true' });
-    }
-
-    checkAge(value: string) {
-        const now = new Date();
-        const birthDate = new Date(value);
-        if (now.getFullYear() - birthDate.getFullYear() === 13) {
-            if (now.getMonth() > birthDate.getMonth()) {
-                return true;
-            } else if (now.getMonth() === birthDate.getMonth()) {
-                if (now.getDate() >= birthDate.getDate()) {
-                    return true;
-                }
-            }
-        }
-        return now.getFullYear() - birthDate.getFullYear() > 13;
     }
 
     sendUpdateData() {

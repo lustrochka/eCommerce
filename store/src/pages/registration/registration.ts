@@ -12,6 +12,7 @@ import INPUTS from './inputs';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import './style.css';
 import { saveToStorage } from '../../services/storage/storage';
+import { checkAge } from '../../services/checkAge';
 
 class Registration extends Form {
     #submitBtn;
@@ -75,36 +76,7 @@ class Registration extends Form {
         } else if (this.#isChecked && target.closest('#shipping-address')) {
             this.#billingAddress.setValue(target.name, target.value);
         }
-        this.checkFormValidity(target);
-    }
-
-    checkFormValidity(target: HTMLInputElement | HTMLSelectElement) {
-        if (target.id === 'birth') {
-            this.checkAge(target.value) ? target.setCustomValidity('') : target.setCustomValidity('irrelevant age');
-        }
-        if (target.nextElementSibling instanceof HTMLSpanElement) {
-            target.checkValidity()
-                ? target.nextElementSibling.classList.remove('visible')
-                : target.nextElementSibling.classList.add('visible');
-        }
-        this.getNode().checkValidity()
-            ? this.#submitBtn.deleteAttribute('disabled')
-            : this.#submitBtn.addAttributes({ disabled: 'true' });
-    }
-
-    checkAge(value: string) {
-        const now = new Date();
-        const birthDate = new Date(value);
-        if (now.getFullYear() - birthDate.getFullYear() === 13) {
-            if (now.getMonth() > birthDate.getMonth()) {
-                return true;
-            } else if (now.getMonth() === birthDate.getMonth()) {
-                if (now.getDate() >= birthDate.getDate()) {
-                    return true;
-                }
-            }
-        }
-        return now.getFullYear() - birthDate.getFullYear() > 13;
+        this.checkFormValidity(target, this.#submitBtn.getNode());
     }
 
     register() {
