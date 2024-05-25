@@ -1,7 +1,7 @@
 import Component from '../component/component';
 import { Items } from '../../types';
 
-class Button extends Component {
+class Button extends Component<HTMLButtonElement> {
     constructor(className: string, text: string, attributes: Items, onClick?: () => void) {
         super('button', className);
         this.addAttributes(attributes);

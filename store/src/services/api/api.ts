@@ -1,5 +1,6 @@
 import Client from './client';
 import { CustomerDraft } from '@commercetools/platform-sdk';
+import { Items } from '../../types';
 
 const client = new Client();
 
@@ -48,5 +49,37 @@ export async function getUser(mail: string, password: string) {
 export async function getUserData() {
     const apiRoot = client.getApiRoot();
     const result = await apiRoot.me().get().execute();
+    return result;
+}
+
+export async function updateUser({ firstName, lastName, birthDate, email }: Items) {
+    const version = Number(localStorage.getItem('version')) || 1;
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'setFirstName',
+                        firstName: firstName,
+                    },
+                    {
+                        action: 'setLastName',
+                        lastName: lastName,
+                    },
+                    {
+                        action: 'setDateOfBirth',
+                        dateOfBirth: birthDate,
+                    },
+                    {
+                        action: 'changeEmail',
+                        email: email,
+                    },
+                ],
+            },
+        })
+        .execute();
     return result;
 }
