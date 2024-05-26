@@ -8,6 +8,7 @@ import {
 } from '@commercetools/sdk-client-v2';
 import { ByProjectKeyRequestBuilder, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import MyTokenCache from './tokenCache';
+import { logout } from '../../components/event/logout';
 
 const projectKey = 'aaa42';
 const scopes = ['manage_project:aaa42'];
@@ -78,6 +79,7 @@ class Client {
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
     }
     buildWithPasswordFlow(email: string, password: string) {
+        console.log(email, password);
         options.credentials.user.username = email;
         options.credentials.user.password = password;
 
@@ -110,6 +112,13 @@ class Client {
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
     }
     getApiRoot() {
+        if (localStorage.getItem('token')) {
+            console.log(apiRoot);
+            const token = JSON.parse(localStorage.getItem('token') || '{}');
+            if (token.expirationTime < Date.now()) {
+                token.refreshToken ? this.buildWithRefreshToken() : logout();
+            } else if (!apiRoot) this.buildWithExistingToken();
+        }
         return apiRoot;
     }
 }

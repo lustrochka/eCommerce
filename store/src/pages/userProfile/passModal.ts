@@ -6,6 +6,7 @@ import { div, span } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import INPUTS from '../registration/inputs';
 import { updatePassword } from '../../services/api/api';
+import Client from '../../services/api/client';
 
 class PassModal extends Component {
     #form;
@@ -79,8 +80,12 @@ class PassModal extends Component {
         this.#form.setElementValue(2, '');
     }
     sendData() {
-        updatePassword(this.#form.getElementValue(0), this.#form.getElementValue(2))
-            .then(() => this.#statusMessage.changeText('Password changed'))
+        const newPassword = this.#form.getElementValue(2);
+        updatePassword(this.#form.getElementValue(0), newPassword)
+            .then(({ body }) => {
+                this.#statusMessage.changeText('Password changed');
+                new Client().buildWithPasswordFlow(body.email, newPassword);
+            })
             .catch((err) => this.#statusMessage.changeText(err.body.message));
     }
 }
