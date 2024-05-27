@@ -83,3 +83,22 @@ export async function updateUser({ firstName, lastName, birthDate, email }: Item
         .execute();
     return result;
 }
+
+export async function updatePassword(currentPassword: string, newPassword: string) {
+    const version = Number(localStorage.getItem('version')) || 1;
+    const id = localStorage.getItem('id') || '';
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .customers()
+        .password()
+        .post({
+            body: {
+                version,
+                id,
+                currentPassword,
+                newPassword,
+            },
+        })
+        .execute();
+    return result;
+}

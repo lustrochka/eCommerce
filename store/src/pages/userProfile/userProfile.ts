@@ -5,6 +5,7 @@ import { Customer } from '@commercetools/platform-sdk';
 import AddressBlock from './addressBlock';
 import EditModal from './editModal';
 import Button from '../../components/button/button';
+import PassModal from './passModal';
 import { AddressDataType } from '../../types';
 import './style.css';
 
@@ -16,6 +17,7 @@ class UserProfile extends Component {
 
     showData(data: Customer) {
         localStorage.setItem('version', `${data.version}`);
+        localStorage.setItem('id', `${data.id}`);
         const name = div('profile__name');
         name.changeText(`${data.firstName} ${data.lastName}`);
         const birthDate = div('profile__birth');
@@ -36,7 +38,12 @@ class UserProfile extends Component {
         );
 
         const addresses = div('profile__addresses');
-        this.appendChildren(addresses);
+        this.appendChildren(
+            new Button('pass-button button', 'Change password', { type: 'button' }, () =>
+                document.body.appendChild(new PassModal().getNode())
+            ),
+            addresses
+        );
 
         data.addresses.forEach((address) => {
             const addressData: AddressDataType = { data: address };
