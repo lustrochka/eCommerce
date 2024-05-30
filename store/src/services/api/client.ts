@@ -73,7 +73,7 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withExistingTokenFlow(authorization, options)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
@@ -86,7 +86,7 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withPasswordFlow(options)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
@@ -95,7 +95,7 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withClientCredentialsFlow(authMiddlewareOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
@@ -106,14 +106,14 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withRefreshTokenFlow(refreshOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
     }
     getApiRoot() {
         if (localStorage.getItem('token')) {
-            console.log(apiRoot);
+            // console.log(apiRoot);
             const token = JSON.parse(localStorage.getItem('token') || '{}');
             if (token.expirationTime < Date.now()) {
                 token.refreshToken ? this.buildWithRefreshToken() : logout();
