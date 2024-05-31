@@ -25,7 +25,7 @@
   transition: all 0.8s
 }
 
-.card:hover{
+.card:hover {
   cursor: pointer;
   scale: 1.05;
   box-shadow: 0 4px 8px 0
@@ -33,15 +33,18 @@
 
 .card__title {
   font-size: 2rem;
+  font-weight: 700;
   text-align: center;
 }
 
 .card__price {
   font-size: 2.5rem;
+  font-weight: 700;
 }
 
 .card__old-price {
   text-decoration: line-through;
   font-size: 1.5rem;
   margin-right: 1vw;
+  color: #838688;
 }

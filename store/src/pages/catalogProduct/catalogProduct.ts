@@ -17,8 +17,8 @@ class CatalogProduct extends Component {
                     const description = el.masterData.current.description?.['en-US'];
                     const discount = el.masterData.current.masterVariant.prices?.[0].discounted?.value;
                     const price = el.masterData.current.masterVariant.prices?.[0].value;
-                    const strPrice = price?.centAmount ? String(price?.centAmount) : '';
-                    const strDiscount = discount?.centAmount ? String(discount?.centAmount) : '';
+                    const strPrice = price?.centAmount ? String(price?.centAmount / 100) : '';
+                    const strDiscount = discount?.centAmount ? String(discount?.centAmount / 100) : '';
                     this.getCard(title, picture, description, strPrice, strDiscount);
                 });
             })
