@@ -19,12 +19,13 @@ class CatalogProduct extends Component {
                     const price = el.masterData.current.masterVariant.prices?.[0].value;
                     const strPrice = price?.centAmount ? String(price?.centAmount / 100) : '';
                     const strDiscount = discount?.centAmount ? String(discount?.centAmount / 100) : '';
-                    this.getCard(title, picture, description, strPrice, strDiscount);
+                    const id = el.id;
+                    this.getCard(title, picture, description, strPrice, strDiscount, id);
                 });
             })
             .catch((e) => console.log(e.message));
     }
-    getCard(name: string, image: string = '', text: string = '', strP: string, strD: string) {
+    getCard(name: string, image: string = '', text: string = '', strP: string, strD: string, id: string) {
         const card = div('card');
         const title = p('card__title', name);
         const picture = img('card__img', image, name);
@@ -33,6 +34,7 @@ class CatalogProduct extends Component {
         strD === ''
             ? price.appendChildren(span('card__actual-price', `${strP}€`))
             : price.appendChildren(span('card__old-price', `${strP}€`), span('card__actual-price', `${strD}€`));
+        card.addId(id);
         card.appendChildren(title, picture, description, price);
         this.appendChildren(card);
     }

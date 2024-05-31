@@ -27,7 +27,7 @@
 
 .card:hover {
   cursor: pointer;
-  scale: 1.05;
+  scale: 1.02;
   box-shadow: 0 4px 8px 0
 }
 
