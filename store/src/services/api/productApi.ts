@@ -7,7 +7,7 @@ export async function getProducts() {
     const apiRoot = client.getApiRoot();
     const result = await apiRoot
         .products()
-        .get({ queryArgs: { limit: 100 } })
+        .get({ queryArgs: { limit: 10 } })
         .execute();
     return result;
 }
