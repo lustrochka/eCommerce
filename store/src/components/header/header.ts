@@ -7,7 +7,7 @@ import { locationResolver } from '../../components/event/locationResolver';
 class Header extends Component {
     constructor() {
         super('header', 'header');
-        const title = new Button('header__logo button', 'Logo', { type: 'button' }, () => locationResolver('/'));
+        const title = new Button('header__logo', 'Logo', { type: 'button' }, () => locationResolver('/'));
         title.changeText('Webpunk Store');
         this.appendChildren(
             div(
@@ -35,11 +35,11 @@ class Header extends Component {
                 'header__nav-bar',
                 div(
                     'container',
-                    new Button('nav__button button', 'Main page', { type: 'button' }, () => locationResolver('/')),
-                    new Button('nav__button button', 'Catalog Product', { type: 'button' }, () =>
+                    new Button('nav__button', 'Main page', { type: 'button' }, () => locationResolver('/')),
+                    new Button('nav__button', 'Catalog Product', { type: 'button' }, () =>
                         locationResolver('/catalog')
                     ),
-                    new Button('nav__button button', 'About Us', { type: 'button' }, () => locationResolver('/about'))
+                    new Button('nav__button', 'About Us', { type: 'button' }, () => locationResolver('/about'))
                 )
             )
         );

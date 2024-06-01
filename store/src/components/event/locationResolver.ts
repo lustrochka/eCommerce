@@ -6,7 +6,7 @@ import NotFound from '../../pages/notFound/notFound';
 import Basket from '../../pages/basket/basket';
 import Registration from '../../pages/registration/registration';
 import UserProfile from '../../pages/userProfile/userProfile';
-import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
+import { DetailedProduct, initSwiper } from '../../pages/detailedProduct/detailedProduct';
 import { loadFromStorage } from '../../services/storage/storage';
 import Login from '../../pages/login/login';
 import { updatePage } from './updatePage';
@@ -51,6 +51,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
 
         case '/product':
             goPage(DetailedProduct);
+            initSwiper();
             break;
         default:
             goPage(NotFound);
