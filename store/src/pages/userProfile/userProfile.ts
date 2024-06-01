@@ -57,6 +57,8 @@ class UserProfile extends Component {
             }
             addresses.appendChildren(new AddressBlock(addressData));
         });
+
+        addresses.appendChildren(new Button('new-address-button button', '+', { type: 'button' }));
     }
 }
 

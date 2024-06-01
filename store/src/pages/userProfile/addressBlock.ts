@@ -1,8 +1,8 @@
-import { BaseAddress } from '@commercetools/platform-sdk';
 import Component from '../../components/component/component';
 import { div, span } from '../../components/tags/tags';
 import { Items } from '../../types';
 import { AddressDataType } from '../../types';
+import Button from '../../components/button/button';
 
 const COUNTRY_CODES: Items = { BY: 'Belarus', PL: 'Poland' };
 
@@ -35,7 +35,8 @@ class AddressBlock extends Component {
             country,
             postalCode,
             city,
-            street
+            street,
+            new Button('edit-icon', '', {})
         );
     }
 }
