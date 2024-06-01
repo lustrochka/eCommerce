@@ -79,17 +79,20 @@
     background-color: rgba(42, 82, 117, 0.4);
 }
 
-.user-form {
+.modal-container {
     width: 350px;
     background-color: white;
     border-radius: 8px;
     margin: 100px auto;
+    position: relative;
+    border-radius: 8px;
+}
+
+.user-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
-    border-radius: 8px;
 }
 
 .edit-modal__label {

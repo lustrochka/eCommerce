@@ -14,6 +14,7 @@ class RegAddress extends Address {
         this.addAttributes({ id: `${type.toLowerCase()}-address` });
         const title = div('logo');
         title.changeText(`${type}-address`);
+        this.prepend(title);
 
         this.#inputs = {
             street: this._streetInput,
@@ -32,7 +33,6 @@ class RegAddress extends Address {
         );
 
         this.appendChildren(
-            title,
             div(
                 '',
                 defaultCheckbox,

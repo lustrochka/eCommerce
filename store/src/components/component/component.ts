@@ -47,6 +47,10 @@ class Component<T extends HTMLElement = HTMLElement> {
         children.forEach((child) => this.#node.append(child.getNode()));
     }
 
+    prepend(child: Component) {
+        this.#node.prepend(child.getNode());
+    }
+
     replaceChild(oldChild: Component, newChild: Component) {
         this.#node.replaceChild(oldChild.getNode(), newChild.getNode());
     }

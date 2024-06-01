@@ -1,26 +1,17 @@
-import Component from '../../components/component/component';
 import Input from '../../components/input/input';
 import Label from '../../components/label/label';
-import Form from '../../components/form/form';
 import { div, span } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import INPUTS from '../registration/inputs';
 import { updatePassword } from '../../services/api/api';
 import Client from '../../services/api/client';
+import ModalProfile from './modalProfile';
 
-class PassModal extends Component {
-    #form;
-
+class PassModal extends ModalProfile {
     #statusMessage;
 
     constructor() {
-        super('div', 'pass-modal');
-        this.#form = new Form('user-form');
-        this.appendChildren(this.#form);
-
-        const title = div('edit-modal__title');
-        title.changeText('Edit password');
-
+        super('Edit password');
         this.#statusMessage = div('status-message');
 
         const submitBtn = new Button(
@@ -33,8 +24,7 @@ class PassModal extends Component {
             () => this.sendData()
         );
 
-        this.#form.appendChildren(
-            title,
+        this._form.appendChildren(
             this.#statusMessage,
             div(
                 'pass-modal__block',
@@ -64,7 +54,7 @@ class PassModal extends Component {
 
         this.setListener('input', (event) => {
             if (event.target && event.target instanceof HTMLInputElement)
-                this.#form.checkFormValidity(event.target, submitBtn.getNode());
+                this._form.checkFormValidity(event.target, submitBtn.getNode());
             this.#statusMessage.changeText('');
         });
     }
@@ -76,12 +66,12 @@ class PassModal extends Component {
         }
     }
     cancelInputs() {
-        this.#form.setElementValue(0, '');
-        this.#form.setElementValue(2, '');
+        this._form.setElementValue(0, '');
+        this._form.setElementValue(2, '');
     }
     sendData() {
-        const newPassword = this.#form.getElementValue(2);
-        updatePassword(this.#form.getElementValue(0), newPassword)
+        const newPassword = this._form.getElementValue(3);
+        updatePassword(this._form.getElementValue(1), newPassword)
             .then(({ body }) => {
                 this.#statusMessage.changeText('Password changed');
                 new Client().buildWithPasswordFlow(body.email, newPassword);
