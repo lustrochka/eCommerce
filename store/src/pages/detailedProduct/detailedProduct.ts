@@ -182,8 +182,3 @@ function imagesUrls(param: string): string[] {
     arr.push(param);
     return arr;
 }
-// const imageUrls: string[] = [
-//     'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Evergreen_Candle-1.1.jpeg',
-//     'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Evergreen_Candle-1.2.jpeg',
-//     'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Evergreen_Candle-1.3.jpeg',
-// ];
