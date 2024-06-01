@@ -2,6 +2,7 @@ import Component from '../../components/component/component';
 import Button from '../../components/button/button';
 import { div, span, p, img } from '../../components/tags/tags';
 import { getProduct } from '../../services/api/productApi';
+import { Product } from '../../types';
 import './detailedProduct.css';
 
 const description = { name: 'xiaomi super', size: 'XXL', color: 'red', weight: '300gr' };
@@ -12,20 +13,31 @@ export class DetailedProduct extends Component {
         this.init();
     }
 
-    async init() {
-        const productPromise = getProduct('a2bb5a3d-4c9d-4aa1-b424-f575616570c1');
-        let productItem;
-        try {
-            const product = await productPromise;
-            console.log(product.body);
-            productItem = product.body.masterData.current;
-            console.log(productItem);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-
+    init() {
+        const productId = String(localStorage.getItem('product'));
+        getProduct(productId)
+            .then(({ body }) => {
+                const numDiscount = body.masterData.current.masterVariant.prices?.[0].discounted?.value;
+                const numPrice = body.masterData.current.masterVariant.prices?.[0].value;
+                const product = {
+                    title: body.masterData.current.name['en-US'] ? body.masterData.current.name['en-US'] : '',
+                    picture: body.masterData.current.masterVariant.images?.[0].url
+                        ? body.masterData.current.masterVariant.images?.[0].url
+                        : '',
+                    description: body.masterData.current.description?.['en-US']
+                        ? body.masterData.current.description?.['en-US']
+                        : '',
+                    price: numPrice?.centAmount ? String(numPrice?.centAmount / 100) : '',
+                    discount: numDiscount?.centAmount ? String(numDiscount?.centAmount / 100) : '',
+                };
+                console.log(product);
+                this.getPage(product);
+            })
+            .catch((e) => console.log(e.message));
+    }
+    getPage(product: Product) {
         const title = div('product__title');
-        title.changeText(`${productItem?.name?.['en-US']}`);
+        title.changeText(product.title);
         this.appendChildren(
             div(
                 'container',
@@ -54,17 +66,7 @@ export class DetailedProduct extends Component {
                         title,
                         div(
                             'product__block',
-                            new Component(
-                                'div',
-                                'product__price-block',
-                                span('product__price-old', '1000 $'),
-                                div(
-                                    'product__discount',
-                                    span('product__discount-percent', '10%'),
-                                    span('product__discount-value', '- 100$')
-                                ),
-                                span('product__price-new', '900 $')
-                            ),
+                            div('product__price-block', getPrice(product.price, product.discount)),
                             new Button('product__button button', 'add to Cart', { type: 'button' })
                         ),
                         div(
@@ -88,14 +90,28 @@ export class DetailedProduct extends Component {
                         )
                     )
                 ),
-                p('product__description-title', `Description: ${productItem?.name?.['en-US']}`),
-                p('product__description-text', `${productItem?.description?.['en-US']}`),
-                p('product__description-title', `Characteristics: ${productItem?.name?.['en-US']}`),
+                p('product__description-title', `Description: ${product.title}`),
+                p('product__description-text', product.description),
+                p('product__description-title', `Characteristics: ${product.title}`),
                 div('product__description', generateCode(description))
             )
         );
         initSwiper();
     }
+}
+function getPrice(price: string, discount: string): Component<HTMLElement> {
+    let result;
+    if (discount === '') {
+        result = new Component('div', 'product__price-block', span('product__price-new', `${price}€`));
+    } else {
+        result = new Component(
+            'div',
+            'product__price-block',
+            span('product__price-old', `${price}€`),
+            span('product__price-new', `${discount}€`)
+        );
+    }
+    return result;
 }
 
 import Swiper from 'swiper';
