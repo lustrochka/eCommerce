@@ -81,7 +81,9 @@ class ModalAddress extends ModalProfile {
         }).then(({ body }) => {
             localStorage.setItem('version', body.version.toString());
             const id = body.addresses[body.addresses.length - 1].id;
-            if (id && (this.#isBilling || this.#isShipping)) setAddressType(this.#isBilling, this.#isShipping, id);
+            if (id && (this.#isBilling || this.#isShipping)) {
+                setAddressType(this.#isBilling, this.#isShipping, id).then(() => window.location.reload());
+            } else window.location.reload();
         });
     }
 
