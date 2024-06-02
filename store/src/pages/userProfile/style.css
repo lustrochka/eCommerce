@@ -23,9 +23,20 @@
 }
 
 .profile__address {
+    position: relative;
     background-color: #edf2f6;
     padding: 15px;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.profile__address .edit-icon {
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 10px;
 }
 
 .profile__address__item {
@@ -71,17 +82,20 @@
     background-color: rgba(42, 82, 117, 0.4);
 }
 
-.user-form {
+.modal-container {
     width: 350px;
     background-color: white;
     border-radius: 8px;
     margin: 100px auto;
+    position: relative;
+    border-radius: 8px;
+}
+
+.user-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
-    border-radius: 8px;
 }
 
 .edit-modal__label {
@@ -174,4 +188,31 @@
 
 .button:disabled {
     background-color: #555d64;
+}
+
+.new-address-button {
+    position: absolute;
+    bottom: -45px;
+    font-size: 25px;
+    width: 35px;
+    background-color: transparent;
+    color: #070c11;
+}
+
+.modal-checkboxes {
+    width: 100%;
+}
+
+.modal-checkbox {
+    margin: 20px 10px 30px 30px;
+}
+
+.delete-button {
+    background-color: #d73838;
+    color: white;
+    border: none;
+    width: 100px;
+    padding: 5px;
+    margin-top: 15px;
+    align-self: center;
 }

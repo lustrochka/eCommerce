@@ -79,7 +79,6 @@ class Client {
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
     }
     buildWithPasswordFlow(email: string, password: string) {
-        console.log(email, password);
         options.credentials.user.username = email;
         options.credentials.user.password = password;
 
@@ -113,7 +112,6 @@ class Client {
     }
     getApiRoot() {
         if (localStorage.getItem('token')) {
-            // console.log(apiRoot);
             const token = JSON.parse(localStorage.getItem('token') || '{}');
             if (token.expirationTime < Date.now()) {
                 token.refreshToken ? this.buildWithRefreshToken() : logout();

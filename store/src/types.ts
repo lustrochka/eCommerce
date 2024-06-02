@@ -12,11 +12,18 @@ export type CodesType = {
 
 export type AddressDataType = {
     data: Address;
+    id?: string;
     billing?: boolean;
     shipping?: boolean;
     defaultBilling?: boolean;
     defaultShipping?: boolean;
 };
+
+export type ChangeAddressActions =
+    | 'addShippingAddressId'
+    | 'addBillingAddressId'
+    | 'removeShippingAddressId'
+    | 'removeBillingAddressId';
 
 export interface Product {
     title: string;
