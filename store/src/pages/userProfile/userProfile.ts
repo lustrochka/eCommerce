@@ -49,6 +49,7 @@ class UserProfile extends Component {
         data.addresses.forEach((address) => {
             const addressData: AddressDataType = { data: address };
             if (address.id) {
+                addressData.id = address.id;
                 if (data.billingAddressIds) addressData.billing = data.billingAddressIds.includes(address.id);
                 if (data.shippingAddressIds) addressData.shipping = data.shippingAddressIds.includes(address.id);
                 if (data.defaultBillingAddressId)

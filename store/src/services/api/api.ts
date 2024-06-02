@@ -127,3 +127,23 @@ export async function addAddress({ street, code, city, country }: Items) {
         .execute();
     return result;
 }
+
+export async function removeAddress(id: string) {
+    const version = Number(localStorage.getItem('version')) || 1;
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'removeAddress',
+                        addressId: id,
+                    },
+                ],
+            },
+        })
+        .execute();
+    return result;
+}

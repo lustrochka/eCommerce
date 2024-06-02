@@ -12,6 +12,7 @@ export type CodesType = {
 
 export type AddressDataType = {
     data: Address;
+    id?: string;
     billing?: boolean;
     shipping?: boolean;
     defaultBilling?: boolean;

@@ -3,6 +3,7 @@ import { div, span } from '../../components/tags/tags';
 import { Items } from '../../types';
 import { AddressDataType } from '../../types';
 import Button from '../../components/button/button';
+import { removeAddress } from '../../services/api/api';
 
 const COUNTRY_CODES: Items = { BY: 'Belarus', PL: 'Poland' };
 
@@ -31,13 +32,28 @@ class AddressBlock extends Component {
         if (info.billing) billingText += 'billing';
         if (info.shipping) shippingText += 'shipping';
         this.appendChildren(
-            div('', span('profile__address__type', billingText), span('profile__address__type', shippingText)),
-            country,
-            postalCode,
-            city,
-            street,
-            new Button('edit-icon', '', {})
+            div(
+                '',
+                div('', span('profile__address__type', billingText), span('profile__address__type', shippingText)),
+                country,
+                postalCode,
+                city,
+                street,
+                new Button('edit-icon', '', {})
+            ),
+            new Button('delete-button button', 'Delete', { type: 'button' }, () => this.deleteAddress(info.id))
         );
+
+        if (info.id) this.addAttributes({ id: info.id });
+    }
+
+    deleteAddress(id?: string) {
+        if (id) {
+            removeAddress(id).then((res) => {
+                localStorage.setItem('version', res.body.version.toString());
+                this.destroy();
+            });
+        }
     }
 }
 
