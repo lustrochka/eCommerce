@@ -6,6 +6,7 @@ import { Product } from '../../types';
 import './detailedProduct.css';
 
 const description = { name: 'xiaomi super', size: 'XXL', color: 'red', weight: '300gr' };
+let arr: string[];
 
 export class DetailedProduct extends Component {
     constructor() {
@@ -17,25 +18,29 @@ export class DetailedProduct extends Component {
         const productId = String(localStorage.getItem('product'));
         getProduct(productId)
             .then(({ body }) => {
+                console.log(body);
                 const numDiscount = body.masterData.current.masterVariant.prices?.[0].discounted?.value;
                 const numPrice = body.masterData.current.masterVariant.prices?.[0].value;
                 const product = {
-                    title: body.masterData.current.name['en-US'] ? body.masterData.current.name['en-US'] : '',
+                    title: body.masterData.current.name['en-GB'] ? body.masterData.current.name['en-GB'] : '',
                     picture: body.masterData.current.masterVariant.images?.[0].url
                         ? body.masterData.current.masterVariant.images?.[0].url
                         : '',
-                    description: body.masterData.current.description?.['en-US']
-                        ? body.masterData.current.description?.['en-US']
+                    description: body.masterData.current.description?.['en-GB']
+                        ? body.masterData.current.description?.['en-GB']
                         : '',
                     price: numPrice?.centAmount ? String(numPrice?.centAmount / 100) : '',
                     discount: numDiscount?.centAmount ? String(numDiscount?.centAmount / 100) : '',
                 };
-                console.log(product);
-                this.getPage(product);
+                arr = [];
+                body.masterData.current.masterVariant.images?.forEach((el) => {
+                    imagesUrls(el.url);
+                });
+                this.getPage(product, arr);
             })
             .catch((e) => console.log(e.message));
     }
-    getPage(product: Product) {
+    getPage(product: Product, arr: string[]) {
         const title = div('product__title');
         title.changeText(product.title);
         this.appendChildren(
@@ -47,7 +52,7 @@ export class DetailedProduct extends Component {
                         'slider',
                         div(
                             'swiper swiper--main',
-                            div('swiper-wrapper', ...generateSwiperHTML(imageUrls)),
+                            div('swiper-wrapper', ...generateSwiperHTML(arr)),
                             div('swiper-pagination')
                         ),
                         new Component(
@@ -56,7 +61,7 @@ export class DetailedProduct extends Component {
                             div(
                                 'swiper-wrapper',
                                 div('swiper-button-prev'),
-                                ...generateSwiperHTML(imageUrls),
+                                ...generateSwiperHTML(arr),
                                 div('swiper-button-next')
                             )
                         )
@@ -174,9 +179,7 @@ function generateSwiperHTML(imageUrls: string[]): Component<HTMLElement>[] {
     });
     return swiperSlides;
 }
-
-const imageUrls: string[] = [
-    'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Evergreen_Candle-1.1.jpeg',
-    'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Evergreen_Candle-1.2.jpeg',
-    'https://storage.googleapis.com/merchant-center-europe/sample-data/goodstore/Evergreen_Candle-1.3.jpeg',
-];
+function imagesUrls(param: string): string[] {
+    arr.push(param);
+    return arr;
+}

@@ -17,6 +17,7 @@ export type AddressDataType = {
     defaultBilling?: boolean;
     defaultShipping?: boolean;
 };
+
 export interface Product {
     title: string;
     description: string;

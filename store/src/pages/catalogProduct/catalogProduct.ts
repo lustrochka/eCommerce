@@ -17,12 +17,12 @@ class CatalogProduct extends Component {
                     const numDiscount = el.masterData.current.masterVariant.prices?.[0].discounted?.value;
                     const numPrice = el.masterData.current.masterVariant.prices?.[0].value;
                     const product = {
-                        title: el.masterData.current.name['en-US'] ? el.masterData.current.name['en-US'] : '',
+                        title: el.masterData.current.name['en-GB'] ? el.masterData.current.name['en-GB'] : '',
                         picture: el.masterData.current.masterVariant.images?.[0].url
                             ? el.masterData.current.masterVariant.images?.[0].url
                             : '',
-                        description: el.masterData.current.description?.['en-US']
-                            ? el.masterData.current.description?.['en-US']
+                        description: el.masterData.current.description?.['en-GB']
+                            ? el.masterData.current.description?.['en-GB']
                             : '',
                         price: numPrice?.centAmount ? String(numPrice?.centAmount / 100) : '',
                         discount: numDiscount?.centAmount ? String(numDiscount?.centAmount / 100) : '',
