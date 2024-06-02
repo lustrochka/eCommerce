@@ -1,11 +1,10 @@
 import Component from '../../components/component/component';
 import { div, span } from '../../components/tags/tags';
-import { Items } from '../../types';
+import ModalAddress from './modalAddress';
 import { AddressDataType } from '../../types';
 import Button from '../../components/button/button';
 import { removeAddress } from '../../services/api/api';
-
-const COUNTRY_CODES: Items = { BY: 'Belarus', PL: 'Poland' };
+import Address from '../../components/address/address';
 
 class AddressBlock extends Component {
     constructor(info: AddressDataType) {
@@ -14,7 +13,7 @@ class AddressBlock extends Component {
         const country = div(
             'profile__address__item',
             span('', 'Country: '),
-            span('', `${COUNTRY_CODES[info.data.country]}`)
+            span('', `${Address.CODES_BY_COUNTRIES[info.data.country]}`)
         );
 
         const postalCode = div(
@@ -39,12 +38,10 @@ class AddressBlock extends Component {
                 postalCode,
                 city,
                 street,
-                new Button('edit-icon', '', {})
+                new Button('edit-icon', '', {}, () => document.body.appendChild(new ModalAddress(info).getNode()))
             ),
             new Button('delete-button button', 'Delete', { type: 'button' }, () => this.deleteAddress(info.id))
         );
-
-        if (info.id) this.addAttributes({ id: info.id });
     }
 
     deleteAddress(id?: string) {

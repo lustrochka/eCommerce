@@ -69,16 +69,6 @@ class RegAddress extends Address {
         return Object.values(this.#inputs).map((input) => input.getValue());
     }
 
-    getAddress() {
-        const COUNTRY_CODES: { [key: string]: string } = { Belarus: 'BY', Poland: 'PL' };
-        return {
-            streetName: this._streetInput.getValue(),
-            city: this._cityInput.getValue(),
-            postalCode: this._codeInput.getValue(),
-            country: COUNTRY_CODES[this._countryInput.getValue()],
-        };
-    }
-
     getIsDefaultSet() {
         return this.#isDefaultSet;
     }

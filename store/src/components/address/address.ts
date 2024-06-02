@@ -2,8 +2,9 @@ import Component from '../component/component';
 import Label from '../../components/label/label';
 import Input from '../../components/input/input';
 import Select from '../../components/select/select';
-import { div, span } from '../../components/tags/tags';
+import { span } from '../../components/tags/tags';
 import { CodesType } from '../../types';
+import { AddressDataType } from '../../types';
 
 const COUNTRIES: CodesType = {
     Belarus: { pattern: '2[1-4][0-7]\\d{3}', placeholder: '220000' },
@@ -18,6 +19,9 @@ class Address extends Component {
     _codeInput;
 
     _countryInput;
+
+    static COUNTRY_CODES: { [key: string]: string } = { Belarus: 'BY', Poland: 'PL' };
+    static CODES_BY_COUNTRIES: { [key: string]: string } = { BY: 'Belarus', PL: 'Poland' };
 
     constructor() {
         super('div', 'address');
@@ -70,13 +74,19 @@ class Address extends Component {
     }
 
     getAddress() {
-        const COUNTRY_CODES: { [key: string]: string } = { Belarus: 'BY', Poland: 'PL' };
         return {
             streetName: this._streetInput.getValue(),
             city: this._cityInput.getValue(),
             postalCode: this._codeInput.getValue(),
-            country: COUNTRY_CODES[this._countryInput.getValue()],
+            country: Address.COUNTRY_CODES[this._countryInput.getValue()],
         };
+    }
+
+    setCurrentValues(values: AddressDataType) {
+        this._cityInput.getNode().value = values.data.city || '';
+        this._codeInput.getNode().value = values.data.postalCode || '';
+        this._countryInput.getNode().value = Address.CODES_BY_COUNTRIES[values.data.country] || '';
+        this._streetInput.getNode().value = values.data.streetName || '';
     }
 }
 

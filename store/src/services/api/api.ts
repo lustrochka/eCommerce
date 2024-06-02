@@ -147,3 +147,29 @@ export async function removeAddress(id: string) {
         .execute();
     return result;
 }
+
+export async function changeAddress({ street, code, city, country, id = '' }: Items) {
+    const version = Number(localStorage.getItem('version')) || 1;
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'changeAddress',
+                        addressId: id,
+                        address: {
+                            streetName: street,
+                            postalCode: code,
+                            city: city,
+                            country: country,
+                        },
+                    },
+                ],
+            },
+        })
+        .execute();
+    return result;
+}
