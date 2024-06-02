@@ -73,7 +73,7 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withExistingTokenFlow(authorization, options)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
@@ -85,7 +85,7 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withPasswordFlow(options)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
@@ -94,7 +94,7 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withClientCredentialsFlow(authMiddlewareOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
@@ -105,7 +105,7 @@ class Client {
         const ctpClient = new ClientBuilder()
             .withRefreshTokenFlow(refreshOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
-            .withLoggerMiddleware()
+            // .withLoggerMiddleware()
             .build();
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });

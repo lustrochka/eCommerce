@@ -77,7 +77,8 @@ class Login extends Form {
             )
         );
         this.setListener('input', (event) => {
-            if (event.target && event.target instanceof HTMLInputElement) this.checkFormValidity(event.target);
+            if (event.target && event.target instanceof HTMLInputElement)
+                this.checkFormValidity(event.target, this.#submitBtn.getNode());
         });
     }
 
@@ -87,17 +88,6 @@ class Login extends Form {
         input.getAttribute('type') === 'password'
             ? input.setAttribute('type', 'text')
             : input.setAttribute('type', 'password');
-    }
-
-    checkFormValidity(target: HTMLInputElement) {
-        if (target.nextElementSibling instanceof HTMLSpanElement) {
-            target.checkValidity()
-                ? target.nextElementSibling.classList.remove('visible')
-                : target.nextElementSibling.classList.add('visible');
-        }
-        this.getNode().checkValidity()
-            ? this.#submitBtn.deleteAttribute('disabled')
-            : this.#submitBtn.addAttributes({ disabled: 'true' });
     }
 
     getFetch() {

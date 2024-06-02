@@ -24,3 +24,11 @@ export type ChangeAddressActions =
     | 'addBillingAddressId'
     | 'removeShippingAddressId'
     | 'removeBillingAddressId';
+
+export interface Product {
+    title: string;
+    description: string;
+    price: string;
+    discount: string;
+    picture: string;
+}
