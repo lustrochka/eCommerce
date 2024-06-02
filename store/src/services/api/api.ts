@@ -1,6 +1,6 @@
 import Client from './client';
-import { CustomerDraft } from '@commercetools/platform-sdk';
-import { Items } from '../../types';
+import { CustomerDraft, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import { Items, ChangeAddressActions } from '../../types';
 
 const client = new Client();
 
@@ -148,26 +148,46 @@ export async function removeAddress(id: string) {
     return result;
 }
 
-export async function changeAddress({ street, code, city, country, id = '' }: Items) {
+export async function changeAddress({ street, code, city, country, id = '' }: Items, actions: ChangeAddressActions[]) {
     const version = Number(localStorage.getItem('version')) || 1;
     const apiRoot = client.getApiRoot();
+    const actionsArray: MyCustomerUpdateAction[] = [
+        {
+            action: 'changeAddress',
+            addressId: id,
+            address: {
+                streetName: street,
+                postalCode: code,
+                city: city,
+                country: country,
+            },
+        },
+    ];
+    actions.forEach((action) => actionsArray.push({ action, addressId: id }));
     const result = await apiRoot
         .me()
         .post({
             body: {
                 version,
-                actions: [
-                    {
-                        action: 'changeAddress',
-                        addressId: id,
-                        address: {
-                            streetName: street,
-                            postalCode: code,
-                            city: city,
-                            country: country,
-                        },
-                    },
-                ],
+                actions: actionsArray,
+            },
+        })
+        .execute();
+    return result;
+}
+
+export async function setAddressType(billing: boolean, shipping: boolean, id: string) {
+    const version = Number(localStorage.getItem('version')) || 1;
+    const apiRoot = client.getApiRoot();
+    const actions: MyCustomerUpdateAction[] = [];
+    if (billing) actions.push({ action: `addBillingAddressId`, addressId: id });
+    if (shipping) actions.push({ action: `addShippingAddressId`, addressId: id });
+    const result = await apiRoot
+        .me()
+        .post({
+            body: {
+                version,
+                actions,
             },
         })
         .execute();

@@ -1,11 +1,11 @@
 import Address from '../../components/address/address';
 import ModalProfile from './modalProfile';
 import Button from '../../components/button/button';
-import { addAddress, changeAddress } from '../../services/api/api';
+import { addAddress, changeAddress, setAddressType } from '../../services/api/api';
 import Input from '../../components/input/input';
 import Label from '../../components/label/label';
 import { div } from '../../components/tags/tags';
-import { AddressDataType } from '../../types';
+import { AddressDataType, ChangeAddressActions } from '../../types';
 
 class ModalAddress extends ModalProfile {
     #isBilling;
@@ -16,13 +16,14 @@ class ModalAddress extends ModalProfile {
 
     constructor(values?: AddressDataType) {
         super('Add address');
-
-        this.#isBilling = new Input('modal-checkbox', { id: 'billing', type: 'checkbox' }, false);
-        this.#isShipping = new Input('modal-checkbox', { id: 'shipping', type: 'checkbox' }, false);
         this.#id = values?.id;
+        this.#isBilling = values?.billing || false;
+        this.#isShipping = values?.shipping || false;
+        const wasBilling = values?.billing || false;
+        const wasShipping = values?.shipping || false;
 
         const submitBtn = new Button('edit-modal__button button address-button', 'Save', { type: 'button' }, () =>
-            values ? this.sendChangingData() : this.sendAddingData()
+            values ? this.sendChangingData(wasBilling, wasShipping) : this.sendAddingData()
         );
 
         if (!values) submitBtn.addAttributes({ disabled: 'true' });
@@ -33,13 +34,28 @@ class ModalAddress extends ModalProfile {
             address.changeCodePattern();
         }
 
+        const billing: Input = new Input(
+            'modal-checkbox',
+            { id: 'billing', type: 'checkbox' },
+            false,
+            () => (this.#isBilling = billing.getNode().checked)
+        );
+        if (values?.billing) billing.getNode().checked = true;
+        const shipping: Input = new Input(
+            'modal-checkbox',
+            { id: 'shipping', type: 'checkbox' },
+            false,
+            () => (this.#isShipping = shipping.getNode().checked)
+        );
+        if (values?.shipping) shipping.getNode().checked = true;
+
         this._form.appendChildren(
             address,
             div(
                 'modal-checkboxes',
-                this.#isBilling,
+                billing,
                 new Label('modal-label', 'Set as billing', { for: 'billing' }),
-                this.#isShipping,
+                shipping,
                 new Label('modal-label', 'Set as shipping', { for: 'shipping' })
             ),
             submitBtn
@@ -62,17 +78,29 @@ class ModalAddress extends ModalProfile {
             city: this._form.getElementValue(2),
             code: this._form.getElementValue(3),
             country: Address.COUNTRY_CODES[this._form.getElementValue(4)],
-        }).then(() => window.location.reload());
+        }).then(({ body }) => {
+            localStorage.setItem('version', body.version.toString());
+            const id = body.addresses[body.addresses.length - 1].id;
+            if (id && (this.#isBilling || this.#isShipping)) setAddressType(this.#isBilling, this.#isShipping, id);
+        });
     }
 
-    sendChangingData() {
-        changeAddress({
-            street: this._form.getElementValue(1),
-            city: this._form.getElementValue(2),
-            code: this._form.getElementValue(3),
-            country: Address.COUNTRY_CODES[this._form.getElementValue(4)],
-            id: this.#id || '',
-        }).then(() => window.location.reload());
+    sendChangingData(wasBilling: boolean, wasShipping: boolean) {
+        const actions: ChangeAddressActions[] = [];
+        if (this.#isBilling !== wasBilling)
+            wasBilling ? actions.push('removeBillingAddressId') : actions.push('addBillingAddressId');
+        if (this.#isShipping !== wasShipping)
+            wasShipping ? actions.push('removeShippingAddressId') : actions.push('addShippingAddressId');
+        changeAddress(
+            {
+                street: this._form.getElementValue(1),
+                city: this._form.getElementValue(2),
+                code: this._form.getElementValue(3),
+                country: Address.COUNTRY_CODES[this._form.getElementValue(4)],
+                id: this.#id || '',
+            },
+            actions
+        ).then(() => window.location.reload());
     }
 }
 

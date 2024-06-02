@@ -18,3 +18,9 @@ export type AddressDataType = {
     defaultBilling?: boolean;
     defaultShipping?: boolean;
 };
+
+export type ChangeAddressActions =
+    | 'addShippingAddressId'
+    | 'addBillingAddressId'
+    | 'removeShippingAddressId'
+    | 'removeBillingAddressId';
