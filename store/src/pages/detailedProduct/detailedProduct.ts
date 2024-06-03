@@ -5,8 +5,26 @@ import { getProduct } from '../../services/api/productApi';
 import { Product } from '../../types';
 import './detailedProduct.css';
 
-const description = { name: 'xiaomi super', size: 'XXL', color: 'red', weight: '300gr' };
-let arr: string[];
+const description = {
+    'Screen Size': '15.6" diagonal, FHD (1920 x 1080) 60Hz Display',
+    'Operating system': 'Windows 11 Home',
+    Processor: 'Intel® Core™ i7-13800H',
+    'Video Card': 'NVIDIA RTX™ 2000 Ada',
+    RAM: '32 GB: 2 x 16 GB',
+    'Memory Speed': '2400 MHz',
+    Storage: '512 GB',
+    'Hard Drive Interface': 'PCIE x 4',
+    'Tech Specs': '1 x USB Type-A 3.0, 1 x USB Type-A 2.0, 1 x USB Type-C, 1 x HDMI',
+    Height: '1.55 cm',
+    Width: '31.26 cm',
+    Thickness: '22.12 cm',
+    'Item Weight': '1.63 kg',
+    'Optical Drive Type': 'no dvd',
+    'Wireless Type': 'Bluetooth',
+    'Power Source': 'AC & Battery',
+    Voltage: '3.6 Volts',
+};
+let productImages: string[];
 
 export class DetailedProduct extends Component {
     constructor() {
@@ -32,11 +50,11 @@ export class DetailedProduct extends Component {
                     price: numPrice?.centAmount ? String(numPrice?.centAmount / 100) : '',
                     discount: numDiscount?.centAmount ? String(numDiscount?.centAmount / 100) : '',
                 };
-                arr = [];
+                productImages = [];
                 body.masterData.current.masterVariant.images?.forEach((el) => {
                     imagesUrls(el.url);
                 });
-                this.getPage(product, arr);
+                this.getPage(product, productImages);
             })
             .catch((e) => console.log(e.message));
     }
@@ -52,18 +70,14 @@ export class DetailedProduct extends Component {
                         'slider',
                         div(
                             'swiper swiper--main',
-                            div('swiper-wrapper', ...generateSwiperHTML(arr)),
+                            div('swiper-wrapper', ...generateSwiperHTML(productImages)),
                             div('swiper-pagination')
                         ),
+                        div('swiper-button-wrapper', div('swiper-button-prev'), div('swiper-button-next')),
                         new Component(
                             'div',
                             'swiper swiper--thumbs',
-                            div(
-                                'swiper-wrapper',
-                                div('swiper-button-prev'),
-                                ...generateSwiperHTML(arr),
-                                div('swiper-button-next')
-                            )
+                            div('swiper-wrapper', ...generateSwiperHTML(productImages))
                         )
                     ),
                     div(
@@ -101,7 +115,7 @@ export class DetailedProduct extends Component {
                 div('product__description', generateCode(description))
             )
         );
-        initSwiper();
+        initSwiper(productImages);
     }
 }
 function getPrice(price: string, discount: string): Component<HTMLElement> {
@@ -119,22 +133,16 @@ function getPrice(price: string, discount: string): Component<HTMLElement> {
     return result;
 }
 
+import 'swiper/css';
+import 'swiper/css/navigation';
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
 Swiper.use([Navigation, Pagination]);
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
-export function initSwiper() {
-    // export function initSwiper(productItem: object) {
-    // console.log(productItem);
+function initSwiper(imagesArr: string[]) {
     const thumbsSwiper = new Swiper('.swiper--thumbs', {
         spaceBetween: 0,
-        slidesPerView: 3,
-        // slidesPerView: productItem?.masterVariant?.images?.length || 1,
-        // slidesPerView: productPromise .masterData.current.masterVariant.images.length,
+        slidesPerView: imagesArr.length,
         watchSlidesProgress: true,
     });
 
@@ -146,14 +154,36 @@ export function initSwiper() {
             prevEl: '.swiper-button-prev',
         },
 
-        scrollbar: {
-            el: '.swiper-scrollbar',
-        },
+        scrollbar: { el: '.swiper-scrollbar' },
 
-        thumbs: {
-            swiper: thumbsSwiper,
-        },
+        thumbs: { swiper: thumbsSwiper },
     });
+
+    const thumbEl = document.querySelector('.swiper.swiper--thumbs') as HTMLElement;
+    thumbEl.style.width = `${160 * imagesArr.length}px`;
+    document.querySelectorAll('.swiper--thumbs .swiper-slide').forEach((slide, index) => {
+        slide.addEventListener('click', () => swiper.slideTo(index));
+    });
+
+    document.querySelectorAll('.swiper--main .swiper-slide').forEach((slide) => {
+        slide.addEventListener('click', (e) => {
+            if (!document.querySelector('.slider--full-screen')) {
+                document.querySelector('.slider')?.classList.add('slider--full-screen');
+                const targetElement = e.target as HTMLElement;
+                const parentElement = targetElement.parentNode?.parentNode?.parentNode as HTMLElement;
+                parentElement?.insertAdjacentHTML('beforebegin', `<div class='fs-close'>&times;</div>`);
+            } else {
+                offFullScreen();
+            }
+            document.querySelector('.fs-close')?.addEventListener('click', offFullScreen);
+        });
+    });
+}
+
+function offFullScreen() {
+    document.querySelector('.slider')?.classList.remove('slider--full-screen');
+    const closeBtn = document.querySelector('.fs-close');
+    if (closeBtn) closeBtn.remove();
 }
 
 function generateCode(description: { [key: string]: string }) {
@@ -179,7 +209,8 @@ function generateSwiperHTML(imageUrls: string[]): Component<HTMLElement>[] {
     });
     return swiperSlides;
 }
+
 function imagesUrls(param: string): string[] {
-    arr.push(param);
-    return arr;
+    productImages.push(param);
+    return productImages;
 }
