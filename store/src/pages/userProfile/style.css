@@ -1,13 +1,15 @@
 .profile {
-    width: 500px;
-    margin: 20px auto;
+    margin: 20px auto 60px;
     color: #070c11;
     text-align: center;
     position: relative;
 }
 
 .profile__name {
+    width: 500px;
+    margin: 0 auto;
     font-size: 32px;
+    position: relative;
 }
 
 .profile__birth {
@@ -52,6 +54,11 @@
     color: #edf2f6;
     border-radius: 4px;
     padding: 5px;
+    margin-right: 10px;
+}
+
+.profile__address__type:not(:empty):last-of-type {
+    margin-right: 20px;
 }
 
 .edit-icon {
@@ -207,12 +214,42 @@
     margin: 20px 10px 30px 30px;
 }
 
+.delete-button,
+.default-button {
+    width: 100px;
+    display: block;
+    padding: 5px;
+    margin: 10px auto 0;
+}
+
 .delete-button {
     background-color: #d73838;
     color: white;
     border: none;
-    width: 100px;
-    padding: 5px;
     margin-top: 15px;
-    align-self: center;
+}
+
+.edit-modal__item {
+    margin: 10px;
+}
+
+.edit-modal__item > input {
+    margin-left: 15px;
+    vertical-align: middle;
+}
+
+@media (max-width: 550px) {
+    .profile__name {
+        width: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    .edit-icon {top: 40px};
+    .modal-container {
+        width: 300px;
+    }
+    .modal-checkboxes {
+        display: flex;
+    }
 }

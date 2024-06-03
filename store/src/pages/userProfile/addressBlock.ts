@@ -5,6 +5,7 @@ import { AddressDataType } from '../../types';
 import Button from '../../components/button/button';
 import { removeAddress } from '../../services/api/api';
 import Address from '../../components/address/address';
+import ModalDefault from './modalDefault';
 
 class AddressBlock extends Component {
     constructor(info: AddressDataType) {
@@ -30,6 +31,19 @@ class AddressBlock extends Component {
         if (info.defaultShipping) shippingText += 'default ';
         if (info.billing) billingText += 'billing';
         if (info.shipping) shippingText += 'shipping';
+
+        const buttons = div(
+            '',
+            new Button('delete-button button', 'Delete', { type: 'button' }, () => this.deleteAddress(info.id))
+        );
+        if (!info.defaultBilling || !info.defaultShipping)
+            buttons.appendChildren(
+                new Button('default-button button', 'Default', { type: 'button' }, () =>
+                    document.body.appendChild(
+                        new ModalDefault(info.id, info.defaultBilling, info.defaultShipping).getNode()
+                    )
+                )
+            );
         this.appendChildren(
             div(
                 '',
@@ -40,7 +54,7 @@ class AddressBlock extends Component {
                 street,
                 new Button('edit-icon', '', {}, () => document.body.appendChild(new ModalAddress(info).getNode()))
             ),
-            new Button('delete-button button', 'Delete', { type: 'button' }, () => this.deleteAddress(info.id))
+            buttons
         );
     }
 

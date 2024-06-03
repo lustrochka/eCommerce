@@ -193,3 +193,22 @@ export async function setAddressType(billing: boolean, shipping: boolean, id: st
         .execute();
     return result;
 }
+
+export async function setDefaultAddress(
+    type: ('setDefaultShippingAddress' | 'setDefaultBillingAddress')[],
+    id: string
+) {
+    const version = Number(localStorage.getItem('version')) || 1;
+    const apiRoot = client.getApiRoot();
+    const actions = type.map((x) => ({ action: x, addressId: id }));
+    const result = await apiRoot
+        .me()
+        .post({
+            body: {
+                version,
+                actions,
+            },
+        })
+        .execute();
+    return result;
+}
