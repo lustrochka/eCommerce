@@ -21,11 +21,7 @@ class UserProfile extends Component {
         localStorage.setItem('id', `${data.id}`);
         const name = div('profile__name');
         name.changeText(`${data.firstName} ${data.lastName}`);
-        const birthDate = div('profile__birth');
-        birthDate.changeText(`${data.dateOfBirth?.split('-').reverse().join('.')}`);
-        this.appendChildren(
-            name,
-            birthDate,
+        name.appendChildren(
             new Button('edit-icon', '', {}, () =>
                 document.body.appendChild(
                     new EditModal({
@@ -37,6 +33,9 @@ class UserProfile extends Component {
                 )
             )
         );
+        const birthDate = div('profile__birth');
+        birthDate.changeText(`${data.dateOfBirth?.split('-').reverse().join('.')}`);
+        this.appendChildren(name, birthDate);
 
         const addresses = div('profile__addresses');
         this.appendChildren(

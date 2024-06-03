@@ -46,7 +46,12 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/profile':
-            goPage(UserProfile);
+            if (loadFromStorage('token')) {
+                goPage(UserProfile);
+            } else {
+                new Router().changeUrl('/login');
+                goPage(Login);
+            }
             break;
 
         case '/product':
