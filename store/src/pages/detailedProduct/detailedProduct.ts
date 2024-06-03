@@ -18,28 +18,29 @@ export class DetailedProduct extends Component {
         const productId = String(localStorage.getItem('product'));
         getProduct(productId)
             .then(({ body }) => {
+                console.log(body);
                 const numDiscount = body.masterData.current.masterVariant.prices?.[0].discounted?.value;
                 const numPrice = body.masterData.current.masterVariant.prices?.[0].value;
                 const product = {
-                    title: body.masterData.current.name['en-US'] ? body.masterData.current.name['en-US'] : '',
+                    title: body.masterData.current.name['en-GB'] ? body.masterData.current.name['en-GB'] : '',
                     picture: body.masterData.current.masterVariant.images?.[0].url
                         ? body.masterData.current.masterVariant.images?.[0].url
                         : '',
-                    description: body.masterData.current.description?.['en-US']
-                        ? body.masterData.current.description?.['en-US']
+                    description: body.masterData.current.description?.['en-GB']
+                        ? body.masterData.current.description?.['en-GB']
                         : '',
                     price: numPrice?.centAmount ? String(numPrice?.centAmount / 100) : '',
                     discount: numDiscount?.centAmount ? String(numDiscount?.centAmount / 100) : '',
                 };
                 productImages = [];
-                body.masterData.current.masterVariant.images?.forEach((el: { url: string }) => {
+                body.masterData.current.masterVariant.images?.forEach((el) => {
                     imagesUrls(el.url);
                 });
                 this.getPage(product, productImages);
             })
             .catch((e) => console.log(e.message));
     }
-    getPage(product: Product, productImages: string[]) {
+    getPage(product: Product, arr: string[]) {
         const title = div('product__title');
         title.changeText(product.title);
         this.appendChildren(

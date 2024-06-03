@@ -1,10 +1,10 @@
-import { BaseAddress } from '@commercetools/platform-sdk';
 import Component from '../../components/component/component';
 import { div, span } from '../../components/tags/tags';
-import { Items } from '../../types';
+import ModalAddress from './modalAddress';
 import { AddressDataType } from '../../types';
-
-const COUNTRY_CODES: Items = { BY: 'Belarus', PL: 'Poland' };
+import Button from '../../components/button/button';
+import { removeAddress } from '../../services/api/api';
+import Address from '../../components/address/address';
 
 class AddressBlock extends Component {
     constructor(info: AddressDataType) {
@@ -13,7 +13,7 @@ class AddressBlock extends Component {
         const country = div(
             'profile__address__item',
             span('', 'Country: '),
-            span('', `${COUNTRY_CODES[info.data.country]}`)
+            span('', `${Address.CODES_BY_COUNTRIES[info.data.country]}`)
         );
 
         const postalCode = div(
@@ -31,12 +31,26 @@ class AddressBlock extends Component {
         if (info.billing) billingText += 'billing';
         if (info.shipping) shippingText += 'shipping';
         this.appendChildren(
-            div('', span('profile__address__type', billingText), span('profile__address__type', shippingText)),
-            country,
-            postalCode,
-            city,
-            street
+            div(
+                '',
+                div('', span('profile__address__type', billingText), span('profile__address__type', shippingText)),
+                country,
+                postalCode,
+                city,
+                street,
+                new Button('edit-icon', '', {}, () => document.body.appendChild(new ModalAddress(info).getNode()))
+            ),
+            new Button('delete-button button', 'Delete', { type: 'button' }, () => this.deleteAddress(info.id))
         );
+    }
+
+    deleteAddress(id?: string) {
+        if (id) {
+            removeAddress(id).then((res) => {
+                localStorage.setItem('version', res.body.version.toString());
+                this.destroy();
+            });
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 import Input from '../../components/input/input';
 import Label from '../../components/label/label';
 import { div, span } from '../../components/tags/tags';
-import Address from './adress';
+import RegAddress from './RegAdress';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import Modal from '../../components/modalError/modal';
@@ -12,7 +12,6 @@ import INPUTS from './inputs';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import './style.css';
 import { saveToStorage } from '../../services/storage/storage';
-import { checkAge } from '../../services/checkAge';
 
 class Registration extends Form {
     #submitBtn;
@@ -36,8 +35,8 @@ class Registration extends Form {
                 span('registration__error-msg', input.msg)
             )
         );
-        this.#shippingAddress = new Address('Shipping');
-        this.#billingAddress = new Address('Billing');
+        this.#shippingAddress = new RegAddress('Shipping');
+        this.#billingAddress = new RegAddress('Billing');
         this.#submitBtn = new Button(
             'registration__button button',
             'Register',

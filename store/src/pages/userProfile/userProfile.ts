@@ -7,6 +7,7 @@ import EditModal from './editModal';
 import Button from '../../components/button/button';
 import PassModal from './passModal';
 import { AddressDataType } from '../../types';
+import ModalAddress from './modalAddress';
 import './style.css';
 
 class UserProfile extends Component {
@@ -48,6 +49,7 @@ class UserProfile extends Component {
         data.addresses.forEach((address) => {
             const addressData: AddressDataType = { data: address };
             if (address.id) {
+                addressData.id = address.id;
                 if (data.billingAddressIds) addressData.billing = data.billingAddressIds.includes(address.id);
                 if (data.shippingAddressIds) addressData.shipping = data.shippingAddressIds.includes(address.id);
                 if (data.defaultBillingAddressId)
@@ -57,6 +59,12 @@ class UserProfile extends Component {
             }
             addresses.appendChildren(new AddressBlock(addressData));
         });
+
+        addresses.appendChildren(
+            new Button('new-address-button button', '+', { type: 'button' }, () =>
+                document.body.appendChild(new ModalAddress().getNode())
+            )
+        );
     }
 }
 
