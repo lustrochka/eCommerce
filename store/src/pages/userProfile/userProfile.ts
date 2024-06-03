@@ -45,7 +45,7 @@ class UserProfile extends Component {
             addresses
         );
 
-        data.addresses.forEach((address) => {
+        data.addresses?.forEach((address) => {
             const addressData: AddressDataType = { data: address };
             if (address.id) {
                 addressData.id = address.id;
