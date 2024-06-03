@@ -19,15 +19,12 @@ export type AddressDataType = {
     defaultShipping?: boolean;
 };
 
-<<<<<<< HEAD
-=======
 export type ChangeAddressActions =
     | 'addShippingAddressId'
     | 'addBillingAddressId'
     | 'removeShippingAddressId'
     | 'removeBillingAddressId';
 
->>>>>>> 20eb5715b49ed2f3b27876f71d2e01c0dac492e2
 export interface Product {
     title: string;
     description: string;

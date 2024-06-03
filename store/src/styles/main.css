@@ -203,3 +203,8 @@ body {
 .modal__button:hover {
     background-color: #183853;
 }
+@media (max-width: 460px) {
+    .header__button {
+        padding: 10px 12px;
+    }
+}
