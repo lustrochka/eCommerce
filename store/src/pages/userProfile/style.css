@@ -207,12 +207,26 @@
     margin: 20px 10px 30px 30px;
 }
 
+.delete-button,
+.default-button {
+    width: 100px;
+    display: block;
+    padding: 5px;
+    margin: 10px auto 0;
+}
+
 .delete-button {
     background-color: #d73838;
     color: white;
     border: none;
-    width: 100px;
-    padding: 5px;
     margin-top: 15px;
-    align-self: center;
+}
+
+.edit-modal__item {
+    margin: 10px;
+}
+
+.edit-modal__item > input {
+    margin-left: 15px;
+    vertical-align: middle;
 }
