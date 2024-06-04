@@ -1,5 +1,5 @@
 import { goPage } from '../../components/event/goPage';
-import CatalogProduct from '../../pages/catalogProduct/catalogProduct';
+import Catalog from '../../pages/catalogProduct/catalog';
 import Main from '../../pages/main/main';
 import AboutUs from '../../pages/aboutUs/aboutUs';
 import NotFound from '../../pages/notFound/notFound';
@@ -18,7 +18,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/catalog':
-            goPage(CatalogProduct);
+            goPage(Catalog);
             break;
 
         case '/about':

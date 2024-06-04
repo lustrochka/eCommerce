@@ -44,8 +44,14 @@ class Address extends Component {
             true
         );
 
-        this._countryInput = new Select('registration__input', 'country', ['Belarus', 'Poland'], () =>
-            this.changeCodePattern()
+        this._countryInput = new Select(
+            'registration__input',
+            'country',
+            [
+                ['Belarus', 'Poland'],
+                ['Belarus', 'Poland'],
+            ],
+            () => this.changeCodePattern()
         );
 
         this.appendChildren(

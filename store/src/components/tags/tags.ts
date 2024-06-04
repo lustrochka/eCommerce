@@ -14,10 +14,10 @@ export const span = (className: string, text: string, ...children: Component[]) 
     return element;
 };
 
-export const option = (className: string, text: string) => {
+export const option = (className: string, text: string, value: string) => {
     const element = new Component('option', className);
     element.changeText(text);
-    element.addAttributes({ value: text });
+    element.addAttributes({ value });
     return element;
 };
 
