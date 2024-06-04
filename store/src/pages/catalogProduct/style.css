@@ -73,3 +73,21 @@
 .filter__input {
     margin-right: 10px;
 }
+
+.close-filter {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    border: none;
+    background-color: transparent;
+    color: #f15152;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.filters-reset__item {
+    position: relative;
+    background-color: #EDF2F6;
+    padding: 4px 40px 6px 10px;
+    font-size: 14px;
+}
