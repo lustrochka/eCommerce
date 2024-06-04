@@ -5,7 +5,7 @@ import Button from '../../components/button/button';
 import Input from '../../components/input/input';
 import Select from '../../components/select/select';
 import Filter from './filter';
-import { div } from '../../components/tags/tags';
+import { div, span } from '../../components/tags/tags';
 import { QueryParam } from '@commercetools/platform-sdk';
 
 const SORTING_VALUES = [
@@ -22,6 +22,8 @@ class Catalog extends Component {
 
     #productsContainer;
 
+    #filtersReset;
+
     constructor() {
         super('div', 'catalog');
         this.#productsContainer = div('products-container');
@@ -33,7 +35,9 @@ class Catalog extends Component {
         const filter: Filter = new Filter(() => {
             this.#filterValue = filter.getData();
             this.makeRequest();
+            this.addFiltersReset();
         });
+        this.#filtersReset = div('filters-reset');
 
         this.appendChildren(
             div(
@@ -48,6 +52,7 @@ class Catalog extends Component {
                 this.#sortValue = (e.target as HTMLSelectElement).value;
                 this.makeRequest();
             }),
+            this.#filtersReset,
             div('filter__container', filter, this.#productsContainer)
         );
         this.makeRequest();
@@ -71,6 +76,23 @@ class Catalog extends Component {
             this.#productsContainer.clear();
             this.#productsContainer.appendChildren(new Products(body.results));
         });
+    }
+
+    addFiltersReset() {
+        this.#filtersReset.clear();
+        for (const [name, value] of (this.#filterValue as FormData).entries()) {
+            const reset = div('filters-reset__item');
+            reset.changeText(`${name}: ${value}`);
+            reset.appendChildren(
+                new Button('close-filter', '✕', { type: 'button' }, () => {
+                    reset.destroy();
+                    (document.getElementById(`${value}`) as HTMLInputElement).checked = false;
+                    this.#filterValue?.delete(name);
+                    this.makeRequest();
+                })
+            );
+            this.#filtersReset.appendChildren(reset);
+        }
     }
 }
 
