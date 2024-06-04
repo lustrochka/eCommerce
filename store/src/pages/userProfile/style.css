@@ -245,7 +245,9 @@
 }
 
 @media (max-width: 400px) {
-    .edit-icon {top: 40px};
+    .edit-icon {
+        top: 40px;
+    }
     .modal-container {
         width: 300px;
     }

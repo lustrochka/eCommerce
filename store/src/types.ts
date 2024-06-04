@@ -1,4 +1,6 @@
 import { Address } from '@commercetools/platform-sdk';
+import { ProductPagedQueryResponse } from '@commercetools/platform-sdk';
+import { ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
 
 export type Items = {
     [key: string]: string;

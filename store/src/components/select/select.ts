@@ -2,11 +2,11 @@ import Component from '../component/component';
 import { option } from '../tags/tags';
 
 class Select extends Component<HTMLSelectElement> {
-    constructor(className: string, name: string, options: string[], onChange: () => void) {
+    constructor(className: string, name: string, options: string[][], onChange: (e: Event) => void) {
         super('select', className);
         this.addAttributes({ name });
-        options.forEach((el) => {
-            this.appendChildren(option('', el));
+        options[0].forEach((el, i) => {
+            this.appendChildren(option('', el, options[1][i]));
         });
         this.setListener('change', onChange);
     }

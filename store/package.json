@@ -17,6 +17,7 @@
     "author": "WebPunk",
     "license": "ISC",
     "devDependencies": {
+        "@babel/preset-typescript": "^7.24.6",
         "@testing-library/dom": "^10.1.0",
         "@testing-library/jest-dom": "^6.4.5",
         "@testing-library/user-event": "^14.5.2",
