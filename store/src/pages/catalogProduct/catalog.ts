@@ -4,6 +4,7 @@ import { sortingProducts } from '../../services/api/productApi';
 import Button from '../../components/button/button';
 import Input from '../../components/input/input';
 import Select from '../../components/select/select';
+import Filter from './filter';
 import { div } from '../../components/tags/tags';
 import { QueryParam } from '@commercetools/platform-sdk';
 
@@ -15,7 +16,7 @@ const SORTING_VALUES = [
 class Catalog extends Component {
     #sortValue;
 
-    #filterValue;
+    #filterValue: FormData | null;
 
     #searchValue;
 
@@ -23,12 +24,16 @@ class Catalog extends Component {
 
     constructor() {
         super('div', 'catalog');
-        this.#productsContainer = div('catalog__container');
+        this.#productsContainer = div('products-container');
         this.#sortValue = '';
-        this.#filterValue = '';
+        this.#filterValue = null;
         this.#searchValue = '';
 
         const searchInput = new Input('catalog__search', { type: 'text' }, false);
+        const filter: Filter = new Filter(() => {
+            this.#filterValue = filter.getData();
+            this.makeRequest();
+        });
 
         this.appendChildren(
             div(
@@ -43,7 +48,7 @@ class Catalog extends Component {
                 this.#sortValue = (e.target as HTMLSelectElement).value;
                 this.makeRequest();
             }),
-            this.#productsContainer
+            div('filter__container', filter, this.#productsContainer)
         );
         this.makeRequest();
     }
@@ -53,6 +58,13 @@ class Catalog extends Component {
         if (this.#searchValue) {
             query['text.en-GB'] = this.#searchValue;
             query.fuzzy = 'true';
+        }
+        if (this.#filterValue) {
+            const filter: string[] = [];
+            for (const [name, value] of this.#filterValue.entries()) {
+                filter.push(`variants.attributes.${name}:"${value}"`);
+            }
+            query.filter = filter;
         }
 
         sortingProducts(query).then(({ body }) => {

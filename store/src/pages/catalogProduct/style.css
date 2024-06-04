@@ -48,3 +48,28 @@
     margin-right: 1vw;
     color: #838688;
 }
+
+.filter__container {
+    display: flex;
+}
+
+.filter {
+    margin-right: 15px;
+    color: #070c11;
+}
+
+.filter__block {
+    margin-bottom: 40px;
+}
+
+.filter__title {
+    display: block;
+    background-color: #edf2f6;
+    font-weight: 700;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.filter__input {
+    margin-right: 10px;
+}
