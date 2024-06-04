@@ -26,11 +26,6 @@ export async function sortingProducts(query: { [key: string]: QueryParam }) {
                 filter: ['categories.id:"category-id"'],
            sort: 'name.en asc',*/
 
-    let result;
-    if (!query) {
-        result = apiRoot.productProjections().search().get().execute();
-    } else {
-        result = apiRoot.productProjections().search().get({ queryArgs: query }).execute();
-    }
+    const result = apiRoot.productProjections().search().get({ queryArgs: query }).execute();
     return result;
 }

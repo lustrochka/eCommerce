@@ -1,7 +1,7 @@
 import Component from '../../components/component/component';
 import Products from './products';
 import { sortingProducts } from '../../services/api/productApi';
-import { getProducts } from '../../services/api/productApi';
+import Button from '../../components/button/button';
 import Input from '../../components/input/input';
 import Select from '../../components/select/select';
 import { div } from '../../components/tags/tags';
@@ -28,7 +28,17 @@ class Catalog extends Component {
         this.#filterValue = '';
         this.#searchValue = '';
 
+        const searchInput = new Input('catalog__search', { type: 'text' }, false);
+
         this.appendChildren(
+            div(
+                '',
+                searchInput,
+                new Button('catalog__search-button', 'Search', {}, () => {
+                    this.#searchValue = searchInput.getValue();
+                    this.makeRequest();
+                })
+            ),
             new Select('catalog__sort', 'sort', SORTING_VALUES, (e) => {
                 this.#sortValue = (e.target as HTMLSelectElement).value;
                 this.makeRequest();
@@ -38,18 +48,17 @@ class Catalog extends Component {
         this.makeRequest();
     }
     makeRequest() {
-        const query = !this.#sortValue && !this.#filterValue && !this.#searchValue ? {} : this.makeQuery();
+        const query: { [key: string]: QueryParam } = { sort: 'id asc', limit: 500 };
+        if (this.#sortValue) query.sort = this.#sortValue;
+        if (this.#searchValue) {
+            query['text.en-GB'] = this.#searchValue;
+            query.fuzzy = 'true';
+        }
 
         sortingProducts(query).then(({ body }) => {
             this.#productsContainer.clear();
             this.#productsContainer.appendChildren(new Products(body.results));
         });
-    }
-
-    makeQuery() {
-        const query: { [key: string]: QueryParam } = {};
-        if (this.#sortValue) query.sort = this.#sortValue;
-        return query;
     }
 }
 
