@@ -43,8 +43,16 @@ class Component<T extends HTMLElement = HTMLElement> {
         this.#node.removeAttribute(attribute);
     }
 
+    addId(attribute: string) {
+        this.#node.setAttribute('id', attribute);
+    }
+
     appendChildren(...children: Component[]) {
         children.forEach((child) => this.#node.append(child.getNode()));
+    }
+
+    prepend(child: Component) {
+        this.#node.prepend(child.getNode());
     }
 
     replaceChild(oldChild: Component, newChild: Component) {

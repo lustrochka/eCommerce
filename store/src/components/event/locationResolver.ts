@@ -1,12 +1,12 @@
 import { goPage } from '../../components/event/goPage';
-import CatalogProduct from '../../pages/catalogProduct/catalogProduct';
+import Catalog from '../../pages/catalogProduct/catalog';
 import Main from '../../pages/main/main';
 import AboutUs from '../../pages/aboutUs/aboutUs';
 import NotFound from '../../pages/notFound/notFound';
 import Basket from '../../pages/basket/basket';
 import Registration from '../../pages/registration/registration';
 import UserProfile from '../../pages/userProfile/userProfile';
-import DetailedProduct from '../../pages/detailedProduct/detailedProduct';
+import { DetailedProduct } from '../../pages/detailedProduct/detailedProduct';
 import { loadFromStorage } from '../../services/storage/storage';
 import Login from '../../pages/login/login';
 import { updatePage } from './updatePage';
@@ -18,7 +18,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/catalog':
-            goPage(CatalogProduct);
+            goPage(Catalog);
             break;
 
         case '/about':
@@ -46,7 +46,12 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/profile':
-            goPage(UserProfile);
+            if (loadFromStorage('token')) {
+                goPage(UserProfile);
+            } else {
+                new Router().changeUrl('/login');
+                goPage(Login);
+            }
             break;
 
         case '/product':

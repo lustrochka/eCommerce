@@ -4,6 +4,7 @@ import { screen, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('../src/services/api/client.ts', () => jest.fn());
+jest.mock('../src/pages/detailedProduct/detailedProduct.ts', () => jest.fn());
 
 const page = new Registration().getNode();
 document.body.appendChild(page);

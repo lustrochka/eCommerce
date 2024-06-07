@@ -2,6 +2,7 @@ import { loadFromStorage } from '../../services/storage/storage';
 import { saveToStorage } from '../../services/storage/storage';
 import { updatePage } from '../event/updatePage';
 import Client from '../../services/api/client';
+import { logout } from '../event/logout';
 
 class Modal {
     private modalElement: HTMLElement;
@@ -54,11 +55,7 @@ class Modal {
 
     logout() {
         this.modalElement.style.display = 'none';
-        const loadedDate = loadFromStorage('eComData');
-        saveToStorage('eComData', loadedDate.formData, false);
-        localStorage.removeItem('token');
-        new Client().buildWithCredentialsFlow();
-        updatePage();
+        logout();
     }
 }
 

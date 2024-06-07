@@ -1,7 +1,7 @@
 import Input from '../../components/input/input';
 import Label from '../../components/label/label';
 import { div, span } from '../../components/tags/tags';
-import Address from './adress';
+import RegAddress from './RegAdress';
 import Button from '../../components/button/button';
 import Form from '../../components/form/form';
 import Modal from '../../components/modalError/modal';
@@ -35,8 +35,8 @@ class Registration extends Form {
                 span('registration__error-msg', input.msg)
             )
         );
-        this.#shippingAddress = new Address('Shipping');
-        this.#billingAddress = new Address('Billing');
+        this.#shippingAddress = new RegAddress('Shipping');
+        this.#billingAddress = new RegAddress('Billing');
         this.#submitBtn = new Button(
             'registration__button button',
             'Register',
@@ -75,36 +75,7 @@ class Registration extends Form {
         } else if (this.#isChecked && target.closest('#shipping-address')) {
             this.#billingAddress.setValue(target.name, target.value);
         }
-        this.checkFormValidity(target);
-    }
-
-    checkFormValidity(target: HTMLInputElement | HTMLSelectElement) {
-        if (target.id === 'birth') {
-            this.checkAge(target.value) ? target.setCustomValidity('') : target.setCustomValidity('irrelevant age');
-        }
-        if (target.nextElementSibling instanceof HTMLSpanElement) {
-            target.checkValidity()
-                ? target.nextElementSibling.classList.remove('visible')
-                : target.nextElementSibling.classList.add('visible');
-        }
-        this.getNode().checkValidity()
-            ? this.#submitBtn.deleteAttribute('disabled')
-            : this.#submitBtn.addAttributes({ disabled: 'true' });
-    }
-
-    checkAge(value: string) {
-        const now = new Date();
-        const birthDate = new Date(value);
-        if (now.getFullYear() - birthDate.getFullYear() === 13) {
-            if (now.getMonth() > birthDate.getMonth()) {
-                return true;
-            } else if (now.getMonth() === birthDate.getMonth()) {
-                if (now.getDate() >= birthDate.getDate()) {
-                    return true;
-                }
-            }
-        }
-        return now.getFullYear() - birthDate.getFullYear() > 13;
+        this.checkFormValidity(target, this.#submitBtn.getNode());
     }
 
     register() {
