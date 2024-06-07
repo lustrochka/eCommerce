@@ -116,7 +116,7 @@ class Client {
             if (token.expirationTime < Date.now()) {
                 token.refreshToken ? this.buildWithRefreshToken() : logout();
             } else if (!apiRoot) this.buildWithExistingToken();
-        }
+        } else if (!apiRoot) this.buildWithCredentialsFlow();
         return apiRoot;
     }
 }
