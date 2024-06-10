@@ -25,6 +25,7 @@
 .photo__wrapper {
   width: 30%;
   display: inline-block;
+  flex-shrink: 0;
   /* filter: grayscale(100%); */
 }
 .photo__wrapper .photo:before {
@@ -67,9 +68,14 @@
 .about-us__text {
   font-size: 18px;
   max-width: 800px;
+  padding: 12px 6px;
   width: 100%;
-  margin: 20px auto;
+  margin: 24px auto;
   text-align: center;
+
+  border: 5px solid transparent;
+  border-image: linear-gradient(to left top,#2a5275 10%,  transparent 30%, transparent 70%, #2a5275 90%);  
+  border-image-slice: 1;
 }
 .rs-logo__wrapper {
   text-align: center;

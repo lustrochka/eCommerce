@@ -1,5 +1,5 @@
 import Component from '../../components/component/component';
-import { div, img, p, ul, li } from '../../components/tags/tags';
+import { div, img, p, ul, li, a } from '../../components/tags/tags';
 import './aboutUs.css';
 // import Button from '../../components/button/button';
 
