@@ -77,7 +77,22 @@
   border-image: linear-gradient(to left top,#2a5275 10%,  transparent 30%, transparent 70%, #2a5275 90%);  
   border-image-slice: 1;
 }
-.rs-logo__wrapper {
+.person-description__subtitle {
+  font-weight: bold;
+}
+.person-description__link {
+  color: #2a5275;
+  font-weight: bold;
+  transition: .3s all;
+  text-decoration: none;
+}
+.person-description__link:hover {
+  color: #2570ad;
+}
+.rs-logo__link {
+  margin: 0 auto;
+  display: block;
+  width: 300px;
   text-align: center;
 }
 

@@ -34,10 +34,12 @@ export const a = (className: string, href: string, text: string, ...children: Co
     element.addAttributes({ href: href });
     return element;
 };
+
 export const ul = (className: string, ...children: Component[]) => new Component('ul', className, ...children);
 
 export const li = (className: string, text: string, ...children: Component[]) => {
-    const element = new Component('li', className, ...children);
+    const element = new Component('li', className);
     element.changeText(text);
+    element.appendChildren(...children);
     return element;
 };
