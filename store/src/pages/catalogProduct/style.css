@@ -97,6 +97,20 @@
     height: 25px;
 }
 
+.add-to-basket-btn {
+    border: solid 1px #4878A6;
+    background-color: white;
+    border-radius: 4px;
+    padding: 10px;
+    color: #4878A6;
+    font-weight: 700;
+}
+
+.add-to-basket-btn:disabled {
+    background-color: #4878A6;
+    color: white;
+}
+
 @media (max-width: 510px) {
     .filter__container {
         flex-wrap: wrap;

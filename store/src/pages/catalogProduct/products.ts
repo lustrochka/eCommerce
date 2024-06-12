@@ -40,18 +40,20 @@ class Products extends Component {
         card.addId(id);
         card.setListener('click', (e) => {
             if (e.target instanceof HTMLButtonElement) {
-                this.addItemToBasket(id);
+                this.addItemToBasket(e.target, id);
             } else {
                 localStorage.setItem('product', id);
                 locationResolver('/product');
             }
         });
-        const button = new Button('add-to-basket-btn', '+', {});
+        const button = new Button('add-to-basket-btn', 'Add to basket', {});
         card.appendChildren(title, picture, description, actualPrice, button);
         this.appendChildren(card);
     }
 
-    addItemToBasket(productId: string) {
+    addItemToBasket(button: HTMLButtonElement, productId: string) {
+        button.textContent = 'Added to basket';
+        button.setAttribute('disabled', 'true');
         getCarts().then(({ body }) => {
             if (body.results.length === 0) {
                 createCart().then(({ body }) => addItem(productId, body.id, body.version));
