@@ -212,3 +212,47 @@ export async function setDefaultAddress(
         .execute();
     return result;
 }
+
+export async function getCarts() {
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot.me().carts().get().execute();
+    return result;
+}
+
+export async function createCart() {
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .carts()
+        .post({
+            body: {
+                currency: 'EUR',
+            },
+        })
+        .execute();
+    return result;
+}
+
+export async function addItem(productId: string, cartId: string, version: number) {
+    const variantId = 1;
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'addLineItem',
+                        productId,
+                        variantId,
+                        quantity: 1,
+                    },
+                ],
+            },
+        })
+        .execute();
+    return result;
+}

@@ -1,4 +1,5 @@
-.catalog, .products {
+.catalog,
+.products {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -87,7 +88,7 @@
 
 .filters-reset__item {
     position: relative;
-    background-color: #EDF2F6;
+    background-color: #edf2f6;
     padding: 4px 40px 6px 10px;
     font-size: 14px;
 }

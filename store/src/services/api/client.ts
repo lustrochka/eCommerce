@@ -78,6 +78,13 @@ class Client {
 
         apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
     }
+    buildWithAnonymousFlow() {
+        const ctpClient = new ClientBuilder()
+            .withAnonymousSessionFlow(authMiddlewareOptions)
+            .withHttpMiddleware(httpMiddlewareOptions)
+            .build();
+        apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey });
+    }
     buildWithPasswordFlow(email: string, password: string) {
         options.credentials.user.username = email;
         options.credentials.user.password = password;
@@ -116,7 +123,7 @@ class Client {
             if (token.expirationTime < Date.now()) {
                 token.refreshToken ? this.buildWithRefreshToken() : logout();
             } else if (!apiRoot) this.buildWithExistingToken();
-        } else if (!apiRoot) this.buildWithCredentialsFlow();
+        } else if (!apiRoot) this.buildWithAnonymousFlow();
         return apiRoot;
     }
 }
