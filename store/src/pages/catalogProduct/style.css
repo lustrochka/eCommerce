@@ -1,4 +1,5 @@
-.catalog, .products {
+.catalog,
+.products {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -87,13 +88,27 @@
 
 .filters-reset__item {
     position: relative;
-    background-color: #EDF2F6;
+    background-color: #edf2f6;
     padding: 4px 40px 6px 10px;
     font-size: 14px;
 }
 
 .catalog__sort {
     height: 25px;
+}
+
+.add-to-basket-btn {
+    border: solid 1px #4878A6;
+    background-color: white;
+    border-radius: 4px;
+    padding: 10px;
+    color: #4878A6;
+    font-weight: 700;
+}
+
+.add-to-basket-btn:disabled {
+    background-color: #4878A6;
+    color: white;
 }
 
 @media (max-width: 510px) {
