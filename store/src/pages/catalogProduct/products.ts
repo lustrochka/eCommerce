@@ -4,7 +4,7 @@ import { locationResolver } from '../../components/event/locationResolver';
 import Button from '../../components/button/button';
 import { Product } from '../../types';
 import { ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
-import { getCarts, createCart, addItem } from '../../services/api/api';
+import { createCart, addItem } from '../../services/api/api';
 import './style.css';
 
 class Products extends Component {
