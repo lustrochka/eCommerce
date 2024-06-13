@@ -5,6 +5,7 @@ import {
     type PasswordAuthMiddlewareOptions,
     type ExistingTokenMiddlewareOptions,
     type RefreshAuthMiddlewareOptions,
+    type AnonymousAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import { ByProjectKeyRequestBuilder, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import MyTokenCache from './tokenCache';
@@ -60,6 +61,17 @@ const refreshOptions: RefreshAuthMiddlewareOptions = {
     tokenCache: new MyTokenCache(),
     fetch,
 };
+
+/*const anonymousOptions: AnonymousAuthMiddlewareOptions = {
+    host: authURL,
+    projectKey,
+    credentials: {
+        clientId,
+        clientSecret,
+        anonymousId: '8dc46176-348e-4c2e-8496-9ccfd14e9d23',
+    },
+    fetch,
+};*/
 
 let apiRoot: ByProjectKeyRequestBuilder;
 

@@ -25,7 +25,7 @@ class Basket extends Component {
                 );
             });
         } else {
-            this.appendChildren(span('basket__msg', 'There is nothing in your basket yet'));
+            this.appendChildren(span('basket__msg', 'Your basket is empty'));
         }
     }
 }

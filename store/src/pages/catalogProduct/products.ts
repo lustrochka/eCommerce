@@ -54,13 +54,22 @@ class Products extends Component {
     addItemToBasket(button: HTMLButtonElement, productId: string) {
         button.textContent = 'Added to basket';
         button.setAttribute('disabled', 'true');
-        getCarts().then(({ body }) => {
-            if (body.results.length === 0) {
-                createCart().then(({ body }) => addItem(productId, body.id, body.version));
-            } else {
-                addItem(productId, body.results[0].id, body.results[0].version);
-            }
-        });
+        const id = localStorage.getItem('cartId') || localStorage.getItem('anonimCartId');
+        if (id) {
+            addItem(productId, id, Number(localStorage.getItem('cartVersion'))).then(({ body }) =>
+                localStorage.setItem('cartVersion', body.version.toString())
+            );
+        } else {
+            createCart().then(({ body }) => {
+                addItem(productId, body.id, body.version).then(({ body }) =>
+                    localStorage.setItem('cartVersion', body.version.toString())
+                );
+                localStorage.getItem('token')
+                    ? localStorage.setItem('cartId', body.id)
+                    : localStorage.setItem('anonimCartId', body.id);
+                localStorage.setItem('cartVersion', body.version.toString());
+            });
+        }
     }
 }
 
