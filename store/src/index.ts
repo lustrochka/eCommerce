@@ -9,3 +9,7 @@ window.onload = () => {
     locationResolver(window.location.pathname, false);
     updatePage();
 };
+
+window.onbeforeunload = () => {
+    localStorage.removeItem('anonimCartId');
+};

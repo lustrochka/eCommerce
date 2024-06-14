@@ -1,5 +1,5 @@
 import Component from '../../components/component/component';
-import { div, span, img } from '../../components/tags/tags';
+import { div, span, img, a } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import { getCarts } from '../../services/api/api';
 import { Cart } from '@commercetools/platform-sdk';
@@ -25,7 +25,9 @@ class Basket extends Component {
                 );
             });
         } else {
-            this.appendChildren(span('basket__msg', 'There is nothing in your basket yet'));
+            this.appendChildren(
+                div('cart__msg', span('', 'Your basket is empty'), a('cart__link', '/catalog', 'Go shopping'))
+            );
         }
     }
 }
