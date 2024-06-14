@@ -98,16 +98,16 @@
 }
 
 .add-to-basket-btn {
-    border: solid 1px #4878A6;
+    border: solid 1px #4878a6;
     background-color: white;
     border-radius: 4px;
     padding: 10px;
-    color: #4878A6;
+    color: #4878a6;
     font-weight: 700;
 }
 
 .add-to-basket-btn:disabled {
-    background-color: #4878A6;
+    background-color: #4878a6;
     color: white;
 }
 

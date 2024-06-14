@@ -14,7 +14,6 @@ class MyTokenCache implements TokenCache {
         return this.#cache;
     }
     set(newCache: TokenStore) {
-        console.log('token');
         const refreshToken = newCache.refreshToken ? newCache.refreshToken : this.#cache.refreshToken;
         this.#cache = newCache;
         this.#cache.refreshToken = refreshToken;

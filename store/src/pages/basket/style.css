@@ -12,3 +12,16 @@
 .cart__image {
     width: 100px;
 }
+
+.cart__msg {
+    text-align: center;
+}
+
+.cart__link {
+    display: block;
+    margin-top: 20px;
+    font-size: 20px;
+    text-decoration: none;
+    color: #4878a6;
+    font-weight: 700;
+}
