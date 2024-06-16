@@ -25,3 +25,26 @@
     color: #4878a6;
     font-weight: 700;
 }
+
+.item-quantity {
+    border: 1px solid;
+    display: flex;
+    gap: 5px;
+}
+
+.item-quantity button {
+    border: none;
+    font-size: 22px;
+}
+
+.item-quantity button:first-child {
+    border-right: 1px solid;
+}
+
+.item-quantity button:last-child {
+    border-left: 1px solid;
+}
+
+.item-quantity * {
+    padding: 5px 10px;
+}
