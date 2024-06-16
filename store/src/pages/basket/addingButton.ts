@@ -1,9 +1,10 @@
 import Button from '../../components/button/button';
 import { addItem, createCart } from '../../services/api/api';
+import { Items } from '../../types';
 
 class AddingButton extends Button {
-    constructor(id: string) {
-        super('add-to-basket-btn', 'Add to basket', {});
+    constructor(classname: string, attributes: Items, id: string) {
+        super(classname, 'Add to basket', attributes);
         this.setListener('click', () => {
             this.changeText('Added to basket');
             this.addAttributes({ disabled: 'true' });

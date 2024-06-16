@@ -43,7 +43,7 @@ class Products extends Component {
                 locationResolver('/product');
             }
         });
-        const button = new AddingButton(id);
+        const button = new AddingButton('add-to-basket-btn', {}, id);
         card.appendChildren(title, picture, description, actualPrice, button);
         this.appendChildren(card);
     }
