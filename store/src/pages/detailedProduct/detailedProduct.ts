@@ -39,7 +39,6 @@ export class DetailedProduct extends Component {
         getProduct(productId)
             .then(({ body }) => {
                 productIdString = body.id;
-                console.log('productId', productIdString);
                 const numDiscount = body.masterData.current.masterVariant.prices?.[0].discounted?.value;
                 const numPrice = body.masterData.current.masterVariant.prices?.[0].value;
                 const product = {
@@ -59,7 +58,7 @@ export class DetailedProduct extends Component {
                 });
                 this.getPage(product, productImages);
             })
-            .catch((e) => console.log(e.message));
+            .catch((e) => console.error(e.message));
     }
     getPage(product: Product, arr: string[]) {
         const title = div('product__title');
@@ -187,7 +186,7 @@ function checkCart() {
             });
         },
         function (error) {
-            console.log('Нет корзины', error);
+            console.error('Нет корзины', error);
         }
     );
 }
@@ -198,7 +197,6 @@ function addToCart() {
         function (body) {
             const version = body.body.results[0].version;
             const cartId = body.body.results[0].id;
-            console.log(productIdString, cartId, version + 4);
             if (productIdString && cartId) {
                 // const versionNew = body.body.results[0].version;
                 addItem(productIdString, cartId, version);
@@ -208,7 +206,7 @@ function addToCart() {
             }
         },
         function (error) {
-            console.log('Нет корзины', error);
+            console.error('Нет корзины', error);
         }
     );
 }
@@ -225,7 +223,7 @@ function removeFromCart() {
             });
         },
         function (error) {
-            console.log('Нет корзины', error);
+            console.error('Нет корзины', error);
         }
     );
 }

@@ -57,13 +57,13 @@ class Main extends Component {
             ),
             new Footer()
         );
-        xxx();
+        bannerEvent();
     }
 }
 
 export default Main;
 
-function xxx(): void {
+function bannerEvent(): void {
     setTimeout(() => {
         document.querySelectorAll('.banner').forEach((element) => {
             element.addEventListener('click', () => {
