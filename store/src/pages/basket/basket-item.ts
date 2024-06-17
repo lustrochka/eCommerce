@@ -3,6 +3,7 @@ import { div, span, img, a } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import { LineItem } from '@commercetools/platform-sdk';
 import { changeItemQuantity } from '../../services/api/api';
+import { getTotal } from './basket';
 
 class BasketItem extends Component {
     #quantityIndicator;
@@ -43,6 +44,7 @@ class BasketItem extends Component {
                 this.#quantityIndicator.changeText(quantity.toString());
                 this.#priceIndicator.changeText(`${quantity * this.#price}€`);
             }
+            getTotal();
         });
     }
 }

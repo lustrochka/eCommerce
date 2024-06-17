@@ -25,18 +25,18 @@ class Basket extends Component {
                     p('total__title', 'Total:'),
                     div(
                         'total__line',
-                        p('total__description  total__description--count', `${0} items worth`),
-                        p('total__value total__value--total-price', `items worth`)
+                        p('total__description  total__description--count', `items price`),
+                        p('total__value total__value--total-price', `0`)
                     ),
                     div(
                         'total__line',
                         p('total__description', 'The discount is'),
-                        p('total__value total__value--discount', `${totalPrice} items worth`)
+                        p('total__value total__value--discount', `0`)
                     ),
                     div(
                         'total__line',
                         p('total__description', 'For payment'),
-                        p('total__value total__value--price-with-discount', `${totalDiscount} items worth`)
+                        p('total__value total__value--price-with-discount', `0`)
                     ),
                     new Button('product__button total__button button', 'pay for the order', {
                         type: 'button',
@@ -48,7 +48,7 @@ class Basket extends Component {
                 div('cart__msg', span('', 'Your basket is empty'), a('cart__link', '/catalog', 'Go shopping'))
             );
         }
-        this.getTotal();
+        getTotal();
     }
     getTotal() {
         getCarts().then(
@@ -71,7 +71,31 @@ class Basket extends Component {
                 throw error;
             }
         );
+        getTotal();
     }
 }
 
 export default Basket;
+
+export function getTotal() {
+    getCarts().then(
+        (response) => {
+            totalPrice = response.body.results[0].totalPrice.centAmount;
+            totalCount = response.body.results[0].lineItems.length;
+            totalDiscount = response.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount ?? 0;
+            const tCount = document.querySelector('.total__description--count');
+            const tPrice = document.querySelector('.total__value--total-price');
+            const tDiscount = document.querySelector('.total__value--discount');
+            const tResult = document.querySelector('.total__value--price-with-discount');
+            if (tCount && tPrice && tDiscount && tResult && totalCount) {
+                tCount.innerHTML = `${totalCount} items worth`;
+                tPrice.innerHTML = `${totalPrice / 100} €`;
+                tDiscount.innerHTML = `${totalDiscount / 100} €`;
+                tResult.innerHTML = `${(totalPrice - totalDiscount) / 100} €`;
+            }
+        },
+        (error) => {
+            throw error;
+        }
+    );
+}
