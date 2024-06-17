@@ -48,3 +48,41 @@
 .item-quantity * {
     padding: 5px 10px;
 }
+
+
+/*  */
+.total__wrapper {
+    margin: 0 auto;
+    background-color: #EDF2F6;
+    padding: 20px 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+}
+.total__wrapper p {
+    margin: 10px 0;
+}
+.total__title {
+    font-size: 26px;
+    font-weight: bold;
+}
+.total__description {
+    font-size: 20px;
+    color: #838688;
+}
+.total__value {
+    font-size: 20px;
+    font-weight: bold;
+}
+.total__line {
+    display: flex;
+    justify-content: space-between;
+}
+.total__value--price-with-discount {
+    margin-top: 20px;
+    border-top: 1px solid #838688;
+}
+.total__button {
+    display: block;
+    margin: 20px auto 0;
+}
