@@ -3,6 +3,8 @@ import Button from '../../components/button/button';
 import { div, span, p, img } from '../../components/tags/tags';
 import { getProduct } from '../../services/api/productApi';
 import { Product } from '../../types';
+import { initSwiper, generateSwiperHTML } from './productSlider';
+import { addItem, getCarts } from '../../services/api/api';
 import './detailedProduct.css';
 
 const description = {
@@ -25,7 +27,7 @@ const description = {
     Voltage: '3.6 Volts',
 };
 let productImages: string[];
-
+let productIdString: string;
 export class DetailedProduct extends Component {
     constructor() {
         super('div', 'product');
@@ -36,7 +38,7 @@ export class DetailedProduct extends Component {
         const productId = String(localStorage.getItem('product'));
         getProduct(productId)
             .then(({ body }) => {
-                // console.log(body);
+                productIdString = body.id;
                 const numDiscount = body.masterData.current.masterVariant.prices?.[0].discounted?.value;
                 const numPrice = body.masterData.current.masterVariant.prices?.[0].value;
                 const product = {
@@ -56,7 +58,7 @@ export class DetailedProduct extends Component {
                 });
                 this.getPage(product, productImages);
             })
-            .catch((e) => console.log(e.message));
+            .catch((e) => console.error(e.message));
     }
     getPage(product: Product, arr: string[]) {
         const title = div('product__title');
@@ -86,7 +88,22 @@ export class DetailedProduct extends Component {
                         div(
                             'product__block',
                             div('product__price-block', getPrice(product.price, product.discount)),
-                            new Button('product__button button', 'add to Cart', { type: 'button' })
+                            new Button(
+                                'product__button product__button--add button',
+                                'add to cart',
+                                {
+                                    type: 'button',
+                                },
+                                addToCart
+                            ),
+                            new Button(
+                                'product__button product__button--remove button button--hidden',
+                                'remove from cart',
+                                {
+                                    type: 'button',
+                                },
+                                removeFromCart
+                            )
                         ),
                         div(
                             'product__block',
@@ -116,8 +133,10 @@ export class DetailedProduct extends Component {
             )
         );
         initSwiper(productImages);
+        checkCart();
     }
 }
+
 function getPrice(price: string, discount: string): Component<HTMLElement> {
     let result;
     if (discount === '') {
@@ -131,59 +150,6 @@ function getPrice(price: string, discount: string): Component<HTMLElement> {
         );
     }
     return result;
-}
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
-Swiper.use([Navigation, Pagination]);
-
-function initSwiper(imagesArr: string[]) {
-    const thumbsSwiper = new Swiper('.swiper--thumbs', {
-        spaceBetween: 0,
-        slidesPerView: imagesArr.length,
-        watchSlidesProgress: true,
-    });
-
-    const swiper = new Swiper('.swiper--main', {
-        loop: true,
-
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-
-        scrollbar: { el: '.swiper-scrollbar' },
-
-        thumbs: { swiper: thumbsSwiper },
-    });
-
-    const thumbEl = document.querySelector('.swiper.swiper--thumbs') as HTMLElement;
-    thumbEl.style.width = `${160 * imagesArr.length}px`;
-    document.querySelectorAll('.swiper--thumbs .swiper-slide').forEach((slide, index) => {
-        slide.addEventListener('click', () => swiper.slideTo(index));
-    });
-
-    document.querySelectorAll('.swiper--main .swiper-slide').forEach((slide) => {
-        slide.addEventListener('click', (e) => {
-            if (!document.querySelector('.slider--full-screen')) {
-                document.querySelector('.slider')?.classList.add('slider--full-screen');
-                const targetElement = e.target as HTMLElement;
-                const parentElement = targetElement.parentNode?.parentNode?.parentNode as HTMLElement;
-                parentElement?.insertAdjacentHTML('beforebegin', `<div class='fs-close'>&times;</div>`);
-            } else {
-                offFullScreen();
-            }
-            document.querySelector('.fs-close')?.addEventListener('click', offFullScreen);
-        });
-    });
-}
-
-function offFullScreen() {
-    document.querySelector('.slider')?.classList.remove('slider--full-screen');
-    const closeBtn = document.querySelector('.fs-close');
-    if (closeBtn) closeBtn.remove();
 }
 
 function generateCode(description: { [key: string]: string }) {
@@ -202,15 +168,62 @@ function generateCode(description: { [key: string]: string }) {
     return div('product__description-list', ...children);
 }
 
-function generateSwiperHTML(imageUrls: string[]): Component<HTMLElement>[] {
-    const swiperSlides: Component<HTMLElement>[] = [];
-    imageUrls.forEach((url) => {
-        swiperSlides.push(div(`swiper-slide`, img('product__image', url, '')));
-    });
-    return swiperSlides;
-}
-
 function imagesUrls(param: string): string[] {
     productImages.push(param);
     return productImages;
+}
+
+function checkCart() {
+    const CID = getCarts();
+    CID.then(
+        function (body) {
+            const cartList = body.body.results[0].lineItems;
+            cartList.forEach((element) => {
+                if (element.productId == productIdString) {
+                    document.querySelector('.product__button--add')?.classList.add('button--hidden');
+                    document.querySelector('.product__button--remove')?.classList.remove('button--hidden');
+                }
+            });
+        },
+        function (error) {
+            console.error('Нет корзины', error);
+        }
+    );
+}
+
+function addToCart() {
+    const CID = getCarts();
+    CID.then(
+        function (body) {
+            const version = body.body.results[0].version;
+            const cartId = body.body.results[0].id;
+            if (productIdString && cartId) {
+                // const versionNew = body.body.results[0].version;
+                addItem(productIdString, cartId, version);
+                localStorage.setItem('cartVersion', (version + 4).toString());
+                document.querySelector('.product__button--add')?.classList.add('button--hidden');
+                document.querySelector('.product__button--remove')?.classList.remove('button--hidden');
+            }
+        },
+        function (error) {
+            console.error('Нет корзины', error);
+        }
+    );
+}
+
+function removeFromCart() {
+    const CID = getCarts();
+    CID.then(
+        function (body) {
+            const cartList = body.body.results[0].lineItems;
+            cartList.forEach((element) => {
+                if (element.productId == productIdString) {
+                    console.log('есть контакт!!');
+                }
+            });
+        },
+        function (error) {
+            console.error('Нет корзины', error);
+        }
+    );
 }
