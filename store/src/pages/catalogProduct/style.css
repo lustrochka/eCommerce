@@ -1,4 +1,5 @@
-.catalog, .products {
+.catalog,
+.products {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -87,7 +88,39 @@
 
 .filters-reset__item {
     position: relative;
-    background-color: #EDF2F6;
+    background-color: #edf2f6;
     padding: 4px 40px 6px 10px;
     font-size: 14px;
+}
+
+.catalog__sort {
+    height: 25px;
+}
+
+.add-to-basket-btn {
+    border: solid 1px #4878a6;
+    background-color: white;
+    border-radius: 4px;
+    padding: 10px;
+    color: #4878a6;
+    font-weight: 700;
+    transition: all 0.8s;
+}
+
+.add-to-basket-btn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #4878a6;
+}
+
+.add-to-basket-btn:disabled {
+    background-color: #183853;
+    color: white;
+    cursor: auto;
+}
+
+@media (max-width: 510px) {
+    .filter__container {
+        flex-wrap: wrap;
+    }
 }

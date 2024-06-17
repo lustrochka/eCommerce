@@ -34,3 +34,8 @@ export interface Product {
     discount: string;
     picture: string;
 }
+
+export interface Trash {
+    id: string;
+    productId: string;
+}
