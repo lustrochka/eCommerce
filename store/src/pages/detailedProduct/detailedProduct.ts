@@ -3,6 +3,7 @@ import Button from '../../components/button/button';
 import { div, span, p, img } from '../../components/tags/tags';
 import { getProduct } from '../../services/api/productApi';
 import { Product } from '../../types';
+import AddingButton from '../basket/addingButton';
 import './detailedProduct.css';
 
 const description = {
@@ -86,7 +87,7 @@ export class DetailedProduct extends Component {
                         div(
                             'product__block',
                             div('product__price-block', getPrice(product.price, product.discount)),
-                            new Button('product__button button', 'add to Cart', { type: 'button' })
+                            new AddingButton('add-to-basket-btn', {}, String(localStorage.getItem('product')))
                         ),
                         div(
                             'product__block',

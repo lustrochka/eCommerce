@@ -116,6 +116,7 @@
 .add-to-basket-btn:disabled {
     background-color: #183853;
     color: white;
+    cursor: auto;
 }
 
 @media (max-width: 510px) {

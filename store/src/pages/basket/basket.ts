@@ -3,6 +3,7 @@ import { div, span, img, a } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import { getCarts } from '../../services/api/api';
 import { Cart } from '@commercetools/platform-sdk';
+import BasketItem from './basket-item';
 import './style.css';
 
 class Basket extends Component {
@@ -14,15 +15,7 @@ class Basket extends Component {
     showData(data: Cart[]) {
         if (data[0]) {
             data[0].lineItems.forEach((item) => {
-                const src = item.variant.images ? item.variant.images[0].url : '';
-                this.appendChildren(
-                    div(
-                        'cart__item',
-                        img('cart__image', src, 'product photo'),
-                        span('cart__name', item.name['en-GB']),
-                        span('cart__price', `${item.totalPrice.centAmount / 100}€` || '')
-                    )
-                );
+                this.appendChildren(new BasketItem(item));
             });
         } else {
             this.appendChildren(

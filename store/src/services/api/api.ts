@@ -256,3 +256,27 @@ export async function addItem(productId: string, cartId: string, version: number
         .execute();
     return result;
 }
+
+export async function changeItemQuantity(productId: string, quantity: number) {
+    const cartId = localStorage.getItem('cartId') || localStorage.getItem('anonimCartId') || '';
+    const version = Number(localStorage.getItem('cartVersion'));
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'changeLineItemQuantity',
+                        lineItemId: productId,
+                        quantity,
+                    },
+                ],
+            },
+        })
+        .execute();
+    return result;
+}
