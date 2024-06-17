@@ -1,5 +1,5 @@
 import Client from './client';
-import { CustomerDraft, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import { CustomerDraft, MyCartUpdateAction, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { Items, ChangeAddressActions } from '../../types';
 
 const client = new Client();
@@ -281,10 +281,11 @@ export async function changeItemQuantity(productId: string, quantity: number) {
     return result;
 }
 
-export async function removeItem(productId: string) {
+export async function removeItem(productId: string[]) {
     const version = Number(localStorage.getItem('cartVersion'));
     const cartId = localStorage.getItem('cartId') || localStorage.getItem('anonimCartId') || '';
     const apiRoot = client.getApiRoot();
+    const actions: MyCartUpdateAction[] = productId.map((x) => ({ action: 'removeLineItem', lineItemId: x }));
     const result = await apiRoot
         .me()
         .carts()
@@ -292,12 +293,7 @@ export async function removeItem(productId: string) {
         .post({
             body: {
                 version,
-                actions: [
-                    {
-                        action: 'removeLineItem',
-                        lineItemId: productId,
-                    },
-                ],
+                actions,
             },
         })
         .execute();

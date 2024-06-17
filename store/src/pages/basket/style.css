@@ -52,3 +52,10 @@
 .cart__item .delete-button {
     margin: 0;
 }
+
+.clear-button {
+    border: 2px solid #d73838;
+    border-radius: 4px;
+    background-color: white;
+    padding: 10px;
+}
