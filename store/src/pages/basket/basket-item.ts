@@ -2,8 +2,9 @@ import Component from '../../components/component/component';
 import { div, span, img, a } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import { LineItem } from '@commercetools/platform-sdk';
-import { changeItemQuantity } from '../../services/api/api';
+import { changeItemQuantity, removeItem } from '../../services/api/api';
 import { getTotal } from './basket';
+
 
 class BasketItem extends Component {
     #quantityIndicator;
@@ -12,8 +13,6 @@ class BasketItem extends Component {
 
     #priceIndicator;
 
-    #id;
-
     constructor(data: LineItem) {
         super('div', 'cart__item');
         const src = data.variant.images ? data.variant.images[0].url : '';
@@ -21,7 +20,7 @@ class BasketItem extends Component {
         this.#quantityIndicator = span('', data.quantity.toString());
         this.#price = data.totalPrice.centAmount / 100;
         this.#priceIndicator = span('cart__price', `${data.totalPrice.centAmount / 100}€` || '');
-        this.#id = data.id;
+        this.getNode().id = data.id;
 
         this.appendChildren(
             img('cart__image', src, 'product photo'),
@@ -32,12 +31,18 @@ class BasketItem extends Component {
                 this.#quantityIndicator,
                 new Button('', '+', {}, () => this.changeQuantity(++quantity))
             ),
-            this.#priceIndicator
+            this.#priceIndicator,
+            new Button('delete-button', 'Remove', {}, () =>
+                removeItem([this.getNode().id]).then(({ body }) => {
+                    localStorage.setItem('cartVersion', body.version.toString());
+                    this.destroy();
+                })
+            )
         );
     }
 
     changeQuantity(quantity: number) {
-        changeItemQuantity(this.#id, quantity).then(({ body }) => {
+        changeItemQuantity(this.getNode().id, quantity).then(({ body }) => {
             localStorage.setItem('cartVersion', body.version.toString());
             if (quantity === 0) this.destroy();
             else {

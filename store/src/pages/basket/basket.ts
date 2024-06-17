@@ -1,7 +1,7 @@
 import Component from '../../components/component/component';
 import { div, span, img, a, p } from '../../components/tags/tags';
 import Button from '../../components/button/button';
-import { getCarts } from '../../services/api/api';
+import { getCarts, removeItem } from '../../services/api/api';
 import { Cart } from '@commercetools/platform-sdk';
 import BasketItem from './basket-item';
 import './style.css';
@@ -9,8 +9,11 @@ import './style.css';
 let totalCount: number, totalPrice: number, totalDiscount: number | undefined;
 
 class Basket extends Component {
+    #message;
+
     constructor() {
         super('div', 'cart');
+        this.#message = div('cart__msg', span('', 'Your basket is empty'), a('cart__link', '/catalog', 'Go shopping'));
         getCarts().then(({ body }) => this.showData(body.results));
     }
 
@@ -19,6 +22,7 @@ class Basket extends Component {
             data[0].lineItems.forEach((item) => {
                 this.appendChildren(new BasketItem(item));
             });
+            this.appendChildren(new Button('clear-button', 'Clear', {}, () => this.clearBasket()));
             this.appendChildren(
                 div(
                     'total__wrapper',
@@ -44,11 +48,20 @@ class Basket extends Component {
                 )
             );
         } else {
-            this.appendChildren(
-                div('cart__msg', span('', 'Your basket is empty'), a('cart__link', '/catalog', 'Go shopping'))
-            );
+            this.appendChildren(this.#message);
         }
         getTotal();
+    }
+
+    clearBasket() {
+        const ids = Array.from(this.getNode().children)
+            .filter((x) => x.className === 'cart__item')
+            .map((x) => x.id);
+        removeItem(ids).then(({ body }) => {
+            localStorage.setItem('cartVersion', body.version.toString());
+            this.clear();
+            this.appendChildren(this.#message);
+        });
     }
 }
 
