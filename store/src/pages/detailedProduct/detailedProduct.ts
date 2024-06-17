@@ -36,7 +36,7 @@ export class DetailedProduct extends Component {
         const productId = String(localStorage.getItem('product'));
         getProduct(productId)
             .then(({ body }) => {
-                console.log(body);
+                // console.log(body);
                 const numDiscount = body.masterData.current.masterVariant.prices?.[0].discounted?.value;
                 const numPrice = body.masterData.current.masterVariant.prices?.[0].value;
                 const product = {

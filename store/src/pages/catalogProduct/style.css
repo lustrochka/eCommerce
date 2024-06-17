@@ -104,10 +104,17 @@
     padding: 10px;
     color: #4878a6;
     font-weight: 700;
+    transition: all 0.8s;
+}
+
+.add-to-basket-btn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #4878a6;
 }
 
 .add-to-basket-btn:disabled {
-    background-color: #4878a6;
+    background-color: #183853;
     color: white;
 }
 

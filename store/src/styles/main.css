@@ -23,6 +23,7 @@ body {
 }
 
 .header__top-bar .container {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -74,10 +75,22 @@ body {
     cursor: pointer;
     transition: .3s all;
 }
+
 .header__button--cart:hover {
     border-radius: 50%;
     background-color: #eee;
     border: 1px solid #ddd;
+}
+
+.cart-count {
+    position: absolute;
+    background-color: #2A5275;
+    border-radius: 45%;
+    padding: 1px 5px;
+    font-size: 14px;
+    color: #fff;
+    right: 220px;
+    top: 5px;
 }
 
 .header__logo {
@@ -113,6 +126,7 @@ body {
     padding: 5px 20px;
     transition: .3s all;
 }
+
 .nav__button:hover {
     background-color: #2a5275;
     border-radius: 4px;
@@ -214,6 +228,7 @@ body {
 .modal__button:hover {
     background-color: #183853;
 }
+
 @media (max-width: 460px) {
     .header__button {
         padding: 10px 12px;

@@ -5,6 +5,7 @@ import Button from '../../components/button/button';
 import { Product } from '../../types';
 import { ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
 import { createCart, addItem } from '../../services/api/api';
+import { getCount, addButton } from '../../components/productItem/productItem';
 import './style.css';
 
 class Products extends Component {
@@ -23,6 +24,7 @@ class Products extends Component {
             const id = el.id;
             this.getCard(product, id);
         });
+        getCount();
     }
 
     getCard(product: Product, id: string) {
@@ -41,6 +43,7 @@ class Products extends Component {
         card.setListener('click', (e) => {
             if (e.target instanceof HTMLButtonElement) {
                 this.addItemToBasket(e.target, id);
+                getCount();
             } else {
                 localStorage.setItem('product', id);
                 locationResolver('/product');
@@ -52,8 +55,7 @@ class Products extends Component {
     }
 
     addItemToBasket(button: HTMLButtonElement, productId: string) {
-        button.textContent = 'Added to basket';
-        button.setAttribute('disabled', 'true');
+        addButton(button);
         const id = localStorage.getItem('cartId') || localStorage.getItem('anonimCartId');
         if (id) {
             addItem(productId, id, Number(localStorage.getItem('cartVersion'))).then(({ body }) =>
