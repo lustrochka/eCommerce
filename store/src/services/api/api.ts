@@ -280,3 +280,26 @@ export async function changeItemQuantity(productId: string, quantity: number) {
         .execute();
     return result;
 }
+
+export async function removeItem(productId: string) {
+    const version = Number(localStorage.getItem('cartVersion'));
+    const cartId = localStorage.getItem('cartId') || localStorage.getItem('anonimCartId') || '';
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'removeLineItem',
+                        lineItemId: productId,
+                    },
+                ],
+            },
+        })
+        .execute();
+    return result;
+}

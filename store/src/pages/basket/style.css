@@ -48,3 +48,7 @@
 .item-quantity * {
     padding: 5px 10px;
 }
+
+.cart__item .delete-button {
+    margin: 0;
+}

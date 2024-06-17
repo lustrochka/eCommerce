@@ -2,7 +2,7 @@ import Component from '../../components/component/component';
 import { div, span, img, a } from '../../components/tags/tags';
 import Button from '../../components/button/button';
 import { LineItem } from '@commercetools/platform-sdk';
-import { changeItemQuantity } from '../../services/api/api';
+import { changeItemQuantity, removeItem } from '../../services/api/api';
 
 class BasketItem extends Component {
     #quantityIndicator;
@@ -31,7 +31,13 @@ class BasketItem extends Component {
                 this.#quantityIndicator,
                 new Button('', '+', {}, () => this.changeQuantity(++quantity))
             ),
-            this.#priceIndicator
+            this.#priceIndicator,
+            new Button('delete-button', 'Remove', {}, () =>
+                removeItem(this.#id).then(({ body }) => {
+                    localStorage.setItem('cartVersion', body.version.toString());
+                    this.destroy();
+                })
+            )
         );
     }
 
