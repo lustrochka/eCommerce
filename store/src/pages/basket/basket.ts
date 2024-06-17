@@ -53,7 +53,6 @@ class Basket extends Component {
     getTotal() {
         getCarts().then(
             (response) => {
-                // const body = response.body;
                 totalPrice = response.body.results[0].totalPrice.centAmount;
                 totalCount = response.body.results[0].lineItems.length;
                 totalDiscount = response.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount ?? 0;
