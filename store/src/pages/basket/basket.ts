@@ -50,29 +50,6 @@ class Basket extends Component {
         }
         getTotal();
     }
-    getTotal() {
-        getCarts().then(
-            (response) => {
-                totalPrice = response.body.results[0].totalPrice.centAmount;
-                totalCount = response.body.results[0].lineItems.length;
-                totalDiscount = response.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount ?? 0;
-                const tCount = document.querySelector('.total__description--count');
-                const tPrice = document.querySelector('.total__value--total-price');
-                const tDiscount = document.querySelector('.total__value--discount');
-                const tResult = document.querySelector('.total__value--price-with-discount');
-                if (tCount && tPrice && tDiscount && tResult && totalCount) {
-                    tCount.innerHTML = `${totalCount} items worth`;
-                    tPrice.innerHTML = `${totalPrice / 100} €`;
-                    tDiscount.innerHTML = `${totalDiscount / 100} €`;
-                    tResult.innerHTML = `${(totalPrice - totalDiscount) / 100} €`;
-                }
-            },
-            (error) => {
-                throw error;
-            }
-        );
-        getTotal();
-    }
 }
 
 export default Basket;
