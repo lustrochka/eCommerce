@@ -156,12 +156,7 @@ class AboutUs extends Component {
                 'about-us__text',
                 'Our team collaborated closely throughout the entire project. We used Trello for effective project management. We were in touch every day and this helped us stay on the same page and quickly solve problems that arose.'
             ),
-            a(
-                'rs-logo__link',
-                'https://rs.school/',
-                '(RS School logo)',
-                img('rs-logo', './assets/images/logo_rs.svg', 'rs school')
-            ),
+            div('wrapper__rs-logo', a('rs-logo__link', 'https://rs.school/', ''), div('rs-logo')),
             p(
                 'about-us__text',
                 'We are proud to be part of RS School. This project was developed as part of an educational program. To find out more about this educational program, click on the logo.'
