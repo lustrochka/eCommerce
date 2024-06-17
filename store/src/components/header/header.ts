@@ -16,6 +16,7 @@ class Header extends Component {
                     'container',
                     title,
                     new Button('header__button--cart', 'Cart', { type: 'button' }, () => locationResolver('/cart')),
+                    div('header__div--hidden'),
                     new Button(
                         'header__button button',
                         'Registration',

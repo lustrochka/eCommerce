@@ -4,6 +4,7 @@ import { locationResolver } from '../../components/event/locationResolver';
 import { Product } from '../../types';
 import { ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
 import AddingButton from '../basket/addingButton';
+import { getCount } from '../../components/productItem/productItem';
 import './style.css';
 
 class Products extends Component {
@@ -22,6 +23,7 @@ class Products extends Component {
             const id = el.id;
             this.getCard(product, id);
         });
+        getCount();
     }
 
     getCard(product: Product, id: string) {
