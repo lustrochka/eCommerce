@@ -1,10 +1,10 @@
 .banner-container {
     display: flex;
     gap: 20px;
+    margin: 40px 0;
 }
 .banner {
     padding: 5px 15px;
-    /* flex: 1 0 auto; */
     width: 50%;
     border-radius: 20px;
     min-height: 160px;
