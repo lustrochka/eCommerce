@@ -20,6 +20,7 @@ export async function getProduct(productID: string) {
 }
 
 export async function sortingProducts(query: { [key: string]: QueryParam }) {
+    console.log(query);
     const apiRoot = client.getApiRoot();
     const result = apiRoot.productProjections().search().get({ queryArgs: query }).execute();
     return result;
