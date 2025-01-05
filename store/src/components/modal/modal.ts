@@ -50,7 +50,6 @@ class Modal {
 
     close() {
         this.modalElement.style.display = 'none';
-        console.log('close');
     }
 
     logout() {
