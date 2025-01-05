@@ -7,7 +7,8 @@ export function logout() {
     localStorage.setItem('isLogged', 'false');
     localStorage.removeItem('token');
     localStorage.removeItem('version');
-    new Client().buildWithCredentialsFlow();
+    localStorage.removeItem('cartId');
+    new Client().buildWithAnonymousFlow();
     updatePage();
     locationResolver(window.location.pathname);
 }

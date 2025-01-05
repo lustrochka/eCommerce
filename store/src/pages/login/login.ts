@@ -98,7 +98,12 @@ class Login extends Form {
                 } else {
                     getUser(this.getElementValue(0), this.getElementValue(1))
                         .then(({ body }) => {
-                            localStorage.setItem('isLogged', 'true');
+                            saveToStorage('eComData', body.customer);
+                            if (body.cart) {
+                                localStorage.setItem('cartId', body.cart.id);
+                                localStorage.setItem('cartVersion', body.cart.version.toString());
+                            }
+                            localStorage.removeItem('anonimCartId');
                             locationResolver('/');
                             updatePage();
                         })

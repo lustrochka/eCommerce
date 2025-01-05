@@ -1,5 +1,5 @@
 import Client from './client';
-import { CustomerDraft, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
+import { CustomerDraft, MyCartUpdateAction, MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { Items, ChangeAddressActions } from '../../types';
 
 const client = new Client();
@@ -203,6 +203,93 @@ export async function setDefaultAddress(
     const actions = type.map((x) => ({ action: x, addressId: id }));
     const result = await apiRoot
         .me()
+        .post({
+            body: {
+                version,
+                actions,
+            },
+        })
+        .execute();
+    return result;
+}
+
+export async function getCarts() {
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot.me().carts().get().execute();
+    return result;
+}
+
+export async function createCart() {
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .carts()
+        .post({
+            body: {
+                currency: 'EUR',
+            },
+        })
+        .execute();
+    return result;
+}
+
+export async function addItem(productId: string, cartId: string, version: number) {
+    const variantId = 1;
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'addLineItem',
+                        productId,
+                        variantId,
+                        quantity: 1,
+                    },
+                ],
+            },
+        })
+        .execute();
+    return result;
+}
+
+export async function changeItemQuantity(productId: string, quantity: number) {
+    const cartId = localStorage.getItem('cartId') || localStorage.getItem('anonimCartId') || '';
+    const version = Number(localStorage.getItem('cartVersion'));
+    const apiRoot = client.getApiRoot();
+    const result = await apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({
+            body: {
+                version,
+                actions: [
+                    {
+                        action: 'changeLineItemQuantity',
+                        lineItemId: productId,
+                        quantity,
+                    },
+                ],
+            },
+        })
+        .execute();
+    return result;
+}
+
+export async function removeItem(productId: string[]) {
+    const version = Number(localStorage.getItem('cartVersion'));
+    const cartId = localStorage.getItem('cartId') || localStorage.getItem('anonimCartId') || '';
+    const apiRoot = client.getApiRoot();
+    const actions: MyCartUpdateAction[] = productId.map((x) => ({ action: 'removeLineItem', lineItemId: x }));
+    const result = await apiRoot
+        .me()
+        .carts()
+        .withId({ ID: cartId })
         .post({
             body: {
                 version,

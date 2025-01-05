@@ -1,0 +1,157 @@
+.about-us__title {
+  font-size: 32px;
+  text-align: center;
+  font-weight: bold;
+  color: #2a5275;
+  padding: 20px;
+}
+
+.photo {
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 3.2px 19.2px rgba(0, 0, 0, 0.2);
+}
+
+.photo__img {
+  max-width: 100%;
+  height: auto;
+}
+
+.photo__name {
+  font-size: 18px;
+  text-align: center;
+  line-height: 32px;
+  margin: 0;
+}
+
+.photo__wrapper {
+  width: 30%;
+  display: inline-block;
+  flex-shrink: 0;
+  /* filter: grayscale(100%); */
+}
+
+.photo__wrapper .photo:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  transition: all 0.35s;
+}
+
+.photo__wrapper:nth-of-type(1) {
+  transform: rotate(2deg);
+}
+
+.photo__wrapper:nth-of-type(2) {
+  transform: rotate(-2deg);
+}
+
+.photo__wrapper:nth-of-type(3) {
+  transform: rotate(2deg);
+}
+
+
+.person-block {
+  font-size: 18px;
+  margin-top: 32px;
+  margin-bottom: 50px;
+  display: flex;
+}
+
+.person-description {
+  flex-grow: 1;
+}
+
+.person-description__name {
+  font-size: 24px;
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+.person-description__list {
+  list-style: none;
+}
+
+.person-description__item {
+  padding-bottom: 10px;
+}
+
+.about-us__text {
+  font-size: 18px;
+  max-width: 800px;
+  padding: 12px 6px;
+  width: 100%;
+  margin: 24px auto;
+  text-align: center;
+
+  border: 5px solid transparent;
+  border-image: linear-gradient(to left top, #2a5275 10%, transparent 30%, transparent 70%, #2a5275 90%);
+  border-image-slice: 1;
+}
+
+.person-description__subtitle {
+  font-weight: bold;
+}
+
+.person-description__link {
+  color: #2a5275;
+  font-weight: bold;
+  transition: .3s all;
+  text-decoration: none;
+}
+
+.person-description__link:hover {
+  color: #2570ad;
+}
+
+.wrapper__rs-logo {
+  position: relative;
+}
+
+.rs-logo__link {
+  position: relative;
+  margin: 20px auto;
+  display: block;
+  width: 200px;
+  height: 90px;
+  text-align: center;
+  z-index: 1;
+}
+
+.rs-logo {
+  position: absolute;
+  left: 40%;
+  bottom: 0;
+  width: 194px;
+  height: 101px;
+  background-image: url(../../assets/images/logo_rs.svg);
+}
+
+@media (max-width: 768px) {
+  .person-block {
+    flex-direction: column;
+  }
+
+  .photo__wrapper {
+    width: 60%;
+    margin: 0 auto 26px;
+    order: 1;
+  }
+
+  .person-description {
+    order: 2;
+  }
+}
+
+@media (max-width: 576px) {
+  .photo__wrapper {
+    width: 90%;
+    margin: 0 auto 26px;
+    order: 1;
+  }
+
+  .rs-logo {
+    position: absolute;
+    left: 30%;
+  }
+}
