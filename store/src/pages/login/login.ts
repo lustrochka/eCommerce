@@ -98,7 +98,7 @@ class Login extends Form {
                 } else {
                     getUser(this.getElementValue(0), this.getElementValue(1))
                         .then(({ body }) => {
-                            saveToStorage('eComData', body.customer);
+                            localStorage.setItem('isLogged', 'true');
                             locationResolver('/');
                             updatePage();
                         })

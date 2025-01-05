@@ -30,7 +30,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/login':
-            if (loadFromStorage('eComData') && loadFromStorage('eComData').status) {
+            if (loadFromStorage('isLogged') === 'true') {
                 new Router().changeUrl('/');
             } else {
                 goPage(Login);
@@ -38,7 +38,7 @@ export function locationResolver(location: string, isBtn: boolean = true) {
             break;
 
         case '/registration':
-            if (loadFromStorage('eComData') && loadFromStorage('eComData').status) {
+            if (loadFromStorage('isLogged') === 'true') {
                 new Router().changeUrl('/');
             } else {
                 goPage(Registration);

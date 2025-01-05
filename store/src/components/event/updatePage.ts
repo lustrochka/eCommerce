@@ -1,7 +1,5 @@
-import { loadFromStorage } from '../../services/storage/storage';
 export function updatePage() {
-    const data = loadFromStorage('eComData');
-    if (data && data.status) {
+    if (localStorage.getItem('isLogged') === 'true') {
         (document.querySelector('#button-login') as HTMLElement).style.display = 'none';
         (document.querySelector('#button-registration') as HTMLElement).style.display = 'none';
         (document.querySelector('#button-logout') as HTMLElement).style.display = 'block';
