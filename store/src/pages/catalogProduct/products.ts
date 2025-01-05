@@ -3,6 +3,8 @@ import { div, p, img, span } from '../../components/tags/tags';
 import { locationResolver } from '../../components/event/locationResolver';
 import { Product } from '../../types';
 import { ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
+import AddingButton from '../basket/addingButton';
+import { getCount } from '../../components/productItem/productItem';
 import './style.css';
 
 class Products extends Component {
@@ -21,6 +23,7 @@ class Products extends Component {
             const id = el.id;
             this.getCard(product, id);
         });
+        getCount();
     }
 
     getCard(product: Product, id: string) {
@@ -36,11 +39,14 @@ class Products extends Component {
                   span('card__actual-price', `${product.discount}€`)
               );
         card.addId(id);
-        card.setListener('click', () => {
-            localStorage.setItem('product', id);
-            locationResolver('/product');
+        card.setListener('click', (e) => {
+            if (!(e.target instanceof HTMLButtonElement)) {
+                localStorage.setItem('product', id);
+                locationResolver('/product');
+            }
         });
-        card.appendChildren(title, picture, description, actualPrice);
+        const button = new AddingButton('add-to-basket-btn', {}, id);
+        card.appendChildren(title, picture, description, actualPrice, button);
         this.appendChildren(card);
     }
 }

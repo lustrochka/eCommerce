@@ -1,0 +1,78 @@
+.banner-container {
+    display: flex;
+    gap: 20px;
+    margin: 40px 0;
+}
+.banner {
+    padding: 5px 15px;
+    width: 50%;
+    border-radius: 20px;
+    min-height: 160px;
+
+    background-color: #edf2f6;
+    background-image: url('https://images.cdn.europe-west1.gcp.commercetools.com/27baa703-3f80-4a07-8fd6-84f3592e3280/c43a64df1634d3e885cf-EmqQYqWo.jpeg');
+    background-size: auto 75%;
+    background-repeat: no-repeat;
+    background-position: 95% 50%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+    transition: 0.5s all;
+    display: flex;
+    align-items: center;
+}
+.banner--1 {
+    background-image: url('https://images.cdn.europe-west1.gcp.commercetools.com/27baa703-3f80-4a07-8fd6-84f3592e3280/d199ff6f1f2b1630adbc-wB4asZ5P.jpeg');
+}
+.banner--2 {
+    background-size: 25% auto;
+    background-image: url('https://images.cdn.europe-west1.gcp.commercetools.com/27baa703-3f80-4a07-8fd6-84f3592e3280/3e822749d3635d6cb4fe-vvKo2O8C.jpeg');
+}
+.banner--3 {
+    background-image: url('https://images.cdn.europe-west1.gcp.commercetools.com/27baa703-3f80-4a07-8fd6-84f3592e3280/d8000f5f3bc90135a1b3-prcls5w0.jpeg');
+}
+.banner:hover {
+    background-color: #e2eef8;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.banner-title {
+    width: 65%;
+    font-size: 30px;
+    font-weight: bold;
+}
+.paragraph {
+    margin: 0 auto 25px;
+    width: 90%;
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 1000px) {
+    .banner-title {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 768px) {
+    .banner-container {
+        flex-direction: column;
+    }
+    .banner {
+        width: 100%;
+        min-height: 150px;
+        /* background-size: auto 60%; */
+    }
+    .banner-title {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 500px) {
+    .banner {
+        width: 100%;
+        min-height: 110px;
+    }
+    .banner-title {
+        font-size: 18px;
+    }
+}

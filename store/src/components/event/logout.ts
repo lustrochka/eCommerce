@@ -8,7 +8,8 @@ export function logout() {
     saveToStorage('eComData', loadedDate.formData, false);
     localStorage.removeItem('token');
     localStorage.removeItem('version');
-    new Client().buildWithCredentialsFlow();
+    localStorage.removeItem('cartId');
+    new Client().buildWithAnonymousFlow();
     updatePage();
     locationResolver(window.location.pathname);
 }

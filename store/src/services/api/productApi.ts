@@ -13,7 +13,6 @@ export async function getProducts() {
     return result;
 }
 export async function getProduct(productID: string) {
-    client.buildWithCredentialsFlow();
     const apiRoot = client.getApiRoot();
     const result = await apiRoot.products().withId({ ID: productID }).get().execute();
     return result;
