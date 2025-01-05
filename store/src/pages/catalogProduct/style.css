@@ -1,10 +1,28 @@
 .catalog,
 .products {
+    margin: 25px auto;
+}
+
+.products {
+
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin: 25px auto;
     gap: 25px;
+}
+
+.catalog__sort {
+    height: 25px;
+}
+
+.catalog__top {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+.catalog__search {
+    margin-right: 10px;
 }
 
 .card__img {
@@ -86,6 +104,11 @@
     font-weight: 700;
 }
 
+.filters-reset {
+    position: absolute;
+    right: 20px;
+}
+
 .filters-reset__item {
     position: relative;
     background-color: #edf2f6;
@@ -93,8 +116,8 @@
     font-size: 14px;
 }
 
-.catalog__sort {
-    height: 25px;
+.products-container {
+    flex: auto
 }
 
 .add-to-basket-btn {

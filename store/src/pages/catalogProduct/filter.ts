@@ -4,9 +4,9 @@ import Label from '../../components/label/label';
 import { div, span } from '../../components/tags/tags';
 
 const ATTRIBUTES: { [key: string]: string[] } = {
-    brand: ['Acer', 'Apple', 'Dell', 'Honor', 'HP', 'Lenovo', 'Samsung', 'Xiaomi'],
-    storage: ['128GB', '256GB', '512GB', '1TB'],
-    memory: ['4GB', '6GB', '8GB', '16GB', '32GB'],
+    brand: ['Acer', 'Apple', 'ASUS', 'HP', 'Huawei', 'Lenovo', 'Motorola', 'OPPO', 'Samsung', 'Xiaomi'],
+    storage: ['64GB', '128GB', '256GB', '512GB'],
+    memory: ['3GB', '4GB', '6GB', '8GB', '12GB', '16GB', '24GB'],
 };
 
 class Filter extends Form {

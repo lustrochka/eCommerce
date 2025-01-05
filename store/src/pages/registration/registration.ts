@@ -109,7 +109,7 @@ class Registration extends Form {
                 new Client().buildWithPasswordFlow(this.getElementValue(0), this.getElementValue(1));
             })
             .catch((error) => document.body.appendChild(new Modal(error.message).getNode()));
-        saveToStorage('eComData', body);
+        localStorage.setItem('isLogged', 'true');
     }
 }
 

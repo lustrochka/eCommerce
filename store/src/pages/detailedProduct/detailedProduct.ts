@@ -7,25 +7,6 @@ import { initSwiper, generateSwiperHTML } from './productSlider';
 import { addItem, getCarts } from '../../services/api/api';
 import './detailedProduct.css';
 
-const description = {
-    'Screen Size': '15.6" diagonal, FHD (1920 x 1080) 60Hz Display',
-    'Operating system': 'Windows 11 Home',
-    Processor: 'Intel® Core™ i7-13800H',
-    'Video Card': 'NVIDIA RTX™ 2000 Ada',
-    RAM: '32 GB: 2 x 16 GB',
-    'Memory Speed': '2400 MHz',
-    Storage: '512 GB',
-    'Hard Drive Interface': 'PCIE x 4',
-    'Tech Specs': '1 x USB Type-A 3.0, 1 x USB Type-A 2.0, 1 x USB Type-C, 1 x HDMI',
-    Height: '1.55 cm',
-    Width: '31.26 cm',
-    Thickness: '22.12 cm',
-    'Item Weight': '1.63 kg',
-    'Optical Drive Type': 'no dvd',
-    'Wireless Type': 'Bluetooth',
-    'Power Source': 'AC & Battery',
-    Voltage: '3.6 Volts',
-};
 let productImages: string[];
 let productIdString: string;
 export class DetailedProduct extends Component {
@@ -126,10 +107,8 @@ export class DetailedProduct extends Component {
                         )
                     )
                 ),
-                p('product__description-title', `Description: ${product.title}`),
-                p('product__description-text', product.description),
                 p('product__description-title', `Characteristics: ${product.title}`),
-                div('product__description', generateCode(description))
+                div('product__description', generateCode(product.description.split(';')))
             )
         );
         initSwiper(productImages);
@@ -152,15 +131,16 @@ function getPrice(price: string, discount: string): Component<HTMLElement> {
     return result;
 }
 
-function generateCode(description: { [key: string]: string }) {
+function generateCode(description: string[]) {
     const children = [];
 
-    for (const key in description) {
+    for (const item of description) {
+        const [key, value] = item.split(':');
         children.push(
             div(
                 'product__description-item',
                 span('product__description-name', `${key}:`),
-                span('product__description-value', `${description[key]}`)
+                span('product__description-value', `${value}`)
             )
         );
     }

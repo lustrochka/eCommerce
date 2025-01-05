@@ -11,12 +11,12 @@ import { ByProjectKeyRequestBuilder, createApiBuilderFromCtpClient } from '@comm
 import MyTokenCache from './tokenCache';
 import { logout } from '../../components/event/logout';
 
-const projectKey = 'aaa42';
-const scopes = ['manage_project:aaa42'];
+const projectKey = 'prrr';
+const scopes = ['manage_project:prrr'];
 const authURL = 'https://auth.europe-west1.gcp.commercetools.com';
 const Url = 'https://api.europe-west1.gcp.commercetools.com';
-const clientId = 'vCUskG1cZ9kKm8U1rAw0vkJc';
-const clientSecret = 'D9XILPrKIQu3lwIdk4oA0--EMz-_jyKI';
+const clientId = 'Orc-C8VNP_o0gq-I3kEcOHkg';
+const clientSecret = '0rXo_BQ0vkzMhyKzWetO6YAwCeYxNssS';
 
 const authMiddlewareOptions: AuthMiddlewareOptions = {
     host: authURL,

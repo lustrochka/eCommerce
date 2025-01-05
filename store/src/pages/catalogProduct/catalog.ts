@@ -41,17 +41,20 @@ class Catalog extends Component {
 
         this.appendChildren(
             div(
-                '',
-                searchInput,
-                new Button('catalog__search-button', 'Search', {}, () => {
-                    this.#searchValue = searchInput.getValue();
+                'catalog__top',
+                div(
+                    '',
+                    searchInput,
+                    new Button('catalog__search-button', 'Search', {}, () => {
+                        this.#searchValue = searchInput.getValue();
+                        this.makeRequest();
+                    })
+                ),
+                new Select('catalog__sort', 'sort', SORTING_VALUES, (e) => {
+                    this.#sortValue = (e.target as HTMLSelectElement).value;
                     this.makeRequest();
                 })
             ),
-            new Select('catalog__sort', 'sort', SORTING_VALUES, (e) => {
-                this.#sortValue = (e.target as HTMLSelectElement).value;
-                this.makeRequest();
-            }),
             this.#filtersReset,
             div('filter__container', filter, this.#productsContainer)
         );
