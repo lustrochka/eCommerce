@@ -5,7 +5,6 @@ import { LineItem } from '@commercetools/platform-sdk';
 import { changeItemQuantity, removeItem } from '../../services/api/api';
 import { getTotal } from './basket';
 
-
 class BasketItem extends Component {
     #quantityIndicator;
 

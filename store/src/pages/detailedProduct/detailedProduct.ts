@@ -5,6 +5,7 @@ import { getProduct } from '../../services/api/productApi';
 import { Product } from '../../types';
 import { initSwiper, generateSwiperHTML } from './productSlider';
 import { addItem, getCarts } from '../../services/api/api';
+import AddingButton from '../basket/addingButton';
 import './detailedProduct.css';
 
 let productImages: string[];
@@ -69,13 +70,12 @@ export class DetailedProduct extends Component {
                         div(
                             'product__block',
                             div('product__price-block', getPrice(product.price, product.discount)),
-                            new Button(
+                            new AddingButton(
                                 'product__button product__button--add button',
-                                'add to cart',
                                 {
                                     type: 'button',
                                 },
-                                addToCart
+                                productIdString
                             ),
                             new Button(
                                 'product__button product__button--remove button button--hidden',
@@ -112,7 +112,7 @@ export class DetailedProduct extends Component {
             )
         );
         initSwiper(productImages);
-        checkCart();
+        //checkCart();
     }
 }
 

@@ -73,7 +73,7 @@ body {
     border: none;
     font-size: 0;
     cursor: pointer;
-    transition: .3s all;
+    transition: 0.3s all;
 }
 
 .header__button--cart:hover {
@@ -84,7 +84,7 @@ body {
 
 .cart-count {
     position: absolute;
-    background-color: #2A5275;
+    background-color: #2a5275;
     border-radius: 45%;
     padding: 1px 5px;
     font-size: 14px;
@@ -124,7 +124,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     padding: 5px 20px;
-    transition: .3s all;
+    transition: 0.3s all;
 }
 
 .nav__button:hover {

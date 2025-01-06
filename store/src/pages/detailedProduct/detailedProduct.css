@@ -78,11 +78,9 @@
 }
 .product__button--add:hover {
     background-color: #183853;
-
 }
 .product__button--remove:hover {
     background-color: #a75b04;
-
 }
 .product__description-title {
     font-size: 24px;
