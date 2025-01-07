@@ -4,7 +4,7 @@ import { div, span, p, img } from '../../components/tags/tags';
 import { getProduct } from '../../services/api/productApi';
 import { Product } from '../../types';
 import { initSwiper, generateSwiperHTML } from './productSlider';
-import { addItem, getCarts } from '../../services/api/api';
+import { getCarts } from '../../services/api/api';
 import AddingButton from '../basket/addingButton';
 import './detailedProduct.css';
 
@@ -112,7 +112,6 @@ export class DetailedProduct extends Component {
             )
         );
         initSwiper(productImages);
-        //checkCart();
     }
 }
 
@@ -151,44 +150,6 @@ function generateCode(description: string[]) {
 function imagesUrls(param: string): string[] {
     productImages.push(param);
     return productImages;
-}
-
-function checkCart() {
-    const CID = getCarts();
-    CID.then(
-        function (body) {
-            const cartList = body.body.results[0].lineItems;
-            cartList.forEach((element) => {
-                if (element.productId == productIdString) {
-                    document.querySelector('.product__button--add')?.classList.add('button--hidden');
-                    document.querySelector('.product__button--remove')?.classList.remove('button--hidden');
-                }
-            });
-        },
-        function (error) {
-            console.error('Нет корзины', error);
-        }
-    );
-}
-
-function addToCart() {
-    const CID = getCarts();
-    CID.then(
-        function (body) {
-            const version = body.body.results[0].version;
-            const cartId = body.body.results[0].id;
-            if (productIdString && cartId) {
-                // const versionNew = body.body.results[0].version;
-                addItem(productIdString, cartId, version);
-                localStorage.setItem('cartVersion', (version + 4).toString());
-                document.querySelector('.product__button--add')?.classList.add('button--hidden');
-                document.querySelector('.product__button--remove')?.classList.remove('button--hidden');
-            }
-        },
-        function (error) {
-            console.error('Нет корзины', error);
-        }
-    );
 }
 
 function removeFromCart() {

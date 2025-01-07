@@ -1,6 +1,5 @@
 import Component from '../../components/component/component';
 import { div, main, p } from '../../components/tags/tags';
-import Button from '../../components/button/button';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import { locationResolver } from '../../components/event/locationResolver';
@@ -34,7 +33,7 @@ class Main extends Component {
                     div(
                         'banner-container',
                         div('banner banner--3', p('banner-title', 'A week of great deals on the entire range.')),
-                        div('banner banner--1', p('banner-title', 'Sale up to 50% off on all products.'))
+                        div('banner banner--1', p('banner-title', 'Discounts up to 20% on orders above €1000.'))
                     ),
                     div(
                         'banner-container',
