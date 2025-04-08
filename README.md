@@ -4,6 +4,9 @@ Welcome to our eCommerce app!
 
 It will be an online shopping portal that will provide users with a user-friendly interface. Users will be able to browse the range of products, view detailed descriptions, add the products they like to the cart and proceed to checkout. The app will include features such as user registration and login, product search, product categorization and sorting to make the shopping experience easier and more convenient.
 ***
+## Deployment
+[Deploy](https://cozy-bublanina-03d2f2.netlify.app)
+***
 ## Technology Stack
 1. <img src="https://img.shields.io/badge/HTML-3CB371?style=for-the-badge&logo=HTML5&logoColor=DC143C"/>
 2. <img src="https://img.shields.io/badge/CSS-3CB371?style=for-the-badge&logo=css3&logoColor=00CED1"/>
