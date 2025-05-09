@@ -1,0 +1,13 @@
+export function updatePage() {
+    if (localStorage.getItem('isLogged') === 'true') {
+        (document.querySelector('#button-login') as HTMLElement).style.display = 'none';
+        (document.querySelector('#button-registration') as HTMLElement).style.display = 'none';
+        (document.querySelector('#button-logout') as HTMLElement).style.display = 'block';
+        (document.querySelector('#button-profile') as HTMLElement).style.display = 'block';
+    } else {
+        (document.querySelector('#button-login') as HTMLElement).style.display = 'block';
+        (document.querySelector('#button-registration') as HTMLElement).style.display = 'block';
+        (document.querySelector('#button-logout') as HTMLElement).style.display = 'none';
+        (document.querySelector('#button-profile') as HTMLElement).style.display = 'none';
+    }
+}

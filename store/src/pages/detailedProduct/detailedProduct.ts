@@ -1,0 +1,170 @@
+import Component from '../../components/component/component';
+import Button from '../../components/button/button';
+import { div, span, p, img } from '../../components/tags/tags';
+import { getProduct } from '../../services/api/productApi';
+import { Product } from '../../types';
+import { initSwiper, generateSwiperHTML } from './productSlider';
+import { getCarts } from '../../services/api/api';
+import AddingButton from '../basket/addingButton';
+import './detailedProduct.css';
+
+let productImages: string[];
+let productIdString: string;
+export class DetailedProduct extends Component {
+    constructor() {
+        super('div', 'product');
+        this.init();
+    }
+
+    init() {
+        const productId = String(localStorage.getItem('product'));
+        getProduct(productId)
+            .then(({ body }) => {
+                productIdString = body.id;
+                const numDiscount = body.masterData.current.masterVariant.prices?.[0].discounted?.value;
+                const numPrice = body.masterData.current.masterVariant.prices?.[0].value;
+                const product = {
+                    title: body.masterData.current.name['en-GB'] ? body.masterData.current.name['en-GB'] : '',
+                    picture: body.masterData.current.masterVariant.images?.[0].url
+                        ? body.masterData.current.masterVariant.images?.[0].url
+                        : '',
+                    description: body.masterData.current.description?.['en-GB']
+                        ? body.masterData.current.description?.['en-GB']
+                        : '',
+                    price: numPrice?.centAmount ? String(numPrice?.centAmount / 100) : '',
+                    discount: numDiscount?.centAmount ? String(numDiscount?.centAmount / 100) : '',
+                };
+                productImages = [];
+                body.masterData.current.masterVariant.images?.forEach((el) => {
+                    imagesUrls(el.url);
+                });
+                this.getPage(product, productImages);
+            })
+            .catch((e) => console.error(e.message));
+    }
+    getPage(product: Product, arr: string[]) {
+        const title = div('product__title');
+        title.changeText(product.title);
+        this.appendChildren(
+            div(
+                'container',
+                div(
+                    'product__presentation',
+                    div(
+                        'slider',
+                        div(
+                            'swiper swiper--main',
+                            div('swiper-wrapper', ...generateSwiperHTML(productImages)),
+                            div('swiper-pagination')
+                        ),
+                        div('swiper-button-wrapper', div('swiper-button-prev'), div('swiper-button-next')),
+                        new Component(
+                            'div',
+                            'swiper swiper--thumbs',
+                            div('swiper-wrapper', ...generateSwiperHTML(productImages))
+                        )
+                    ),
+                    div(
+                        '',
+                        title,
+                        div(
+                            'product__block',
+                            div('product__price-block', getPrice(product.price, product.discount)),
+                            new AddingButton(
+                                'product__button product__button--add button',
+                                {
+                                    type: 'button',
+                                },
+                                productIdString
+                            ),
+                            new Button(
+                                'product__button product__button--remove button button--hidden',
+                                'remove from cart',
+                                {
+                                    type: 'button',
+                                },
+                                removeFromCart
+                            )
+                        ),
+                        div(
+                            'product__block',
+                            div(
+                                'product__block-half',
+                                span('product__block-title product__block-title--delivery', 'Delivery'),
+                                span(
+                                    'product__block-text',
+                                    'We will deliver within 2 hours and for free. Please check with the manager for the cost of delivery to other cities.'
+                                )
+                            ),
+                            div(
+                                'product__block-half',
+                                span('product__block-title product__block-title--payment', 'Payment'),
+                                span(
+                                    'product__block-text',
+                                    'We accept both cash and non-cash payments. Payment by electronic wallets and in installments is possible.'
+                                )
+                            )
+                        )
+                    )
+                ),
+                p('product__description-title', `Characteristics: ${product.title}`),
+                div('product__description', generateCode(product.description.split(';')))
+            )
+        );
+        initSwiper(productImages);
+    }
+}
+
+function getPrice(price: string, discount: string): Component<HTMLElement> {
+    let result;
+    if (discount === '') {
+        result = new Component('div', 'product__price-block', span('product__price-new', `${price}€`));
+    } else {
+        result = new Component(
+            'div',
+            'product__price-block',
+            span('product__price-old', `${price}€`),
+            span('product__price-new', `${discount}€`)
+        );
+    }
+    return result;
+}
+
+function generateCode(description: string[]) {
+    const children = [];
+
+    for (const item of description) {
+        const [key, value] = item.split(':');
+        children.push(
+            div(
+                'product__description-item',
+                span('product__description-name', `${key}:`),
+                span('product__description-value', `${value}`)
+            )
+        );
+    }
+
+    return div('product__description-list', ...children);
+}
+
+function imagesUrls(param: string): string[] {
+    productImages.push(param);
+    return productImages;
+}
+
+function removeFromCart() {
+    const CID = getCarts();
+    CID.then(
+        function (body) {
+            const cartList = body.body.results[0].lineItems;
+            cartList.forEach((element) => {
+                if (element.productId == productIdString) {
+                    console.log('есть контакт!!');
+                }
+            });
+        },
+        function (error) {
+            console.error('Нет корзины', error);
+        }
+    );
+}
